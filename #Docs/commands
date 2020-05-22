@@ -1,0 +1,36 @@
+cryptogen generate --config=./crypto-config.yaml
+
+configtxgen -profile LawNetOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
+
+configtxgen -profile LawNetChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID mainchannel
+
+-------------------------------------------------------------------------------------------------------------------------
+
+docker ps -aq | xargs -n 1 docker stop
+
+docker ps -aq | xargs -n 1 docker rm -v
+
+docker volume prune
+
+docker network prune
+
+docker-compose -f docker-compose-cli.yaml up -d
+
+docker exec -it cli bash ./scripts/channel/create-channel.sh
+
+docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 police PoliceMSP 8051 1.0
+docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 forensics ForensicsMSP 9051 1.0
+docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 court CourtMSP 10051 1.0
+docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 identityprovider IdentityProviderMSP 11051 1.0
+
+docker cp ~/go/src/fcc cli:/opt/gopath/src/fcc
+
+docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 citizen CitizenMSP 7051 1.0
+docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 police PoliceMSP 8051 1.0
+docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 forensics ForensicsMSP 9051 1.0
+docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 court CourtMSP 10051 1.0
+docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 identityprovider IdentityProviderMSP 11051 1.0
+
+docker exec -it cli peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -n fcc -v 1.0 -c '{"Args":[]}' -C mainchannel -P "OR ('CitizenMSP.peer', 'PoliceMSP.peer')"
+
+docker ps -as
