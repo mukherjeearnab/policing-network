@@ -165,7 +165,7 @@ Channel: &ChannelDefaults
         <<: *ChannelCapabilities
 
 Profiles:
-    SupplyOrdererGenesis:
+    LawNetOrdererGenesis:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -181,7 +181,7 @@ Profiles:
                     - *Forensics
                     - *Court
                     - *IdentityProvider
-    SupplyChannel:
+    LaeNetChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
