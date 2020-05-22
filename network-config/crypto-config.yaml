@@ -1,0 +1,47 @@
+OrdererOrgs:
+    - Name: Orderer
+      Domain: example.com
+      EnableNodeOUs: true
+      Specs:
+          - Hostname: orderer
+
+PeerOrgs:
+    - Name: Citizen
+      Domain: citizen.example.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1
+
+    - Name: Police
+      Domain: police.example.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1
+
+    - Name: Forensics
+      Domain: forensics.example.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1
+
+    - Name: Court
+      Domain: court.example.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1
+
+    - Name: IdentityProvider
+      Domain: identityprovider.example.com
+      EnableNodeOUs: true
+      Template:
+          Count: 1
+      Users:
+          Count: 1

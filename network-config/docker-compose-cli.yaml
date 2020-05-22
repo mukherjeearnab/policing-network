@@ -1,0 +1,147 @@
+version: "2"
+
+volumes:
+    orderer.example.com:
+    peer0.citizen.example.com:
+    peer0.police.example.com:
+    peer0.forensics.example.com:
+    peer0.court.example.com:
+    peer0.identityprovider.example.com:
+    caCitizen:
+    caPolice:
+    caForensics:
+    caCourt:
+    caIdentityProvider:
+
+networks:
+    testnet:
+
+services:
+    orderer.example.com:
+        extends:
+            file: base/docker-compose-base.yaml
+            service: orderer.example.com
+        container_name: orderer.example.com
+        networks:
+            - testnet
+
+    peer0.citizen.example.com:
+        container_name: peer0.citizen.example.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.citizen.example.com
+        networks:
+            - testnet
+
+    peer0.police.example.com:
+        container_name: peer0.police.example.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.police.example.com
+        networks:
+            - testnet
+
+    peer0.forensics.example.com:
+        container_name: peer0.forensics.example.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.forensics.example.com
+        networks:
+            - testnet
+
+    peer0.court.example.com:
+        container_name: peer0.court.example.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.court.example.com
+        networks:
+            - testnet
+
+    peer0.identityprovider.example.com:
+        container_name: peer0.identityprovider.example.com
+        extends:
+            file: base/docker-compose-base.yaml
+            service: peer0.identityprovider.example.com
+        networks:
+            - testnet
+
+    caCitizen:
+        container_name: caCitizen
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caCitizen
+        networks:
+            - testnet
+
+    caPolice:
+        container_name: caPolice
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caPolice
+        networks:
+            - testnet
+
+    caForensics:
+        container_name: caForensics
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caForensics
+        networks:
+            - testnet
+
+    caCourt:
+        container_name: caCourt
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caCourt
+        networks:
+            - testnet
+
+    caIdentityProvider:
+        container_name: caIdentityProvider
+        extends:
+            file: base/docker-compose-base.yaml
+            service: caIdentityProvider
+        networks:
+            - testnet
+
+    cli:
+        container_name: cli
+        image: hyperledger/fabric-tools:$IMAGE_TAG
+        tty: true
+        stdin_open: true
+        environment:
+            - GOPATH=/opt/gopath
+            - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+            #- FABRIC_LOGGING_SPEC=DEBUG
+            - FABRIC_LOGGING_SPEC=INFO
+            - CORE_PEER_ID=cli
+            - CORE_PEER_ADDRESS=peer0.citizen.example.com:7051
+            - CORE_PEER_LOCALMSPID=citizenMSP
+            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/peers/peer0.citizen.example.com/tls/server.crt
+            - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/peers/peer0.citizen.example.com/tls/server.key
+            - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/peers/peer0.citizen.example.com/tls/ca.crt
+            - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+        command: /bin/bash
+        volumes:
+            - /var/run/:/host/var/run/
+            - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+            - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+            - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+            - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+        depends_on:
+            - orderer.example.com
+            - peer0.citizen.example.com
+            - peer0.police.example.com
+            - peer0.forensics.example.com
+            - peer0.court.example.com
+            - peer0.identityprovider.example.com
+            - caCitizen
+            - caPolice
+            - caForensics
+            - caCourt
+            - caIdentityProvider
+        networks:
+            - testnet

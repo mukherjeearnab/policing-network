@@ -1,0 +1,31 @@
+Tech-Stack:
+	- Hyperledger Fabric Blockchain:
+		- Store: 
+			- FIRs
+			- Criminal Records
+			- Citizen's Records
+			- Court Case File's
+
+		- Organizations:
+			- Police
+			- Forensics
+			- Court
+			- Passport-Office
+			- Citizens
+
+		- Channels:
+			- Common Channel for all Entities (Will use ABAC for Data Access Control)
+			
+	- Node JS SDK with express.js API endpoint:
+		- Interact with IPFS for Files (Biometrics, Images, Evidence)
+		- Connect with Front-End.
+		- Manage Pre-transaction Operations
+		- (Basically, the Backbone for the Service)
+
+	- IPFS:
+		- Store Images of Citizens, Criminals
+		- Fingerprint's & Other Biometrics.
+		- Case Files
+		- Evidence
+
+	- Front-end (React JS Web App)

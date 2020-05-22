@@ -1,0 +1,29 @@
+Stake-Holders:
+	- Citizens:
+		- Read: View their own FIRs.
+		- Write: Create New FIRs.
+		- Submit Evidence.
+
+	- Passport-Office:
+		- Read: View Criminal Record of Citizens Applying for Passport.
+		- Write: None.
+
+	- Court:
+		- Read: 
+			- FIR's
+			- Criminal Records
+			- Citizen's Records.
+
+		- Write: Create New Court Case Against Some Citizen.
+
+	- Police:
+		- Read:
+			- FIRs
+			- Criminal Records
+			- Citizen's Records
+			- Court Case File's
+
+		- Write:
+			- Create New Investigation
+			- Add Evidence
+			- Verify Submitted Evidence
