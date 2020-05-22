@@ -181,7 +181,7 @@ Profiles:
                     - *Forensics
                     - *Court
                     - *IdentityProvider
-    LaeNetChannel:
+    LawNetChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:

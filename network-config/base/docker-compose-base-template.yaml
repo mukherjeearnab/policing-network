@@ -25,7 +25,7 @@ services:
             - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
             - CORE_PEER_CHAINCODEADDRESS=peer0.citizen.example.com:7052
             - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.police.example.com:7051
+            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.police.example.com:8051
             - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.citizen.example.com:7051
             - CORE_PEER_LOCALMSPID=CitizenMSP
         volumes:
@@ -48,7 +48,7 @@ services:
             - CORE_PEER_CHAINCODEADDRESS=peer0.police.example.com:8052
             - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
             - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.police.example.com:8051
-            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:8051
+            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:7051
             - CORE_PEER_LOCALMSPID=PoliceMSP
         volumes:
             - /var/run/:/host/var/run/
@@ -70,7 +70,7 @@ services:
             - CORE_PEER_CHAINCODEADDRESS=peer0.forensics.example.com:9052
             - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
             - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.forensics.example.com:9051
-            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:9051
+            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:7051
             - CORE_PEER_LOCALMSPID=ForensicsMSP
         volumes:
             - /var/run/:/host/var/run/
@@ -92,7 +92,7 @@ services:
             - CORE_PEER_CHAINCODEADDRESS=peer0.court.example.com:10052
             - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
             - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.court.example.com:10051
-            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:10051
+            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:7051
             - CORE_PEER_LOCALMSPID=CourtMSP
         volumes:
             - /var/run/:/host/var/run/
@@ -114,7 +114,7 @@ services:
             - CORE_PEER_CHAINCODEADDRESS=peer0.identityprovider.example.com:11052
             - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
             - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.identityprovider.example.com:11051
-            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:11051
+            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.citizen.example.com:7051
             - CORE_PEER_LOCALMSPID=IdentityProviderMSP
         volumes:
             - /var/run/:/host/var/run/
