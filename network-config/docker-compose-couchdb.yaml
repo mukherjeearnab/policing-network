@@ -15,15 +15,6 @@ services:
         networks:
             - testnet
 
-    peer0.citizen.example.com:
-        environment:
-            - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer0.citizen.example.com:5984
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
-        depends_on:
-            - couchdb.peer0.citizen.example.com
-
     couchdb.peer0.police.example.com:
         container_name: couchdb.peer0.police.example.com
         image: hyperledger/fabric-couchdb
@@ -34,15 +25,6 @@ services:
             - "6984:5984"
         networks:
             - testnet
-
-    peer0.police.example.com:
-        environment:
-            - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer0.police.example.com:5984
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
-        depends_on:
-            - couchdb.peer0.police.example.com
 
     couchdb.peer0.forensics.example.com:
         container_name: couchdb.peer0.forensics.example.com
@@ -55,15 +37,6 @@ services:
         networks:
             - testnet
 
-    peer0.forensics.example.com:
-        environment:
-            - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer0.forensics.example.com:5984
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
-        depends_on:
-            - couchdb.peer0.forensics.example.com
-
     couchdb.peer0.court.example.com:
         container_name: couchdb.peer0.court.example.com
         image: hyperledger/fabric-couchdb
@@ -75,15 +48,6 @@ services:
         networks:
             - testnet
 
-    peer0.court.example.com:
-        environment:
-            - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer0.court.example.com:5984
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
-        depends_on:
-            - couchdb.peer0.court.example.com
-
     couchdb.peer0.identityprovider.example.com:
         container_name: couchdb.peer0.identityprovider.example.com
         image: hyperledger/fabric-couchdb
@@ -94,12 +58,3 @@ services:
             - "9984:5984"
         networks:
             - testnet
-
-    peer0.identityprovider.example.com:
-        environment:
-            - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer0.identityprovider.example.com:5984
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
-            - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
-        depends_on:
-            - couchdb.peer0.identityprovider.example.com
