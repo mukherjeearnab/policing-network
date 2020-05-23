@@ -32,6 +32,8 @@ services:
             service: peer0.citizen.example.com
         networks:
             - testnet
+        depends_on:
+            - couchdb.peer0.citizen.example.com
 
     peer0.police.example.com:
         container_name: peer0.police.example.com
@@ -40,6 +42,8 @@ services:
             service: peer0.police.example.com
         networks:
             - testnet
+        depends_on:
+            - couchdb.peer0.police.example.com
 
     peer0.forensics.example.com:
         container_name: peer0.forensics.example.com
@@ -48,6 +52,8 @@ services:
             service: peer0.forensics.example.com
         networks:
             - testnet
+        depends_on:
+            - couchdb.peer0.forensics.example.com
 
     peer0.court.example.com:
         container_name: peer0.court.example.com
@@ -56,6 +62,8 @@ services:
             service: peer0.court.example.com
         networks:
             - testnet
+        depends_on:
+            - couchdb.peer0.court.example.com
 
     peer0.identityprovider.example.com:
         container_name: peer0.identityprovider.example.com
@@ -64,6 +72,8 @@ services:
             service: peer0.identityprovider.example.com
         networks:
             - testnet
+        depends_on:
+            - couchdb.peer0.identityprovider.example.com
 
     caCitizen:
         container_name: caCitizen
@@ -102,6 +112,61 @@ services:
         extends:
             file: base/docker-compose-base.yaml
             service: caIdentityProvider
+        networks:
+            - testnet
+
+    couchdb.peer0.citizen.example.com:
+        container_name: couchdb.peer0.citizen.example.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "5984:5984"
+        networks:
+            - testnet
+
+    couchdb.peer0.police.example.com:
+        container_name: couchdb.peer0.police.example.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "6984:5984"
+        networks:
+            - testnet
+
+    couchdb.peer0.forensics.example.com:
+        container_name: couchdb.peer0.forensics.example.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "7984:5984"
+        networks:
+            - testnet
+
+    couchdb.peer0.court.example.com:
+        container_name: couchdb.peer0.court.example.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "8984:5984"
+        networks:
+            - testnet
+
+    couchdb.peer0.identityprovider.example.com:
+        container_name: couchdb.peer0.identityprovider.example.com
+        image: hyperledger/fabric-couchdb
+        environment:
+            - COUCHDB_USER=admin
+            - COUCHDB_PASSWORD=adminpw
+        ports:
+            - "9984:5984"
         networks:
             - testnet
 

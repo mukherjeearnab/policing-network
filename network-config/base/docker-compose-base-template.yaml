@@ -39,8 +39,6 @@ services:
             - peer0.citizen.example.com:/var/hyperledger/production
         ports:
             - 7051:7051
-        depends_on:
-            - couchdb.peer0.citizen.example.com
 
     peer0.police.example.com:
         container_name: peer0.police.example.com
@@ -67,8 +65,6 @@ services:
             - peer0.police.example.com:/var/hyperledger/production
         ports:
             - 8051:8051
-        depends_on:
-            - couchdb.peer0.police.example.com
 
     peer0.forensics.example.com:
         container_name: peer0.forensics.example.com
@@ -95,8 +91,6 @@ services:
             - peer0.forensics.example.com:/var/hyperledger/production
         ports:
             - 9051:9051
-        depends_on:
-            - couchdb.peer0.forensics.example.com
 
     peer0.court.example.com:
         container_name: peer0.court.example.com
@@ -123,8 +117,6 @@ services:
             - peer0.court.example.com:/var/hyperledger/production
         ports:
             - 10051:10051
-        depends_on:
-            - couchdb.peer0.court.example.com
 
     peer0.identityprovider.example.com:
         container_name: peer0.identityprovider.example.com
@@ -151,8 +143,6 @@ services:
             - peer0.identityprovider.example.com:/var/hyperledger/production
         ports:
             - 11051:11051
-        depends_on:
-            - couchdb.peer0.identityprovider.example.com
 
     caCitizen:
         image: hyperledger/fabric-ca:$IMAGE_TAG
