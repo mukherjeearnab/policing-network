@@ -7,12 +7,11 @@ configtxgen -profile LawNetChannel -outputCreateChannelTx ./channel-artifacts/ch
 -------------------------------------------------------------------------------------------------------------------------
 
 docker ps -aq | xargs -n 1 docker stop
-
 docker ps -aq | xargs -n 1 docker rm -v
-
 docker volume prune
-
 docker network prune
+
+-------------------------------------------------------------------------------------------------------------------------
 
 docker-compose -f docker-compose-cli.yaml up -d
 

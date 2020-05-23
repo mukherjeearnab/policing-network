@@ -1,0 +1,4 @@
+FIR-CC:
+    - CreateNewFir: Create a new FIR
+    - ReadFIR: Returns the JSON of an FIR's details
+    - QueryFIR: Query FIR's based on FIR Details like => Creator, Police Station, Date
