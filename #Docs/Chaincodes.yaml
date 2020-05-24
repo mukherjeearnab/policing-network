@@ -1,4 +1,29 @@
 FIR-CC:
-    - CreateNewFir: Create a new FIR
-    - ReadFIR: Returns the JSON of an FIR's details
-    - QueryFIR: Query FIR's based on FIR Details like => Creator, Police Station, Date
+    CreateNewFir: Create a new FIR.
+    ReadFIR: Returns the JSON of an FIR's details.
+    QueryFIR: Query FIR's based on FIR Details like => Creator, Police Station, Date.
+    AddInvestigationToFIR: Add Investigation ID, if Investiation is Started for the given FIR.
+
+Evidence-CC:
+    AddEvidence: Add Evidence to Investigation.
+    ReadEvidence: Read Evidence, given it's ID, returns JSON.
+
+Investigation-CC:
+    NewInvestigationFromFIR: Create new Investigation, given it's FIR ID.
+    ReadInvestigation: View Current Progress of Investigation, returns JSON.
+    UpdateInvestigation: Update the Status of Investigation, or Add Events to Investigation.
+
+CitizenProfile-CC:
+    CreateNewCitizenProfile: Create a new Profile for some Citizen.
+    UpdateCitizenProfile: Update Citizen Profile for fields like Address.
+    ReadCitizenProfile: Read Citizens profile, returns JSON.
+    QueryCitizenProfile: Query the Database for Citizen profiles based on Query Parameters => Age, BloodGroup, Name, Gender.
+    AddVerdictRecord: Add Verdict Record, if involved in a case.
+
+ChargeSheet-CC:
+    CreateNewChargeSheet: Create a new Chargesheet, from given FIR and Investigation.
+    ReadChargeSheet: Returns JSON of a ChargeSheet.
+
+Judgement-CC:
+    CreateNewJudgementReport: Create a new Judgement report given it's ChargeSheet ID.
+    ReadJudgementReport: Read, check current status of Judgement Report, returns JSON.

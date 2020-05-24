@@ -1,0 +1,95 @@
+CitizenProfile:
+    ID: ID's like Aadhar
+    Name: Name of the Citizen
+    Email: Email of the Citizen
+    Phone: Phone of Citizen
+    Age: Age of the Citizen
+    Gender: Gender of Citizen
+    BloodGroup: BloodGroup of Citizen
+    EyeColor: Color of Iris
+    Nationality: Nationality of the Citizen
+    Address: Address of the Citizen
+    Father_sName: Father's Name of Citizen
+    Mother_sName: Mother's Name of Citizen
+    Religion: Religion of the Citizen
+    Occupation: Occupation of the Citizen
+    FingerPrint:
+        - Array of Fingerprint-Templates of all the Fingers
+    VerdictRecord:
+        - Array of IDs of Judgement Reports
+
+FIR:
+    CitizenID: ID of Citizen, i.e. CitizenProfile.ID
+    PoliceStation: Name of Nearest Police Station
+    District: Name of District
+    PlaceOfOccurence: Distance from Police Station
+    DateHour: Date and Hour of occurence
+    Offence:
+        Nature: Nature of the offence (e.g. murder, theft, rape, etc.)
+        Particulars: Particulars of the Incident
+    DescriptionOfAccused: Description of Accused
+    DetailsOfWitnesses: If Witnesses exist
+    Complaint: Brief facts regarding the incident reported in an accurate way
+
+Evidence:
+    ID: Hash of the Evidence File in IPFS
+    Description: Description about the Evidence
+    DateTime: Date & Time of Adding the Evidence
+    InvestigationID: Hash / ID of the Investigation where the Evidence belongs.
+
+Investigation:
+    ID: ID / Hash of Investigation
+    FIRID: Hash / ID of the FIR which caused the Investigation.
+    Team:
+        - Array of Officer's ID's Investigating the case.
+    Reports: # Array of Report Objects
+        - _index:
+              DateTime: Date & Time of the Report
+              Content: Content of the Report
+    Arrests: # Array of Arrest Objects
+        - _index:
+              CitizenID: ID if the Citizen Arrested
+              Reason: Why is the Citizen Arrested
+              Mugshot: Array of Hash of Mugshots' stored in IPFS
+    Evidence: Array of Evidence.ID stored in IPFS
+
+ChargeSheet:
+    ID: ID / Hash of the ChargeSheet
+    FIRIDs: Array of Hashes / IDs of FIRs filed under the ChargeSheet
+    DateTime: Date & Time of creating the ChargeSheet
+    SectionsOfLaw: Array of String of Sections of Law
+    InvestigatingOfficers: Array of IDs of Investigating officers
+    InvestigationID: ID / Hash of the Investigation
+    AccusedPersons: # Array of Accused Persons
+        - _index:
+              CitizenID: Citizen.ID of the Accused Person
+              Status: Whether Arrested / On Bail / Absconding
+    BriefReport: # Array of Report Objects
+        - _index:
+              Content: Content of the Report as String
+              Documents: Array of Hash of Documents / Evidence stored in IPFS
+    ChargedPersons: # Array of Charged Persons
+        - _index:
+              CitizenID: Citizen.ID of the Charged Person
+              SectionOfLaws: Array of Section of Laws as String
+    DespatchDate: Date of Despatch
+
+JudgementReport:
+    Introduction:
+        PreliminaryIssues: String describing the Preliminary Issues
+        SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case
+        SummaryOfDefendantsCase: String describing the Summary of Defendant's Case
+        IssuesToBeDetermined: String describing the Issues to be Determined
+    Evidence: # Array of Evidence & Factual Findings
+        - _index:
+              ID: ID / Hash of the Evidence
+    ApplicableLaw:
+        StatutoryLaws: Array of Statutory Laws as Strings
+        CaseLaws: Array of Case Laws as Strings
+    Deliberations:
+        Guilt: String Describing the Guilt
+        AggravatingMitigatingCircumstances: String Describing the Aggravating or Mitigating Circumstances.
+        Sentence: # Array of Sentences to Citizens' Accused / Guilty
+            - _index:
+                  CitizenID: Citizen.ID if the Guilty Citizen
+                  Statement: Statement of the Sentence
