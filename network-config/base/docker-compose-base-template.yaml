@@ -151,11 +151,11 @@ services:
             - FABRIC_CA_SERVER_CA_NAME=ca-citizen
             - FABRIC_CA_SERVER_TLS_ENABLED=true
             - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.citizen.example.com-cert.pem
-            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY
             - FABRIC_CA_SERVER_PORT=7054
         ports:
             - "7054:7054"
-        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.citizen.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY -b admin:adminpw -d'
+        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.citizen.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA1_PRIVATE_KEY -b admin:adminpw -d'
         volumes:
             - ../crypto-config/peerOrganizations/citizen.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
 
@@ -166,11 +166,11 @@ services:
             - FABRIC_CA_SERVER_CA_NAME=ca-police
             - FABRIC_CA_SERVER_TLS_ENABLED=true
             - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.police.example.com-cert.pem
-            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY
             - FABRIC_CA_SERVER_PORT=8054
         ports:
             - "8054:8054"
-        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.police.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY -b admin:adminpw -d'
+        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.police.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
         volumes:
             - ../crypto-config/peerOrganizations/police.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
 
@@ -181,11 +181,11 @@ services:
             - FABRIC_CA_SERVER_CA_NAME=ca-forensics
             - FABRIC_CA_SERVER_TLS_ENABLED=true
             - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.forensics.example.com-cert.pem
-            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA3_PRIVATE_KEY
             - FABRIC_CA_SERVER_PORT=9054
         ports:
             - "9054:9054"
-        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.forensics.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY -b admin:adminpw -d'
+        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.forensics.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA3_PRIVATE_KEY -b admin:adminpw -d'
         volumes:
             - ../crypto-config/peerOrganizations/forensics.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
 
@@ -196,11 +196,11 @@ services:
             - FABRIC_CA_SERVER_CA_NAME=ca-court
             - FABRIC_CA_SERVER_TLS_ENABLED=true
             - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.court.example.com-cert.pem
-            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA4_PRIVATE_KEY
             - FABRIC_CA_SERVER_PORT=10054
         ports:
             - "10054:10054"
-        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.court.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY -b admin:adminpw -d'
+        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.court.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA4_PRIVATE_KEY -b admin:adminpw -d'
         volumes:
             - ../crypto-config/peerOrganizations/court.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
 
@@ -211,10 +211,10 @@ services:
             - FABRIC_CA_SERVER_CA_NAME=ca-identityprovider
             - FABRIC_CA_SERVER_TLS_ENABLED=true
             - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.identityprovider.example.com-cert.pem
-            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY
+            - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA5_PRIVATE_KEY
             - FABRIC_CA_SERVER_PORT=11054
         ports:
             - "11054:11054"
-        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.identityprovider.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA_PRIVATE_KEY -b admin:adminpw -d'
+        command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.identityprovider.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA5_PRIVATE_KEY -b admin:adminpw -d'
         volumes:
             - ../crypto-config/peerOrganizations/identityprovider.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
