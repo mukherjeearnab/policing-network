@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bytes"
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
 	"strconv"
-
-	"crypto/x509"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
@@ -103,7 +103,6 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 	for a := 14; a < 24; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
-	VerdictRecord = append(VerdictRecord, "blank")
 	AgeI, err := strconv.Atoi(Age)
 	if err != nil {
 		return shim.Error("Error: Invalid Age!")
@@ -260,7 +259,46 @@ func (cc *Chaincode) readCitizenProfile(stub shim.ChaincodeStubInterface, params
 
 // Function to Create a New Citizen Profile.
 func (cc *Chaincode) queryCitizenProfile(stub shim.ChaincodeStubInterface, params []string) sc.Response {
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) != 3 {
+		return shim.Error("Incorrect number of arguments. Expecting (14+10 = 24)!")
+	}
+
+	regex := "(?i:.*%s.*)"
+	search := "{ \"$and\": [{\"Name\": { \"$regex\": \"%s\" }},{\"Phone\": \"%s\"}, {\"Gender\": \"%s\"}]}"
+
+	if len(params[0]) <= 0 && len(params[1]) <= 0 && len(params[2]) <= 0 {
+		// 0 0 0
+		search = fmt.Sprintf(search, ".*", ".*", ".*")
+	} else if len(params[0]) <= 0 && len(params[1]) <= 0 && len(params[2]) > 0 {
+		// 0 0 1
+		search = fmt.Sprintf(search, ".*", ".*", fmt.Sprintf(regex, params[2]))
+	} else if len(params[0]) <= 0 && len(params[1]) > 0 && len(params[2]) <= 0 {
+		// 0 1 0
+		search = fmt.Sprintf(search, ".*", fmt.Sprintf(regex, params[1]), ".*")
+	} else if len(params[0]) <= 0 && len(params[1]) > 0 && len(params[2]) > 0 {
+		// 0 1 1
+		search = fmt.Sprintf(search, ".*", fmt.Sprintf(regex, params[1]), fmt.Sprintf(regex, params[2]))
+	} else if len(params[0]) > 0 && len(params[1]) <= 0 && len(params[2]) <= 0 {
+		// 1 0 0
+		search = fmt.Sprintf(search, fmt.Sprintf(regex, params[0]), ".*", ".*")
+	} else if len(params[0]) > 0 && len(params[1]) <= 0 && len(params[2]) > 0 {
+		// 1 0 1
+		search = fmt.Sprintf(search, fmt.Sprintf(regex, params[0]), ".*", fmt.Sprintf(regex, params[2]))
+	} else if len(params[0]) > 0 && len(params[1]) > 0 && len(params[2]) <= 0 {
+		// 1 1 0
+		search = fmt.Sprintf(search, fmt.Sprintf(regex, params[0]), fmt.Sprintf(regex, params[1]), ".*")
+	} else {
+		// 1 1 1
+		search = fmt.Sprintf(search, fmt.Sprintf(regex, params[0]), fmt.Sprintf(regex, params[1]), fmt.Sprintf(regex, params[2]))
+	}
+
+	queryResults, err := getQueryResultForQueryString(stub, search)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	return shim.Success(queryResults)
 }
 
 // Function to Create a New Citizen Profile.
@@ -356,4 +394,53 @@ func authenticateIdentityProvider(mspID string, certCN string) bool {
 
 func authenticateCourt(mspID string, certCN string) bool {
 	return (mspID == "CourtMSP") && (certCN == "ca.court.example.com")
+}
+
+// Query Helpers
+// +++++++++++++
+
+// Construct Query Response from Iterator
+func constructQueryResponseFromIterator(resultsIterator shim.StateQueryIteratorInterface) (*bytes.Buffer, error) {
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	bArrayMemberAlreadyWritten := false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return nil, err
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Value\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+	return &buffer, nil
+}
+
+// Get Query Result for Query String
+func getQueryResultForQueryString(stub shim.ChaincodeStubInterface, queryString string) ([]byte, error) {
+	resultsIterator, err := stub.GetQueryResult(queryString)
+	if err != nil {
+		return nil, err
+	}
+	defer resultsIterator.Close()
+
+	buffer, err := constructQueryResponseFromIterator(resultsIterator)
+	if err != nil {
+		return nil, err
+	}
+	return buffer.Bytes(), nil
 }
