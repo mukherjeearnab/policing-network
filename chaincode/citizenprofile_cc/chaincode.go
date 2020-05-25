@@ -349,9 +349,9 @@ func getTxCreatorInfo(stub shim.ChaincodeStubInterface) (string, string, error) 
 
 // Authenticate => IdentityProvider
 func authenticateIdentityProvider(mspID string, certCN string) bool {
-	return (mspID == "IdentityProviderMSP") && (certCN == "ca.example.com")
+	return (mspID == "IdentityProviderMSP") && (certCN == "ca.identityprovider.example.com")
 }
 
 func authenticateCourt(mspID string, certCN string) bool {
-	return (mspID == "CourtMSP") && (certCN == "ca.example.com")
+	return (mspID == "CourtMSP") && (certCN == "ca.court.example.com")
 }
