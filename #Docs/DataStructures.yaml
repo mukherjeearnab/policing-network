@@ -9,8 +9,8 @@ CitizenProfile:
     EyeColor: Color of Iris
     Nationality: Nationality of the Citizen
     Address: Address of the Citizen
-    Father_sName: Father's Name of Citizen
-    Mother_sName: Mother's Name of Citizen
+    FathersName: Father's Name of Citizen
+    MothersName: Mother's Name of Citizen
     Religion: Religion of the Citizen
     Occupation: Occupation of the Citizen
     FingerPrint:
