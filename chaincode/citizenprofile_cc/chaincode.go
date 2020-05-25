@@ -103,6 +103,7 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 	for a := 14; a < 24; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
+	VerdictRecord = append(VerdictRecord, "blank")
 	AgeI, err := strconv.Atoi(Age)
 	if err != nil {
 		return shim.Error("Error: Invalid Age!")
@@ -175,6 +176,7 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 	Religion := params[12]
 	Occupation := params[13]
 	var Fingerprint []string
+
 	for a := 14; a < 24; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
