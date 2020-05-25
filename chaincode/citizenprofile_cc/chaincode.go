@@ -22,7 +22,7 @@ type citizen struct {
 	Name          string   `json:"Name"`
 	Email         string   `json:"Email"`
 	Phone         string   `json:"Phone"`
-	Age           int      `json:"Age"`
+	DOB           int      `json:"DOB"`
 	Gender        string   `json:"Gender"`
 	BloodGroup    string   `json:"BloodGroup"`
 	EyeColor      string   `json:"EyeColor"`
@@ -87,7 +87,7 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 	Name := params[1]
 	Email := params[2]
 	Phone := params[3]
-	Age := params[4]
+	DOB := params[4]
 	Gender := params[5]
 	BloodGroup := params[6]
 	EyeColor := params[7]
@@ -103,9 +103,9 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 	for a := 14; a < 24; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
-	AgeI, err := strconv.Atoi(Age)
+	DOBI, err := strconv.Atoi(DOB)
 	if err != nil {
-		return shim.Error("Error: Invalid Age!")
+		return shim.Error("Error: Invalid DOB!")
 	}
 
 	// Check if Citizen exists with Key => ID
@@ -118,7 +118,7 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 
 	// Generate Citizen from params provided
 	citizen := &citizen{ID, Name, Email, Phone,
-		AgeI, Gender, BloodGroup, EyeColor,
+		DOBI, Gender, BloodGroup, EyeColor,
 		Nationality, Address, FathersName,
 		MothersName, Religion, Occupation,
 		Fingerprint, VerdictRecord}
@@ -164,7 +164,7 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 	Name := params[1]
 	Email := params[2]
 	Phone := params[3]
-	Age := params[4]
+	DOB := params[4]
 	Gender := params[5]
 	BloodGroup := params[6]
 	EyeColor := params[7]
@@ -179,9 +179,9 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 	for a := 14; a < 24; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
-	AgeI, err := strconv.Atoi(Age)
+	DOBI, err := strconv.Atoi(DOB)
 	if err != nil {
-		return shim.Error("Error: Invalid Age!")
+		return shim.Error("Error: Invalid DOB!")
 	}
 
 	// Check if Citizen exists with Key => ID
@@ -203,7 +203,7 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 	citizenToUpdate.Name = Name
 	citizenToUpdate.Email = Email
 	citizenToUpdate.Phone = Phone
-	citizenToUpdate.Age = AgeI
+	citizenToUpdate.DOB = DOBI
 	citizenToUpdate.Gender = Gender
 	citizenToUpdate.BloodGroup = BloodGroup
 	citizenToUpdate.EyeColor = EyeColor

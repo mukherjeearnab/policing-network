@@ -3,7 +3,7 @@ CitizenProfile:
     Name: Name of the Citizen
     Email: Email of the Citizen
     Phone: Phone of Citizen
-    Age: Age of the Citizen
+    DOB: Date of Birth of Citizen
     Gender: Gender of Citizen
     BloodGroup: BloodGroup of Citizen
     EyeColor: Color of Iris
