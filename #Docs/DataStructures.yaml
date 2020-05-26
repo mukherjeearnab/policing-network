@@ -1,5 +1,5 @@
 CitizenProfile:
-    _type: "citizenProfile"
+    Type: "citizenProfile"
     ID: ID's like Aadhar
     Name: Name of the Citizen
     Email: Email of the Citizen
@@ -20,7 +20,7 @@ CitizenProfile:
         - Array of IDs of Judgement Reports
 
 FIR:
-    _type: "FIR"
+    Type: "FIR"
     CitizenID: ID of Citizen, i.e. CitizenProfile.ID
     PoliceStation: Name of Nearest Police Station
     District: Name of District
@@ -32,16 +32,17 @@ FIR:
     DescriptionOfAccused: Description of Accused
     DetailsOfWitnesses: If Witnesses exist
     Complaint: Brief facts regarding the incident reported in an accurate way
+    InvestigationID: Investigation ID/ / Hash if Investigation has been started.
 
 Evidence:
-    _type: "evidence"
+    Type: "evidence"
     ID: Hash of the Evidence File in IPFS
     Description: Description about the Evidence
     DateTime: Date & Time of Adding the Evidence
     InvestigationID: Hash / ID of the Investigation where the Evidence belongs.
 
 Investigation:
-    _type: "investigation"
+    Type: "investigation"
     ID: ID / Hash of Investigation
     FIRID: Hash / ID of the FIR which caused the Investigation.
     Officer: Officer's ID's Investigating the case.
@@ -58,7 +59,7 @@ Investigation:
     Evidence: Array of Evidence.ID stored in IPFS
 
 ChargeSheet:
-    _type: "chargesheet"
+    Type: "chargesheet"
     ID: ID / Hash of the ChargeSheet
     FIRIDs: Array of Hashes / IDs of FIRs filed under the ChargeSheet
     DateTime: Date & Time of creating the ChargeSheet
@@ -80,7 +81,7 @@ ChargeSheet:
     DespatchDate: Date of Despatch
 
 JudgementReport:
-    _type: "judgementReport"
+    Type: "judgementReport"
     Introduction:
         PreliminaryIssues: String describing the Preliminary Issues
         SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case
