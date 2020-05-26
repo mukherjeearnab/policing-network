@@ -1,10 +1,12 @@
 package main
 
 import (
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
 	"github.com/hyperledger/fabric/common/util"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 	sc "github.com/hyperledger/fabric/protos/peer"
 	"strconv"
 )
@@ -44,6 +46,12 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 
 // Function to add new Evidence
 func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePoFoCi(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
 	// Check if sufficient Params passed
 	if len(params) != 4 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
@@ -124,4 +132,37 @@ func (cc *Chaincode) readEvidence(stub shim.ChaincodeStubInterface, params []str
 
 	// Returned on successful execution of the function
 	return shim.Success(evidenceAsBytes)
+}
+
+// ---------------------------------------------
+// Helper Functions
+// ---------------------------------------------
+
+// Authentication
+// ++++++++++++++
+
+// Get Tx Creator Info
+func getTxCreatorInfo(stub shim.ChaincodeStubInterface) (string, string, error) {
+	var mspid string
+	var err error
+	var cert *x509.Certificate
+	mspid, err = cid.GetMSPID(stub)
+
+	if err != nil {
+		fmt.Printf("Error getting MSP identity: %sn", err.Error())
+		return "", "", err
+	}
+
+	cert, err = cid.GetX509Certificate(stub)
+	if err != nil {
+		fmt.Printf("Error getting client certificate: %sn", err.Error())
+		return "", "", err
+	}
+
+	return mspid, cert.Issuer.CommonName, nil
+}
+
+// Authenticate => Police / Forensics / Citizen
+func authenticatePoFoCi(mspID string, certCN string) bool {
+	return (mspID == "PoliceMSP") && (certCN == "ca.police.example.com") || (mspID == "ForensicsMSP") && (certCN == "ca.forensics.example.com") || (mspID == "CitizenMSP") && (certCN == "ca.citizen.example.com")
 }
