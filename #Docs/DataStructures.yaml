@@ -44,8 +44,7 @@ Investigation:
     _type: "investigation"
     ID: ID / Hash of Investigation
     FIRID: Hash / ID of the FIR which caused the Investigation.
-    Team:
-        - Array of Officer's ID's Investigating the case.
+    Officer: Officer's ID's Investigating the case.
     Reports: # Array of Report Objects
         - _index:
               DateTime: Date & Time of the Report
@@ -54,6 +53,7 @@ Investigation:
         - _index:
               CitizenID: ID if the Citizen Arrested
               Cause: Why is the Citizen Arrested
+              Date: Date of Arrest
               Mugshot: Array of Hash of Mugshots' stored in IPFS
     Evidence: Array of Evidence.ID stored in IPFS
 

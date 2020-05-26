@@ -12,6 +12,9 @@ Investigation-CC:
     NewInvestigationFromFIR: Create new Investigation, given it's FIR ID.
     ReadInvestigation: View Current Progress of Investigation, returns JSON.
     UpdateInvestigation: Update the Status of Investigation, or Add Events to Investigation.
+    AddEvidence: Add Evidence to Investigation.
+    AddReport: Add Report to Investigation.
+    AddArrest: Add Arrest to Investigation.
 
 CitizenProfile-CC:
     CreateNewCitizenProfile: Create a new Profile for some Citizen.
