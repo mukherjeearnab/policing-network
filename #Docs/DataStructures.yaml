@@ -1,4 +1,5 @@
 CitizenProfile:
+    _type: "citizenProfile"
     ID: ID's like Aadhar
     Name: Name of the Citizen
     Email: Email of the Citizen
@@ -19,6 +20,7 @@ CitizenProfile:
         - Array of IDs of Judgement Reports
 
 FIR:
+    _type: "FIR"
     CitizenID: ID of Citizen, i.e. CitizenProfile.ID
     PoliceStation: Name of Nearest Police Station
     District: Name of District
@@ -32,12 +34,14 @@ FIR:
     Complaint: Brief facts regarding the incident reported in an accurate way
 
 Evidence:
+    _type: "evidence"
     ID: Hash of the Evidence File in IPFS
     Description: Description about the Evidence
     DateTime: Date & Time of Adding the Evidence
     InvestigationID: Hash / ID of the Investigation where the Evidence belongs.
 
 Investigation:
+    _type: "investigation"
     ID: ID / Hash of Investigation
     FIRID: Hash / ID of the FIR which caused the Investigation.
     Team:
@@ -49,11 +53,12 @@ Investigation:
     Arrests: # Array of Arrest Objects
         - _index:
               CitizenID: ID if the Citizen Arrested
-              Reason: Why is the Citizen Arrested
+              Cause: Why is the Citizen Arrested
               Mugshot: Array of Hash of Mugshots' stored in IPFS
     Evidence: Array of Evidence.ID stored in IPFS
 
 ChargeSheet:
+    _type: "chargesheet"
     ID: ID / Hash of the ChargeSheet
     FIRIDs: Array of Hashes / IDs of FIRs filed under the ChargeSheet
     DateTime: Date & Time of creating the ChargeSheet
@@ -75,6 +80,7 @@ ChargeSheet:
     DespatchDate: Date of Despatch
 
 JudgementReport:
+    _type: "judgementReport"
     Introduction:
         PreliminaryIssues: String describing the Preliminary Issues
         SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case

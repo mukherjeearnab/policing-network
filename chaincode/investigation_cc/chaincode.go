@@ -12,11 +12,28 @@ import (
 type Chaincode struct {
 }
 
-// Definition of the Asset structure
-type asset struct {
-	ID    string `json:"objID"`
-	Name  string `json:"objName"`
-	Owner string `json:"objOwner"`
+// Definition of the Investigation Reports structure
+type report struct {
+	DateTime int    `json:"DateTime"`
+	Content  string `json:"Content"`
+}
+
+// Definition of the Investigation Arrests structure
+type arrest struct {
+	CItizenID string `json:"CitizenID"`
+	Cause     string `json:"Cause"`
+	Mugshot   string `json:"Mugshot"`
+}
+
+// Definition of the Investigation structure
+type investigation struct {
+	_type    string   `json:"_type"`
+	ID       string   `json:"ID"`
+	FIRID    string   `json:"FIRID"`
+	Team     []string `json:"Team"`
+	Evidence []string `json:"Evidence"`
+	Reports  []report `json:"Reports"`
+	Arrests  []arrest `json:"Arrests"`
 }
 
 // Init is called when the chaincode is instantiated by the blockchain network.
