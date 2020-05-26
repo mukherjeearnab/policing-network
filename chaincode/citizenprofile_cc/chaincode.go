@@ -18,6 +18,7 @@ type Chaincode struct {
 
 // Definition of the Asset structure
 type citizen struct {
+	_type         string   `json:"_type"`
 	ID            string   `json:"ID"`
 	Name          string   `json:"Name"`
 	Email         string   `json:"Email"`
@@ -117,7 +118,8 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 	}
 
 	// Generate Citizen from params provided
-	citizen := &citizen{ID, Name, Email, Phone,
+	citizen := &citizen{"citizenProfile",
+		ID, Name, Email, Phone,
 		DOBI, Gender, BloodGroup, EyeColor,
 		Nationality, Address, FathersName,
 		MothersName, Religion, Occupation,
