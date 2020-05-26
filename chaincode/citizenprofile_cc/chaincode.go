@@ -267,7 +267,7 @@ func (cc *Chaincode) queryCitizenProfile(stub shim.ChaincodeStubInterface, param
 	}
 
 	regex := "(?i:.*%s.*)"
-	search := "{\"selector\": {\"$and\": [{\"Name\": { \"$regex\": \"%s\" }},{\"Phone\": \"%s\"}, {\"Gender\": \"%s\"}]}}"
+	search := "{\"selector\": {\"$and\": [{\"Name\": { \"$regex\": \"%s\" }},{\"Phone\": { \"$regex\": \"%s\" }}, {\"Gender\": { \"$regex\": \"%s\" }}]}}"
 
 	if len(params[0]) <= 0 && len(params[1]) <= 0 && len(params[2]) <= 0 {
 		// 0 0 0
