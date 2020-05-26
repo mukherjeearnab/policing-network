@@ -31,7 +31,7 @@ type arrest struct {
 
 // Definition of the Investigation structure
 type investigation struct {
-	_type    string   `json:"_type"`
+	Type     string   `json:"Type"`
 	ID       string   `json:"ID"`
 	FIRID    string   `json:"FIRID"`
 	Officer  string   `json:"Officer"`

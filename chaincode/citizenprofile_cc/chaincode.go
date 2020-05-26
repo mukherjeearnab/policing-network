@@ -18,7 +18,7 @@ type Chaincode struct {
 
 // Definition of the Asset structure
 type citizen struct {
-	_type         string   `json:"_type"`
+	Type          string   `json:"Type"`
 	ID            string   `json:"ID"`
 	Name          string   `json:"Name"`
 	Email         string   `json:"Email"`
