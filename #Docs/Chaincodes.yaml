@@ -26,6 +26,13 @@ CitizenProfile-CC:
 ChargeSheet-CC:
     CreateNewChargeSheet: Create a new Chargesheet, from given FIR and Investigation.
     ReadChargeSheet: Returns JSON of a ChargeSheet.
+    AddFIRIDs: Add FIRs relevant to the ChargeSheet.
+    AddSectionOfLaw: Add Section of Laws.
+    AddInvestigatingOfficer: Add Investigating Officers.
+    AddInvestigationID: Add Investigations held.
+    AddAccusedPerson: Add Accused Persons to ChargeSheet.
+    AddBriefReport: Add New Section to Brief Report.
+    AddChargedPerson: Add new Charged Person to ChargeSheet.
 
 Judgement-CC:
     CreateNewJudgementReport: Create a new Judgement report given it's ChargeSheet ID.

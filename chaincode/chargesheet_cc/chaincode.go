@@ -12,11 +12,38 @@ import (
 type Chaincode struct {
 }
 
-// Definition of the Asset structure
-type asset struct {
-	ID    string `json:"objID"`
-	Name  string `json:"objName"`
-	Owner string `json:"objOwner"`
+// Definition of the Accused Persons structure
+type accusedPersons struct {
+	CitizenID string `json:"CitizenID"`
+	Status    string `json:"Status"`
+}
+
+// Definition of the Brief Report structure
+type briefReport struct {
+	Content   string   `json:"Content"`
+	Documents []string `json:"Documents"`
+}
+
+// Definition of the Charged Persons structure
+type chargedPersons struct {
+	CitizenID     string `json:"CitizenID"`
+	SectionOfLaws string `json:"SectionOfLaws"`
+}
+
+// Definition of the ChargeSheet structure
+type chargeSheet struct {
+	Type                  string         `json:"Type"`
+	ID                    string         `json:"ID"`
+	Name                  string         `json:"Name"`
+	FIRIDs                []string       `json:"FIRIDs"`
+	DateTime              string         `json:"DateTime"`
+	SectionOfLaws         []string       `json:"SectionOfLaws"`
+	InvestigatingOfficers []string       `json:"InvestigatingOfficers"`
+	InvestigationIDs      []string       `json:"InvestigationIDs"`
+	AccusedPersons        accusedPersons `json:"AccusedPersons"`
+	BriefReport           briefReport    `json:"BriefReport"`
+	ChargedPersons        chargedPersons `json:"ChargedPersons"`
+	DespatchDate          int            `json:"DespatchDate"`
 }
 
 // Init is called when the chaincode is instantiated by the blockchain network.
@@ -29,14 +56,24 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 	fcn, params := stub.GetFunctionAndParameters()
 	fmt.Println("Invoke()", fcn, params)
 
-	if fcn == "createAsset" {
-		return cc.createAsset(stub, params)
-	} else if fcn == "readAsset" {
-		return cc.readAsset(stub, params)
-	} else if fcn == "updateAsset" {
-		return cc.updateAsset(stub, params)
-	} else if fcn == "deleteAsset" {
-		return cc.deleteAsset(stub, params)
+	if fcn == "createNewChargeSheet" {
+		return cc.createNewChargeSheet(stub, params)
+	} else if fcn == "readChargeSheet" {
+		return cc.readChargeSheet(stub, params)
+	} else if fcn == "addFIRIDs" {
+		return cc.addFIRIDs(stub, params)
+	} else if fcn == "addSectionOfLaw" {
+		return cc.addSectionOfLaw(stub, params)
+	} else if fcn == "addInvestigatingOfficer" {
+		return cc.addInvestigatingOfficer(stub, params)
+	} else if fcn == "addInvestigatingID" {
+		return cc.addInvestigatingID(stub, params)
+	} else if fcn == "addAccusedPerson" {
+		return cc.addAccusedPerson(stub, params)
+	} else if fcn == "addBriefReport" {
+		return cc.addBriefReport(stub, params)
+	} else if fcn == "addChargedPerson" {
+		return cc.addChargedPerson(stub, params)
 	} else {
 		fmt.Println("Invoke() did not find func: " + fcn)
 		return shim.Error("Received unknown function invocation!")
@@ -44,7 +81,7 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 }
 
 // Function to create new asset (C of CRUD)
-func (cc *Chaincode) createAsset(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+func (cc *Chaincode) createNewChargeSheet(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check if sufficient Params passed
 	if len(params) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
@@ -87,7 +124,7 @@ func (cc *Chaincode) createAsset(stub shim.ChaincodeStubInterface, params []stri
 }
 
 // Function to read an asset (R of CRUD)
-func (cc *Chaincode) readAsset(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+func (cc *Chaincode) readChargeSheet(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check if sufficient Params passed
 	if len(params) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
@@ -113,7 +150,7 @@ func (cc *Chaincode) readAsset(stub shim.ChaincodeStubInterface, params []string
 }
 
 // Function to update an asset's owner (U of CRUD)
-func (cc *Chaincode) updateAsset(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+func (cc *Chaincode) addFIRIDs(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check if sufficient Params passed
 	if len(params) != 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
@@ -163,24 +200,38 @@ func (cc *Chaincode) updateAsset(stub shim.ChaincodeStubInterface, params []stri
 	return shim.Success(nil)
 }
 
-// Function to Delete an asset (D of CRUD)
-func (cc *Chaincode) deleteAsset(stub shim.ChaincodeStubInterface, params []string) sc.Response {
-	// Check if sufficient Params passed
-	if len(params) != 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
-	}
+// Function to Add new Section of Law violated
+func (cc *Chaincode) addSectionOfLaw(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 
-	// Check if Params are non-empty
-	if len(params[0]) <= 0 {
-		return shim.Error("1st argument must be a non-empty string")
-	}
+	return shim.Success(nil)
+}
 
-	// Delete the State with Key => params[0]
-	err := stub.DelState(params[0])
-	if err != nil {
-		return shim.Error("Failed to delete Asset: " + err.Error())
-	}
+// Function to Add Officers, who Investigated
+func (cc *Chaincode) addInvestigatingOfficer(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 
-	// Returned on successful execution of the function
+	return shim.Success(nil)
+}
+
+// Function to Add ID of Investigation's conducted
+func (cc *Chaincode) addInvestigatingID(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+
+	return shim.Success(nil)
+}
+
+// Function to Add new Accused Person
+func (cc *Chaincode) addAccusedPerson(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+
+	return shim.Success(nil)
+}
+
+// Function to Add new Section to Brief-Report
+func (cc *Chaincode) addBriefReport(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+
+	return shim.Success(nil)
+}
+
+// Function to Add new Charged Person
+func (cc *Chaincode) addChargedPerson(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+
 	return shim.Success(nil)
 }

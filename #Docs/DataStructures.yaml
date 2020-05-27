@@ -62,11 +62,12 @@ Investigation:
 ChargeSheet:
     Type: "chargesheet"
     ID: ID / Hash of the ChargeSheet
+    Name: Name of the ChargeSheet (Title)
     FIRIDs: Array of Hashes / IDs of FIRs filed under the ChargeSheet
     DateTime: Date & Time of creating the ChargeSheet
     SectionsOfLaw: Array of String of Sections of Law
     InvestigatingOfficers: Array of IDs of Investigating officers
-    InvestigationID: ID / Hash of the Investigation
+    InvestigationIDs: Array of ID / Hash of the Investigations
     AccusedPersons: # Array of Accused Persons
         - _index:
               CitizenID: Citizen.ID of the Accused Person
