@@ -1,7 +1,7 @@
 FIR-CC:
     CreateNewFir: Create a new FIR.
     ReadFIR: Returns the JSON of an FIR's details.
-    QueryFIR: Query FIR's based on FIR Details like => Creator, Police Station, Date.
+    QueryFIR: Query FIR's based on FIR Details like => Creator, Police Station.
     AddInvestigationToFIR: Add Investigation ID, if Investiation is Started for the given FIR.
 
 Evidence-CC:

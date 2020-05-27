@@ -21,6 +21,7 @@ CitizenProfile:
 
 FIR:
     Type: "FIR"
+    ID: FIR ID
     CitizenID: ID of Citizen, i.e. CitizenProfile.ID
     PoliceStation: Name of Nearest Police Station
     District: Name of District
