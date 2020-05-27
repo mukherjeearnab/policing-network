@@ -1,10 +1,13 @@
 package main
 
 import (
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 	sc "github.com/hyperledger/fabric/protos/peer"
 )
 
@@ -26,24 +29,24 @@ type briefReport struct {
 
 // Definition of the Charged Persons structure
 type chargedPersons struct {
-	CitizenID     string `json:"CitizenID"`
-	SectionOfLaws string `json:"SectionOfLaws"`
+	CitizenID     string   `json:"CitizenID"`
+	SectionOfLaws []string `json:"SectionOfLaws"`
 }
 
 // Definition of the ChargeSheet structure
 type chargeSheet struct {
-	Type                  string         `json:"Type"`
-	ID                    string         `json:"ID"`
-	Name                  string         `json:"Name"`
-	FIRIDs                []string       `json:"FIRIDs"`
-	DateTime              string         `json:"DateTime"`
-	SectionOfLaws         []string       `json:"SectionOfLaws"`
-	InvestigatingOfficers []string       `json:"InvestigatingOfficers"`
-	InvestigationIDs      []string       `json:"InvestigationIDs"`
-	AccusedPersons        accusedPersons `json:"AccusedPersons"`
-	BriefReport           briefReport    `json:"BriefReport"`
-	ChargedPersons        chargedPersons `json:"ChargedPersons"`
-	DespatchDate          int            `json:"DespatchDate"`
+	Type                  string           `json:"Type"`
+	ID                    string           `json:"ID"`
+	Name                  string           `json:"Name"`
+	FIRIDs                []string         `json:"FIRIDs"`
+	DateTime              int              `json:"DateTime"`
+	SectionOfLaws         []string         `json:"SectionOfLaws"`
+	InvestigatingOfficers []string         `json:"InvestigatingOfficers"`
+	InvestigationIDs      []string         `json:"InvestigationIDs"`
+	AccusedPersons        []accusedPersons `json:"AccusedPersons"`
+	BriefReport           []briefReport    `json:"BriefReport"`
+	ChargedPersons        []chargedPersons `json:"ChargedPersons"`
+	DespatchDate          int              `json:"DespatchDate"`
 }
 
 // Init is called when the chaincode is instantiated by the blockchain network.
@@ -80,41 +83,67 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 	}
 }
 
-// Function to create new asset (C of CRUD)
+// Function to create new ChargeSheet
 func (cc *Chaincode) createNewChargeSheet(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
 	// Check if sufficient Params passed
-	if len(params) != 3 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
+	if len(params) != 4 {
+		return shim.Error("Incorrect number of arguments. Expecting 4")
 	}
 
 	// Check if Params are non-empty
-	if len(params[0]) <= 0 {
-		return shim.Error("1st argument must be a non-empty string")
-	}
-	if len(params[1]) <= 0 {
-		return shim.Error("2nd argument must be a non-empty string")
-	}
-	if len(params[2]) <= 0 {
-		return shim.Error("3rd argument must be a non-empty string")
+	for a := 0; a < 4; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
 	}
 
-	// Check if Asset exists with Key => params[0]
-	assetAsBytes, err := stub.GetState(params[0])
+	ID := params[0]
+	Name := params[1]
+	var FIRIDs []string
+	DateTime := params[2]
+	var SectionOfLaws []string
+	var InvestigatingOfficers []string
+	var InvestigationIDs []string
+	var AccusedPersons []accusedPersons
+	var BriefReport []briefReport
+	var ChargedPersons []chargedPersons
+	DespatchDate := params[3]
+	DespatchDateI, err := strconv.Atoi(DespatchDate)
+	if err != nil {
+		return shim.Error("Error: Invalid DespatchDate!")
+	}
+	DateTimeI, err := strconv.Atoi(DateTime)
+	if err != nil {
+		return shim.Error("Error: Invalid DateTime!")
+	}
+
+	// Check if Asset exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
 	if err != nil {
 		return shim.Error("Failed to check if Asset exists!")
-	} else if assetAsBytes != nil {
+	} else if chargeSheetAsBytes != nil {
 		return shim.Error("Asset Already Exists!")
 	}
 
-	// Generate Asset from params provided
-	asset := &asset{params[0], params[1], params[2]}
-	assetJSONasBytes, err := json.Marshal(asset)
+	// Generate ChargeSheet from params provided
+	chargeSheet := &chargeSheet{"chargesheet",
+		ID, Name, FIRIDs, DateTimeI,
+		SectionOfLaws, InvestigatingOfficers, InvestigationIDs,
+		AccusedPersons, BriefReport, ChargedPersons, DespatchDateI}
+
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheet)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
 
-	// Put State of newly generated Asset with Key => params[0]
-	err = stub.PutState(params[0], assetJSONasBytes)
+	// Put State of newly generated Asset with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
@@ -123,11 +152,11 @@ func (cc *Chaincode) createNewChargeSheet(stub shim.ChaincodeStubInterface, para
 	return shim.Success(nil)
 }
 
-// Function to read an asset (R of CRUD)
+// Function to read a ChargeSheet
 func (cc *Chaincode) readChargeSheet(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check if sufficient Params passed
 	if len(params) != 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
+		return shim.Error("Incorrect number of arguments. Expecting 1")
 	}
 
 	// Check if Params are non-empty
@@ -136,102 +165,468 @@ func (cc *Chaincode) readChargeSheet(stub shim.ChaincodeStubInterface, params []
 	}
 
 	// Get State of Asset with Key => params[0]
-	assetAsBytes, err := stub.GetState(params[0])
+	chargeSheetAsBytes, err := stub.GetState(params[0])
 	if err != nil {
 		jsonResp := "{\"Error\":\"Failed to get state for " + params[0] + "\"}"
 		return shim.Error(jsonResp)
-	} else if assetAsBytes == nil {
+	} else if chargeSheetAsBytes == nil {
 		jsonResp := "{\"Error\":\"Asset does not exist!\"}"
 		return shim.Error(jsonResp)
 	}
 
 	// Returned on successful execution of the function
-	return shim.Success(assetAsBytes)
+	return shim.Success(chargeSheetAsBytes)
 }
 
-// Function to update an asset's owner (U of CRUD)
+// Function to Add FIR's to the ChargeSheet
 func (cc *Chaincode) addFIRIDs(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
 	// Check if sufficient Params passed
 	if len(params) != 2 {
-		return shim.Error("Incorrect number of arguments. Expecting 2")
+		return shim.Error("Incorrect number of arguments. Expecting 2!")
 	}
 
 	// Check if Params are non-empty
-	if len(params[0]) <= 0 {
-		return shim.Error("1st argument must be a non-empty string")
-	}
-	if len(params[1]) <= 0 {
-		return shim.Error("2nd argument must be a non-empty string")
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
 	}
 
-	// Get State of Asset with Key => params[0]
-	assetAsBytes, err := stub.GetState(params[0])
+	// Copy the Values from params[]
+	ID := params[0]
+	NewFIR := params[1]
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
 	if err != nil {
-		jsonResp := "{\"Error\":\"Failed to get state for " + params[0] + "\"}"
-		return shim.Error(jsonResp)
-	} else if assetAsBytes == nil {
-		jsonResp := "{\"Error\":\"Asset does not exist!\"}"
-		return shim.Error(jsonResp)
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
 	}
 
-	// Create new Asset Variable
-	assetToTransfer := asset{}
-	err = json.Unmarshal(assetAsBytes, &assetToTransfer) //unmarshal it aka JSON.parse()
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-
-	// Update asset.Owner => params[1]
-	assetToTransfer.Owner = params[1]
-
-	// Convert to Byte[]
-	assetJSONasBytes, err := json.Marshal(assetToTransfer)
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
 	if err != nil {
 		return shim.Error(err.Error())
 	}
 
-	// Put updated State of the Asset with Key => params[0]
-	err = stub.PutState(params[0], assetJSONasBytes)
+	// Update ChargeSheet.FIRIDs to append => NewFIR
+	chargeSheetToUpdate.FIRIDs = append(chargeSheetToUpdate.FIRIDs, NewFIR)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
 
 	// Returned on successful execution of the function
-	return shim.Success(nil)
+	return shim.Success(chargeSheetJSONasBytes)
 }
 
 // Function to Add new Section of Law violated
 func (cc *Chaincode) addSectionOfLaw(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
 
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2!")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	// Copy the Values from params[]
+	ID := params[0]
+	NewSectionOfLaw := params[1]
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update ChargeSheet.SectionOfLaws to append => NewSectionOfLaw
+	chargeSheetToUpdate.SectionOfLaws = append(chargeSheetToUpdate.SectionOfLaws, NewSectionOfLaw)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(chargeSheetJSONasBytes)
 }
 
 // Function to Add Officers, who Investigated
 func (cc *Chaincode) addInvestigatingOfficer(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
 
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2!")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	// Copy the Values from params[]
+	ID := params[0]
+	NewOfficer := params[1]
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update ChargeSheet.InvestigatingOfficers to append => NewOfficer
+	chargeSheetToUpdate.InvestigatingOfficers = append(chargeSheetToUpdate.InvestigatingOfficers, NewOfficer)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(chargeSheetJSONasBytes)
 }
 
 // Function to Add ID of Investigation's conducted
 func (cc *Chaincode) addInvestigatingID(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
 
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2!")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	// Copy the Values from params[]
+	ID := params[0]
+	NewInvestigationID := params[1]
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update ChargeSheet.InvestigationIDs to append => NewInvestigationID
+	chargeSheetToUpdate.InvestigationIDs = append(chargeSheetToUpdate.InvestigationIDs, NewInvestigationID)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(chargeSheetJSONasBytes)
 }
 
 // Function to Add new Accused Person
 func (cc *Chaincode) addAccusedPerson(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
 
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) != 3 {
+		return shim.Error("Incorrect number of arguments. Expecting 3!")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 3; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	// Copy the Values from params[]
+	ID := params[0]
+	CitizenID := params[1]
+	Status := params[2]
+	NewAccused := accusedPersons{CitizenID, Status}
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update ChargeSheet.AccusedPersons to append => NewAccused
+	chargeSheetToUpdate.AccusedPersons = append(chargeSheetToUpdate.AccusedPersons, NewAccused)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(chargeSheetJSONasBytes)
 }
 
 // Function to Add new Section to Brief-Report
 func (cc *Chaincode) addBriefReport(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
 
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) >= 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2+!")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	// Copy the Values from params[]
+	ID := params[0]
+	Content := params[1]
+	var Documents []string
+	for a := 2; a < len(params); a++ {
+		Documents = append(Documents, params[a])
+	}
+
+	NewReport := briefReport{Content, Documents}
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update ChargeSheet.BriefReport to append => NewReport
+	chargeSheetToUpdate.BriefReport = append(chargeSheetToUpdate.BriefReport, NewReport)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(chargeSheetJSONasBytes)
 }
 
 // Function to Add new Charged Person
 func (cc *Chaincode) addChargedPerson(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
 
-	return shim.Success(nil)
+	// Check if sufficient Params passed
+	if len(params) >= 2 {
+		return shim.Error("Incorrect number of arguments. Expecting (2+)!")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	// Copy the Values from params[]
+	ID := params[0]
+	CitizenID := params[1]
+	var SectionOfLaws []string
+	for a := 2; a < len(params); a++ {
+		SectionOfLaws = append(SectionOfLaws, params[a])
+	}
+
+	NewChargedPerson := chargedPersons{CitizenID, SectionOfLaws}
+
+	// Check if ChargeSheet exists with Key => ID
+	chargeSheetAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get ChargeSheet Details!")
+	} else if chargeSheetAsBytes == nil {
+		return shim.Error("Error: ChargeSheet Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	chargeSheetToUpdate := chargeSheet{}
+	err = json.Unmarshal(chargeSheetAsBytes, &chargeSheetToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update ChargeSheet.ChargedPersons to append => NewChargedPerson
+	chargeSheetToUpdate.ChargedPersons = append(chargeSheetToUpdate.ChargedPersons, NewChargedPerson)
+
+	// Convert to JSON bytes
+	chargeSheetJSONasBytes, err := json.Marshal(chargeSheetToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated ChargeSheet with Key => ID
+	err = stub.PutState(ID, chargeSheetJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(chargeSheetJSONasBytes)
+}
+
+// ---------------------------------------------
+// Helper Functions
+// ---------------------------------------------
+
+// Authentication
+// ++++++++++++++
+
+// Get Tx Creator Info
+func getTxCreatorInfo(stub shim.ChaincodeStubInterface) (string, string, error) {
+	var mspid string
+	var err error
+	var cert *x509.Certificate
+	mspid, err = cid.GetMSPID(stub)
+
+	if err != nil {
+		fmt.Printf("Error getting MSP identity: %sn", err.Error())
+		return "", "", err
+	}
+
+	cert, err = cid.GetX509Certificate(stub)
+	if err != nil {
+		fmt.Printf("Error getting client certificate: %sn", err.Error())
+		return "", "", err
+	}
+
+	return mspid, cert.Issuer.CommonName, nil
+}
+
+// Authenticate => Police
+func authenticatePolice(mspID string, certCN string) bool {
+	return (mspID == "PoliceMSP") && (certCN == "ca.police.example.com")
 }
