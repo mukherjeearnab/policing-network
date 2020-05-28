@@ -479,7 +479,7 @@ func (cc *Chaincode) addBriefReport(stub shim.ChaincodeStubInterface, params []s
 	}
 
 	// Check if sufficient Params passed
-	if len(params) >= 2 {
+	if len(params) < 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 2+!")
 	}
 
@@ -543,7 +543,7 @@ func (cc *Chaincode) addChargedPerson(stub shim.ChaincodeStubInterface, params [
 	}
 
 	// Check if sufficient Params passed
-	if len(params) >= 2 {
+	if len(params) < 2 {
 		return shim.Error("Incorrect number of arguments. Expecting (2+)!")
 	}
 
