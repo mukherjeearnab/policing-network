@@ -209,6 +209,11 @@ func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []stri
 		return shim.Error(err.Error())
 	}
 
+	// Check if Judgement is Complete or NOT
+	if judgementReportToUpdate.Complete {
+		return shim.Error("Error: Judgement is Complete & Locked!")
+	}
+
 	// Update judgementReport.Evidence => NewEvidence
 	judgementReportToUpdate.Evidence = append(judgementReportToUpdate.Evidence, NewEvidence)
 
@@ -268,6 +273,11 @@ func (cc *Chaincode) addSentence(stub shim.ChaincodeStubInterface, params []stri
 	err = json.Unmarshal(judgementReportAsBytes, &judgementReportToUpdate) //unmarshal it aka JSON.parse()
 	if err != nil {
 		return shim.Error(err.Error())
+	}
+
+	// Check if Judgement is Complete or NOT
+	if judgementReportToUpdate.Complete {
+		return shim.Error("Error: Judgement is Complete & Locked!")
 	}
 
 	// Update judgementReport.Deliberations.Sentence => NewSentence
@@ -331,6 +341,11 @@ func (cc *Chaincode) setComplete(stub shim.ChaincodeStubInterface, params []stri
 	err = json.Unmarshal(judgementReportAsBytes, &judgementReportToUpdate) //unmarshal it aka JSON.parse()
 	if err != nil {
 		return shim.Error(err.Error())
+	}
+
+	// Check if Judgement is Complete or NOT
+	if judgementReportToUpdate.Complete {
+		return shim.Error("Error: Judgement is Complete & Locked!")
 	}
 
 	// Update judgementReport.Complete => true
