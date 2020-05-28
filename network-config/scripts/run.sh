@@ -8,12 +8,17 @@ docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 forensics Forensic
 docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 court CourtMSP 10051 1.0
 docker exec -it cli bash ./scripts/channel/join-peer.sh peer0 identityprovider IdentityProviderMSP 11051 1.0
 
-docker cp ~/go/src/fcc cli:/opt/gopath/src/fcc
+CC_NAMES="chargesheet_cc citizenprofile_cc evidence_cc fir_cc investigation_cc judgement_cc"
 
-docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 citizen CitizenMSP 7051 1.0
-docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 police PoliceMSP 8051 1.0
-docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 forensics ForensicsMSP 9051 1.0
-docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 court CourtMSP 10051 1.0
-docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 identityprovider IdentityProviderMSP 11051 1.0
+for CC in CC_NAMES; do
+    echo "Installing ".$CC
+    docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh $CC peer0 citizen CitizenMSP 7051 1.0
+    docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh $CC peer0 police PoliceMSP 8051 1.0
+    docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh $CC peer0 forensics ForensicsMSP 9051 1.0
+    docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh $CC peer0 court CourtMSP 10051 1.0
+    docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh $CC peer0 identityprovider IdentityProviderMSP 11051 1.0
+    echo "Instantiating ".$CC
+    docker exec -it cli bash ./scripts/install-cc/instantiate.sh $CC
+done
 
-docker exec -it cli bash ./scripts/install-cc/instantiate.sh fcc
+echo "All Done!"
