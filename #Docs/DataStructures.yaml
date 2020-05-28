@@ -84,6 +84,7 @@ ChargeSheet:
 
 JudgementReport:
     Type: "judgementReport"
+    ID: Judgement Report ID
     Introduction:
         PreliminaryIssues: String describing the Preliminary Issues
         SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case
@@ -102,3 +103,4 @@ JudgementReport:
             - _index:
                   CitizenID: Citizen.ID if the Guilty Citizen
                   Statement: Statement of the Sentence
+    Complete: Boolean, if complete or not.

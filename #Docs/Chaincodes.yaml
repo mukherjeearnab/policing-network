@@ -37,3 +37,6 @@ ChargeSheet-CC:
 Judgement-CC:
     CreateNewJudgementReport: Create a new Judgement report given it's ChargeSheet ID.
     ReadJudgementReport: Read, check current status of Judgement Report, returns JSON.
+    AddEvidence: Add Evidence IDs to the Judegement Report.
+    AddSentence: Add Sentences to Citizens.
+    SetComplete: Set Complete and Lock all write Access to the Judgement Report.
