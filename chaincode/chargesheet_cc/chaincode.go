@@ -484,7 +484,7 @@ func (cc *Chaincode) addBriefReport(stub shim.ChaincodeStubInterface, params []s
 	}
 
 	// Check if Params are non-empty
-	for a := 0; a < 2; a++ {
+	for a := 0; a < len(params); a++ {
 		if len(params[a]) <= 0 {
 			return shim.Error("Argument must be a non-empty string")
 		}
@@ -548,7 +548,7 @@ func (cc *Chaincode) addChargedPerson(stub shim.ChaincodeStubInterface, params [
 	}
 
 	// Check if Params are non-empty
-	for a := 0; a < 2; a++ {
+	for a := 0; a < len(params); a++ {
 		if len(params[a]) <= 0 {
 			return shim.Error("Argument must be a non-empty string")
 		}
