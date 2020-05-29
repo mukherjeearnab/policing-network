@@ -19,6 +19,8 @@ type Chaincode struct {
 type evidence struct {
 	Type            string `json:"Type"`
 	ID              string `json:"ID"`
+	MimeType        string `json:"MimeType"`
+	Extention       string `json:"Extention"`
 	Description     string `json:"Description"`
 	DateTime        int    `json:"DateTime"`
 	InvestigationID string `json:"InvestigationID"`
@@ -53,21 +55,23 @@ func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []stri
 	}
 
 	// Check if sufficient Params passed
-	if len(params) != 4 {
+	if len(params) != 6 {
 		return shim.Error("Incorrect number of arguments. Expecting 2")
 	}
 
 	// Check if Params are non-empty
-	for a := 0; a < 4; a++ {
+	for a := 0; a < 6; a++ {
 		if len(params[a]) <= 0 {
 			return shim.Error("Argument must be a non-empty string")
 		}
 	}
 
 	ID := params[0]
-	Description := params[1]
-	DateTime := params[2]
-	InvestigationID := params[3]
+	MimeType := params[1]
+	Extention := params[2]
+	Description := params[3]
+	DateTime := params[4]
+	InvestigationID := params[5]
 	DateTimeI, err := strconv.Atoi(DateTime)
 	if err != nil {
 		return shim.Error("Error: Invalid DateTime!")
@@ -83,7 +87,7 @@ func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []stri
 
 	// Generate Evidence from params provided
 	evidence := &evidence{"evidence",
-		ID, Description, DateTimeI, InvestigationID}
+		ID, MimeType, Extention, Description, DateTimeI, InvestigationID}
 
 	// Get JSON bytes of Evidence struct
 	evidenceJSONasBytes, err := json.Marshal(evidence)

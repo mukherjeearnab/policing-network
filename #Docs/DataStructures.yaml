@@ -39,6 +39,8 @@ FIR:
 Evidence:
     Type: "evidence"
     ID: Hash of the Evidence File in IPFS
+    MimeType: Mime-Type of the File
+    Extention: Extention of the File
     Description: Description about the Evidence
     DateTime: Date & Time of Adding the Evidence
     InvestigationID: Hash / ID of the Investigation where the Evidence belongs.
