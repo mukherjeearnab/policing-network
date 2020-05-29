@@ -1,6 +1,7 @@
 CitizenProfile:
     Type: "citizenProfile"
     ID: ID's like Aadhar
+    Photo: Photo hash, stored in IPFS
     Name: Name of the Citizen
     Email: Email of the Citizen
     Phone: Phone of Citizen

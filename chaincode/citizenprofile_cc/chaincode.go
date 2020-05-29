@@ -20,6 +20,7 @@ type Chaincode struct {
 type citizen struct {
 	Type          string   `json:"Type"`
 	ID            string   `json:"ID"`
+	Photo         string   `json:"Photo"`
 	Name          string   `json:"Name"`
 	Email         string   `json:"Email"`
 	Phone         string   `json:"Phone"`
@@ -72,12 +73,12 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 	}
 
 	// Check if sufficient Params passed
-	if len(params) < 24 {
+	if len(params) < 25 {
 		return shim.Error("Incorrect number of arguments. Expecting (14+10 = 24)!")
 	}
 
 	// Check if Params are non-empty
-	for a := 0; a < 14; a++ {
+	for a := 0; a < 15; a++ {
 		if len(params[a]) <= 0 {
 			return shim.Error("Argument must be a non-empty string")
 		}
@@ -85,23 +86,24 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 
 	// Copy the Values from params[]
 	ID := params[0]
-	Name := params[1]
-	Email := params[2]
-	Phone := params[3]
-	DOB := params[4]
-	Gender := params[5]
-	BloodGroup := params[6]
-	EyeColor := params[7]
-	Nationality := params[8]
-	Address := params[9]
-	FathersName := params[10]
-	MothersName := params[11]
-	Religion := params[12]
-	Occupation := params[13]
+	Photo := params[1]
+	Name := params[2]
+	Email := params[3]
+	Phone := params[4]
+	DOB := params[5]
+	Gender := params[6]
+	BloodGroup := params[7]
+	EyeColor := params[8]
+	Nationality := params[9]
+	Address := params[10]
+	FathersName := params[11]
+	MothersName := params[12]
+	Religion := params[13]
+	Occupation := params[14]
 	var Fingerprint []string
 	var VerdictRecord []string
 
-	for a := 14; a < 24; a++ {
+	for a := 15; a < 25; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
 	DOBI, err := strconv.Atoi(DOB)
@@ -119,7 +121,7 @@ func (cc *Chaincode) createNewCitizenProfile(stub shim.ChaincodeStubInterface, p
 
 	// Generate Citizen from params provided
 	citizen := &citizen{"citizenProfile",
-		ID, Name, Email, Phone,
+		ID, Photo, Name, Email, Phone,
 		DOBI, Gender, BloodGroup, EyeColor,
 		Nationality, Address, FathersName,
 		MothersName, Religion, Occupation,
@@ -163,22 +165,23 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 
 	// Copy the Values from params[]
 	ID := params[0]
-	Name := params[1]
-	Email := params[2]
-	Phone := params[3]
-	DOB := params[4]
-	Gender := params[5]
-	BloodGroup := params[6]
-	EyeColor := params[7]
-	Nationality := params[8]
-	Address := params[9]
-	FathersName := params[10]
-	MothersName := params[11]
-	Religion := params[12]
-	Occupation := params[13]
+	Photo := params[1]
+	Name := params[2]
+	Email := params[3]
+	Phone := params[4]
+	DOB := params[5]
+	Gender := params[6]
+	BloodGroup := params[7]
+	EyeColor := params[8]
+	Nationality := params[9]
+	Address := params[10]
+	FathersName := params[11]
+	MothersName := params[12]
+	Religion := params[13]
+	Occupation := params[14]
 	var Fingerprint []string
 
-	for a := 14; a < 24; a++ {
+	for a := 15; a < 25; a++ {
 		Fingerprint = append(Fingerprint, params[a])
 	}
 	DOBI, err := strconv.Atoi(DOB)
@@ -202,6 +205,7 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 	}
 
 	// Update Citizen
+	citizenToUpdate.Photo = Photo
 	citizenToUpdate.Name = Name
 	citizenToUpdate.Email = Email
 	citizenToUpdate.Phone = Phone
