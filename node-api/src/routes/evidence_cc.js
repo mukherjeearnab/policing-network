@@ -1,0 +1,55 @@
+const ipfsAPI = require("ipfs-api");
+const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
+const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
+const Evidence = require("../../fabric/evidence_cc");
+
+const router = new express.Router();
+const ipfs = ipfsAPI("ipfs.infura.io", "5001", { protocol: "https" });
+const uploadPath = path.join(process.cwd(), "uploads");
+var upload = multer({ dest: uploadPath });
+
+router.get("/api/main/evidence/read/:id", JWTmiddleware, async (req, res) => {
+    const ID = req.params.id;
+    try {
+        let data = await Evidence.ReadEvidence(req.user.username, id);
+        res.status(200).send(data);
+    } catch {
+        res.status(404).send({ message: "Evidence NOT found!" });
+    }
+});
+
+router.post("/api/main/evidence/add", upload.single("file"), (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    try {
+        const oldname = "uploads/" + req.file.filename;
+        const newname = "uploads/" + req.file.filename + "." + req.file.originalname.split(".").pop();
+        fs.renameSync(oldname, newname, console.log);
+
+        let file = fs.readFileSync(newname);
+        let fileBuffer = new Buffer(file);
+
+        ipfs.files.add(fileBuffer, async (err, file) => {
+            if (err) {
+                console.log(err);
+            }
+            evidenceData = JSON.parse(req.body.payload);
+            evidenceData.ID = file.data.file[0].path;
+            evidenceData.MimeType = req.file.MimeType;
+            evidenceData.Extention = req.file.originalname.split(".").pop();
+            evidenceData.DateTime = Math.floor(new Date() / 1000).toString();
+            await Evidence.AddEvidence(req.user.username, evidenceData);
+            fs.unlinkSync(newname);
+            res.status(200).send({
+                message: "Evidence has been successfully added!",
+                hash: evidenceData,
+            });
+        });
+    } catch {
+        res.status(500).send({ message: "Evidence NOT Added!" });
+    }
+});
+
+module.exports = router;

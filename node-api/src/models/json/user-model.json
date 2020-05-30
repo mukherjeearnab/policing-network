@@ -1,0 +1,11 @@
+{
+    "username": {
+        "type": "String"
+    },
+    "passhash": {
+        "type": "String"
+    },
+    "group": {
+        "type": "String"
+    }
+}
