@@ -3,7 +3,7 @@ const path = require("path");
 
 ReadEvidence = async (user, ID) => {
     const ccp = require(`../ccp/connection-${user.group}.json`);
-    const walletPath = path.join(process.cwd(), "wallets");
+    const walletPath = path.join(process.cwd(), `wallet_${user.group}`);
     const wallet = new FileSystemWallet(walletPath);
     console.log(`Wallet path: ${walletPath}`);
 

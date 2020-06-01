@@ -42,7 +42,7 @@ router.get("/api/auth/login", (req, res) => {
 
 router.get("/api/auth/signup", JWTmiddleware, (req, res) => {
     const username = req.body.username;
-    const passhash = sha256("1234");
+    const passhash = sha256(reg.body.password);
     const group = req.body.group;
     try {
         let newUser = {
@@ -50,6 +50,12 @@ router.get("/api/auth/signup", JWTmiddleware, (req, res) => {
             passhash,
             group,
         };
+
+        // Create Wallet Identity for the Username
+        const regUser = require(`../../fabric/reg_user/reg-${newUser.group}`);
+        regUser(newUser);
+
+        // Add username & passhash to the MongoDB Auth Database
         User.create(newUser, function (err, res) {
             console.log(err);
             res.status(200).send({
