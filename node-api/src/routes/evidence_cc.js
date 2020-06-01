@@ -11,6 +11,8 @@ const uploadPath = path.join(process.cwd(), "uploads");
 var upload = multer({ dest: uploadPath });
 
 router.get("/api/main/evidence/read/:id", JWTmiddleware, async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     const ID = req.params.id;
     try {
         let data = await Evidence.ReadEvidence(req.user, ID);

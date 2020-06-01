@@ -6,6 +6,8 @@ const FIR = require("../../fabric/fir_cc");
 const router = new express.Router();
 
 router.get("/api/main/fir/read/:id", JWTmiddleware, async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     const ID = req.params.id;
     try {
         let data = await FIR.ReadFIR(req.user, ID);
@@ -16,6 +18,8 @@ router.get("/api/main/fir/read/:id", JWTmiddleware, async (req, res) => {
 });
 
 router.get("/api/main/fir/query", JWTmiddleware, async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     try {
         FIRData = JSON.parse(req.body.payload);
         let data = await FIR.ReadFIR(req.user, FIRData);
