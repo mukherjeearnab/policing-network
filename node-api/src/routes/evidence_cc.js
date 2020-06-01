@@ -13,7 +13,7 @@ var upload = multer({ dest: uploadPath });
 router.get("/api/main/evidence/read/:id", JWTmiddleware, async (req, res) => {
     const ID = req.params.id;
     try {
-        let data = await Evidence.ReadEvidence(req.user.username, id);
+        let data = await Evidence.ReadEvidence(req.user, ID);
         res.status(200).send(data);
     } catch {
         res.status(404).send({ message: "Evidence NOT found!" });
@@ -37,10 +37,10 @@ router.post("/api/main/evidence/add", upload.single("file"), (req, res) => {
             }
             evidenceData = JSON.parse(req.body.payload);
             evidenceData.ID = file.data.file[0].path;
-            evidenceData.MimeType = req.file.MimeType;
+            evidenceData.MimeType = req.file.mimetype;
             evidenceData.Extention = req.file.originalname.split(".").pop();
             evidenceData.DateTime = Math.floor(new Date() / 1000).toString();
-            await Evidence.AddEvidence(req.user.username, evidenceData);
+            await Evidence.AddEvidence(req.user, evidenceData);
             fs.unlinkSync(newname);
             res.status(200).send({
                 message: "Evidence has been successfully added!",

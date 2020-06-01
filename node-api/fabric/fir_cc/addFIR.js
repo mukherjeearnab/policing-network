@@ -19,17 +19,22 @@ AddEvidence = async (user, payload) => {
     const network = await gateway.getNetwork("mainchannel");
 
     // Get the contract from the network.
-    const contract = network.getContract("evidence_cc");
+    const contract = network.getContract("fir_cc");
 
     // Evaluate the specified transaction.
     await contract.submitTransaction(
-        "addEvidence",
+        "createNewFIR",
         payload.ID,
-        payload.MimeType,
-        payload.Extention,
-        payload.Description,
-        payload.DateTime,
-        payload.InvestigationID
+        payload.CitizenID,
+        payload.PoliceStation,
+        payload.District,
+        payload.PlaceOfOccurence,
+        payload.DateHour,
+        payload.Nature,
+        payload.Particulars,
+        payload.DescriptionOfAccused,
+        payload.DetailsOfWitness,
+        payload.Complaint
     );
 };
 
