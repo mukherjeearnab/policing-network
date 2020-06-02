@@ -152,12 +152,12 @@ func (cc *Chaincode) updateCitizenProfile(stub shim.ChaincodeStubInterface, para
 	}
 
 	// Check if sufficient Params passed
-	if len(params) < 24 {
+	if len(params) < 25 {
 		return shim.Error("Incorrect number of arguments. Expecting (14+10 = 24)!")
 	}
 
 	// Check if Params are non-empty
-	for a := 0; a < 14; a++ {
+	for a := 0; a < 15; a++ {
 		if len(params[a]) <= 0 {
 			return shim.Error("Argument must be a non-empty string")
 		}
