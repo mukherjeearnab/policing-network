@@ -1,0 +1,4 @@
+api:
+    auth:
+        login: Login route to obtain JsonWebToken.
+        signup: To signup and register new users on the Platform
