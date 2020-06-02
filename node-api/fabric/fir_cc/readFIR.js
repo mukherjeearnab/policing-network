@@ -1,7 +1,7 @@
 const { FileSystemWallet, Gateway } = require("fabric-network");
 const path = require("path");
 
-ReadEvidence = async (user, ID) => {
+ReadFIR = async (user, ID) => {
     const ccp = require(`../ccp/connection-${user.group}.json`);
     const walletPath = path.join(process.cwd(), `wallet_${user.group}`);
     const wallet = new FileSystemWallet(walletPath);
@@ -27,4 +27,4 @@ ReadEvidence = async (user, ID) => {
     return JSON.parse(result.toString());
 };
 
-module.exports = ReadEvidence;
+module.exports = ReadFIR;
