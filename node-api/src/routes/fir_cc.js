@@ -22,7 +22,7 @@ router.get("/api/main/fir/query", JWTmiddleware, async (req, res) => {
 
     try {
         FIRData = JSON.parse(req.body.payload);
-        let data = await FIR.ReadFIR(req.user, FIRData);
+        let data = await FIR.QueryFIR(req.user, FIRData);
         res.status(200).send(data);
     } catch {
         res.status(404).send({ message: "FIR NOT found!" });

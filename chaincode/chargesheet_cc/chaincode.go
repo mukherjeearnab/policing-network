@@ -69,8 +69,8 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 		return cc.addSectionOfLaw(stub, params)
 	} else if fcn == "addInvestigatingOfficer" {
 		return cc.addInvestigatingOfficer(stub, params)
-	} else if fcn == "addInvestigatingID" {
-		return cc.addInvestigatingID(stub, params)
+	} else if fcn == "addInvestigationID" {
+		return cc.addInvestigationID(stub, params)
 	} else if fcn == "addAccusedPerson" {
 		return cc.addAccusedPerson(stub, params)
 	} else if fcn == "addBriefReport" {
@@ -353,7 +353,7 @@ func (cc *Chaincode) addInvestigatingOfficer(stub shim.ChaincodeStubInterface, p
 }
 
 // Function to Add ID of Investigation's conducted
-func (cc *Chaincode) addInvestigatingID(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+func (cc *Chaincode) addInvestigationID(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check Access
 	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
 	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
