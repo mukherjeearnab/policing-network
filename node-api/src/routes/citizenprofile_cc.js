@@ -39,7 +39,7 @@ router.get("/api/main/citizen/query", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.post("/api/main/citizen/add", upload.single("file"), (req, res) => {
+router.post("/api/main/citizen/add", upload.single("file"), JWTmiddleware, (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -56,11 +56,12 @@ router.post("/api/main/citizen/add", upload.single("file"), (req, res) => {
             }
             CitizenData = JSON.parse(req.body.payload);
             CitizenData.Photo = file[0].path;
-            await Citizen.AddCitizen(req.user, CitizenData);
-            fs.unlinkSync(newname);
-            res.status(200).send({
-                message: "Citizen has been successfully added!",
-                payload: CitizenData,
+            Citizen.AddCitizen(req.user, CitizenData).then(() => {
+                fs.unlinkSync(newname);
+                res.status(200).send({
+                    message: "Citizen has been successfully added!",
+                    payload: CitizenData,
+                });
             });
         });
     } catch (error) {
@@ -69,7 +70,7 @@ router.post("/api/main/citizen/add", upload.single("file"), (req, res) => {
     }
 });
 
-router.post("/api/main/citizen/update/:id", upload.single("file"), (req, res) => {
+router.post("/api/main/citizen/update/:id", upload.single("file"), JWTmiddleware, (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const ID = req.params.id;
@@ -81,18 +82,19 @@ router.post("/api/main/citizen/update/:id", upload.single("file"), (req, res) =>
         let file = fs.readFileSync(newname);
         let fileBuffer = new Buffer(file);
 
-        ipfs.files.add(fileBuffer, async (err, file) => {
+        ipfs.files.add(fileBuffer, (err, file) => {
             if (err) {
                 console.log(err);
             }
             CitizenData = JSON.parse(req.body.payload);
             CitizenData.ID = ID;
             CitizenData.Photo = file[0].path;
-            await Citizen.UpdateCitizen(req.user, CitizenData);
-            fs.unlinkSync(newname);
-            res.status(200).send({
-                message: "Citizen Profile has been successfully Updated!",
-                payload: CitizenData,
+            Citizen.UpdateCitizen(req.user, CitizenData).then(() => {
+                fs.unlinkSync(newname);
+                res.status(200).send({
+                    message: "Citizen Profile has been successfully Updated!",
+                    payload: CitizenData,
+                });
             });
         });
     } catch (error) {
