@@ -6,7 +6,7 @@ const JWTConfig = require("../helpers/jwtConfig");
 const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
 const router = new express.Router();
 
-router.get("/api/auth/login", (req, res) => {
+router.post("/api/auth/login", (req, res) => {
     const username = req.body.username;
     const passhash = sha256(req.body.password);
     const group = req.body.group;
@@ -40,7 +40,7 @@ router.get("/api/auth/login", (req, res) => {
     }
 });
 
-router.get("/api/auth/signup", JWTmiddleware, (req, res) => {
+router.post("/api/auth/signup", (req, res) => {
     const username = req.body.username;
     const passhash = sha256(reg.body.password);
     const group = req.body.group;
