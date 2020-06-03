@@ -55,7 +55,7 @@ router.post("/api/main/citizen/add", upload.single("file"), (req, res) => {
                 console.log(err);
             }
             CitizenData = JSON.parse(req.body.payload);
-            CitizenData.Photo = file.data.file[0].path;
+            CitizenData.Photo = file[0].path;
             await Citizen.AddCitizen(req.user, CitizenData);
             fs.unlinkSync(newname);
             res.status(200).send({
@@ -87,7 +87,7 @@ router.post("/api/main/citizen/update/:id", upload.single("file"), (req, res) =>
             }
             CitizenData = JSON.parse(req.body.payload);
             CitizenData.ID = ID;
-            CitizenData.Photo = file.data.file[0].path;
+            CitizenData.Photo = file[0].path;
             await Citizen.UpdateCitizen(req.user, CitizenData);
             fs.unlinkSync(newname);
             res.status(200).send({
