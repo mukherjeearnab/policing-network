@@ -43,8 +43,8 @@ router.post("/api/main/chargesheet/addaccused/:id", JWTmiddleware, async (req, r
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddAccusedPerson(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddAccusedPerson(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
@@ -58,8 +58,8 @@ router.post("/api/main/chargesheet/addreport/:id", JWTmiddleware, async (req, re
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddBriefReport(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddBriefReport(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
@@ -73,8 +73,8 @@ router.post("/api/main/chargesheet/addcharged/:id", JWTmiddleware, async (req, r
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddChargedPerson(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddChargedPerson(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
@@ -88,8 +88,8 @@ router.post("/api/main/chargesheet/addfirid/:id", JWTmiddleware, async (req, res
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddFIRID(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddFIRID(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
@@ -103,8 +103,8 @@ router.post("/api/main/chargesheet/addlaw/:id", JWTmiddleware, async (req, res) 
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddSectionOfLaw(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddSectionOfLaw(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
@@ -118,8 +118,8 @@ router.post("/api/main/chargesheet/addofficer/:id", JWTmiddleware, async (req, r
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddInvestigatingOfficer(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddInvestigatingOfficer(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
@@ -133,8 +133,8 @@ router.post("/api/main/chargesheet/addinvestigation/:id", JWTmiddleware, async (
         const ID = req.params.id;
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.ID = ID;
-        let data = await ChargeSheet.AddInvestigationID(req.user, ChargeSheetData);
-        res.status(200).send(data);
+        await ChargeSheet.AddInvestigationID(req.user, ChargeSheetData);
+        res.status(200).send(ChargeSheetData);
     } catch (error) {
         console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
