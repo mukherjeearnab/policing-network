@@ -1,11 +1,9 @@
 const express = require("express");
 const md5 = require("md5");
-const multer = require("multer");
 const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
 const FIR = require("../../fabric/fir_cc");
 
 const router = new express.Router();
-var upload = multer({ dest: "uploads/" });
 
 router.get("/api/main/fir/read/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -31,7 +29,7 @@ router.get("/api/main/fir/query", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.post("/api/main/fir/add", upload.single("file"), async (req, res) => {
+router.post("/api/main/fir/add", async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
