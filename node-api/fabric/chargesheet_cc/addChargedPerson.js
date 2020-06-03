@@ -22,7 +22,7 @@ AddEvidence = async (user, payload) => {
     const contract = network.getContract("chargesheet_cc");
 
     // Evaluate the specified transaction.
-    await contract.addChargedPerson("addChargedPerson", payload.ID, payload.CitizenID, payload.SectionOfLaws);
+    await contract.submitTransaction("addChargedPerson", payload.ID, payload.CitizenID, payload.SectionOfLaws);
 };
 
 module.exports = AddEvidence;
