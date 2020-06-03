@@ -18,7 +18,7 @@ router.get("/api/main/judgement/read/:id", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.post("/api/main/judgement/add", async (req, res) => {
+router.post("/api/main/judgement/add", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
