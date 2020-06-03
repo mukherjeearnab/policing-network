@@ -36,7 +36,7 @@ router.post("/api/main/chargesheet/add", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.get("/api/main/chargesheet/addaccused/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addaccused/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -51,7 +51,7 @@ router.get("/api/main/chargesheet/addaccused/:id", JWTmiddleware, async (req, re
     }
 });
 
-router.get("/api/main/chargesheet/addreport/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addreport/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -66,7 +66,7 @@ router.get("/api/main/chargesheet/addreport/:id", JWTmiddleware, async (req, res
     }
 });
 
-router.get("/api/main/chargesheet/addcharged/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addcharged/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -81,7 +81,7 @@ router.get("/api/main/chargesheet/addcharged/:id", JWTmiddleware, async (req, re
     }
 });
 
-router.get("/api/main/chargesheet/addfirid/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addfirid/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -96,7 +96,7 @@ router.get("/api/main/chargesheet/addfirid/:id", JWTmiddleware, async (req, res)
     }
 });
 
-router.get("/api/main/chargesheet/addlaw/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addlaw/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -111,7 +111,7 @@ router.get("/api/main/chargesheet/addlaw/:id", JWTmiddleware, async (req, res) =
     }
 });
 
-router.get("/api/main/chargesheet/addofficer/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addofficer/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -126,7 +126,7 @@ router.get("/api/main/chargesheet/addofficer/:id", JWTmiddleware, async (req, re
     }
 });
 
-router.get("/api/main/chargesheet/addinvestigation/:id", JWTmiddleware, async (req, res) => {
+router.post("/api/main/chargesheet/addinvestigation/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
