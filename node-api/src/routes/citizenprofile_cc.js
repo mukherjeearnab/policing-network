@@ -1,6 +1,7 @@
 const ipfsAPI = require("ipfs-api");
 const express = require("express");
 const multer = require("multer");
+const path = require("path");
 const fs = require("fs");
 const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
 const Citizen = require("../../fabric/citizenprofile_cc");
@@ -17,7 +18,8 @@ router.get("/api/main/citizen/get/:id", JWTmiddleware, async (req, res) => {
     try {
         let data = await Citizen.ReadCitizen(req.user, ID);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "Citizen NOT found!" });
     }
 });
@@ -31,7 +33,8 @@ router.get("/api/main/citizen/query", JWTmiddleware, async (req, res) => {
 
         if (data.length == 0) res.status(404).send({ message: "No citizens matched the Query!" });
         else res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Server Error!" });
     }
 });
@@ -60,7 +63,8 @@ router.post("/api/main/citizen/add", upload.single("file"), (req, res) => {
                 payload: CitizenData,
             });
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Citizen NOT Added!" });
     }
 });
@@ -91,7 +95,8 @@ router.post("/api/main/citizen/update/:id", upload.single("file"), (req, res) =>
                 payload: CitizenData,
             });
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Citizen Profile NOT Updated!" });
     }
 });

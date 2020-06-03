@@ -12,7 +12,8 @@ router.get("/api/main/fir/read/:id", JWTmiddleware, async (req, res) => {
     try {
         let data = await FIR.ReadFIR(req.user, ID);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "FIR NOT found!" });
     }
 });
@@ -24,12 +25,13 @@ router.get("/api/main/fir/query", JWTmiddleware, async (req, res) => {
         FIRData = JSON.parse(req.body.payload);
         let data = await FIR.QueryFIR(req.user, FIRData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "FIR NOT found!" });
     }
 });
 
-router.post("/api/main/fir/add", async (req, res) => {
+router.post("/api/main/fir/add", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -41,7 +43,8 @@ router.post("/api/main/fir/add", async (req, res) => {
             message: "FIR has been successfully added!",
             id: FIRData.ID,
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Error! FIR NOT Added!" });
     }
 });

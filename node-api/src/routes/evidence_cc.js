@@ -1,5 +1,6 @@
 const ipfsAPI = require("ipfs-api");
 const express = require("express");
+const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
 const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
@@ -17,7 +18,8 @@ router.get("/api/main/evidence/read/:id", JWTmiddleware, async (req, res) => {
     try {
         let data = await Evidence.ReadEvidence(req.user, ID);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "Evidence NOT found!" });
     }
 });
@@ -49,7 +51,8 @@ router.post("/api/main/evidence/add", upload.single("file"), (req, res) => {
                 hash: evidenceData,
             });
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Evidence NOT Added!" });
     }
 });

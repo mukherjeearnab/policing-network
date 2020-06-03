@@ -12,7 +12,8 @@ router.get("/api/main/investigation/read/:id", JWTmiddleware, async (req, res) =
     try {
         let data = await Investigation.ReadInvestigation(req.user, ID);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "Investigation NOT found!" });
     }
 });
@@ -28,7 +29,8 @@ router.post("/api/main/investigation/add", async (req, res) => {
             message: "Investigation has been successfully added!",
             id: InvestigationData.ID,
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Error! Investigation NOT Added!" });
     }
 });
@@ -45,7 +47,8 @@ router.post("/api/main/investigation/update/:id", async (req, res) => {
             message: "Investigation has been successfully Updated!",
             id: InvestigationData.ID,
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Error! Investigation NOT Added!" });
     }
 });
@@ -62,7 +65,8 @@ router.post("/api/main/investigation/addreport/:id", async (req, res) => {
             message: "Investigation Report has been successfully Added!",
             id: InvestigationData.ID,
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Error! Investigation Report NOT Added!" });
     }
 });
@@ -79,7 +83,8 @@ router.post("/api/main/investigation/addarrest/:id", async (req, res) => {
             message: "Investigation Arrest has been successfully Added!",
             id: InvestigationData.ID,
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Error! Investigation Arrest NOT Added!" });
     }
 });

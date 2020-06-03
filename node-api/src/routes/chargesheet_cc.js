@@ -12,7 +12,8 @@ router.get("/api/main/chargesheet/read/:id", JWTmiddleware, async (req, res) => 
     try {
         let data = await ChargeSheet.ReadChargeSheet(req.user, ID);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -29,7 +30,8 @@ router.post("/api/main/chargesheet/add", async (req, res) => {
             message: "ChargeSheet has been successfully added!",
             id: ChargeSheetData.ID,
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({ message: "Error! ChargeSheet NOT Added!" });
     }
 });
@@ -43,7 +45,8 @@ router.get("/api/main/chargesheet/addaccused/:id", JWTmiddleware, async (req, re
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddAccusedPerson(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -57,7 +60,8 @@ router.get("/api/main/chargesheet/addreport/:id", JWTmiddleware, async (req, res
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddBriefReport(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -71,7 +75,8 @@ router.get("/api/main/chargesheet/addcharged/:id", JWTmiddleware, async (req, re
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddChargedPerson(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -85,7 +90,8 @@ router.get("/api/main/chargesheet/addfirid/:id", JWTmiddleware, async (req, res)
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddFIRID(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -99,7 +105,8 @@ router.get("/api/main/chargesheet/addlaw/:id", JWTmiddleware, async (req, res) =
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddSectionOfLaw(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -113,7 +120,8 @@ router.get("/api/main/chargesheet/addofficer/:id", JWTmiddleware, async (req, re
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddInvestigatingOfficer(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
@@ -127,7 +135,8 @@ router.get("/api/main/chargesheet/addinvestigation/:id", JWTmiddleware, async (r
         ChargeSheetData.ID = ID;
         let data = await ChargeSheet.AddInvestigationID(req.user, ChargeSheetData);
         res.status(200).send(data);
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(404).send({ message: "ChargeSheet NOT found!" });
     }
 });
