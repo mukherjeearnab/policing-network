@@ -50,7 +50,7 @@ router.post("/api/main/citizen/add", upload.single("file"), JWTmiddleware, (req,
         let file = fs.readFileSync(newname);
         let fileBuffer = new Buffer(file);
 
-        ipfs.files.add(fileBuffer, async (err, file) => {
+        ipfs.files.add(fileBuffer, (err, file) => {
             if (err) {
                 console.log(err);
             }
