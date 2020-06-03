@@ -33,7 +33,8 @@ router.post("/api/auth/login", (req, res) => {
                 });
             }
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({
             message: "Server Error!",
         });
@@ -62,7 +63,8 @@ router.post("/api/auth/signup", async (req, res) => {
                 message: "Sign Up Successful!",
             });
         });
-    } catch {
+    } catch (error) {
+        console.log(error);
         res.status(500).send({
             message: "Server Error!",
         });
