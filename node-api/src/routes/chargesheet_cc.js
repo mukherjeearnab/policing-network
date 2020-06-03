@@ -17,7 +17,7 @@ router.get("/api/main/chargesheet/read/:id", JWTmiddleware, async (req, res) => 
     }
 });
 
-router.post("/api/main/chargesheet/add", upload.single("file"), async (req, res) => {
+router.post("/api/main/chargesheet/add", async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
