@@ -25,6 +25,7 @@ RegisterUser = async (user) => {
     const enrollment = await ca.enroll({ enrollmentID: user.username, enrollmentSecret: secret });
     const userIdentity = X509WalletMixin.createIdentity("PoliceMSP", enrollment.certificate, enrollment.key.toBytes());
     await wallet.import(user.username, userIdentity);
+    console.log(`Added user ${user.username}`);
 };
 
 module.exports = RegisterUser;

@@ -40,9 +40,9 @@ router.post("/api/auth/login", (req, res) => {
     }
 });
 
-router.post("/api/auth/signup", (req, res) => {
+router.post("/api/auth/signup", async (req, res) => {
     const username = req.body.username;
-    const passhash = sha256(reg.body.password);
+    const passhash = sha256(req.body.password);
     const group = req.body.group;
     try {
         let newUser = {
@@ -53,10 +53,10 @@ router.post("/api/auth/signup", (req, res) => {
 
         // Create Wallet Identity for the Username
         const regUser = require(`../../fabric/reg_user/reg-${newUser.group}`);
-        regUser(newUser);
+        await regUser(newUser);
 
         // Add username & passhash to the MongoDB Auth Database
-        User.create(newUser, function (err, res) {
+        User.create(newUser, function (err, doc) {
             console.log(err);
             res.status(200).send({
                 message: "Sign Up Successful!",

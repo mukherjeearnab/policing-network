@@ -29,6 +29,7 @@ RegisterUser = async (user) => {
         enrollment.key.toBytes()
     );
     await wallet.import(user.username, userIdentity);
+    console.log(`Added user ${user.username}`);
 };
 
 module.exports = RegisterUser;
