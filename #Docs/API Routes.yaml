@@ -2,3 +2,44 @@ api:
     auth:
         login: Login route to obtain JsonWebToken.
         signup: To signup and register new users on the Platform
+
+    main:
+        chargesheet:
+            read/:id:
+            add:
+            addaccused/:id:
+            addreport/:id:
+            addcharged/:id:
+            addfirid/:id:
+            addlaw/:id:
+            addofficer/id:
+            addinvestigation/:id:
+
+        citizen:
+            get/:id:
+            query:
+            add:
+            update/:id:
+
+        evidence:
+            read/:id:
+            add:
+
+        fir:
+            read/:id:
+            query:
+            add:
+
+        investigation:
+            add:
+            read/:id:
+            update/:id:
+            addreport/:id:
+            addarrest/:id:
+
+        judgement:
+            read/:id:
+            add:
+            addevidence/:id:
+            addsentence/:id:
+            setcomplete/:id:
