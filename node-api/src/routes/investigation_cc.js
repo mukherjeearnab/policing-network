@@ -18,7 +18,7 @@ router.get("/api/main/investigation/read/:id", JWTmiddleware, async (req, res) =
     }
 });
 
-router.post("/api/main/investigation/add", async (req, res) => {
+router.post("/api/main/investigation/add", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
@@ -35,7 +35,7 @@ router.post("/api/main/investigation/add", async (req, res) => {
     }
 });
 
-router.post("/api/main/investigation/update/:id", async (req, res) => {
+router.post("/api/main/investigation/update/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const ID = req.params.id;
@@ -53,7 +53,7 @@ router.post("/api/main/investigation/update/:id", async (req, res) => {
     }
 });
 
-router.post("/api/main/investigation/addreport/:id", async (req, res) => {
+router.post("/api/main/investigation/addreport/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const ID = req.params.id;
@@ -71,7 +71,7 @@ router.post("/api/main/investigation/addreport/:id", async (req, res) => {
     }
 });
 
-router.post("/api/main/investigation/addarrest/:id", async (req, res) => {
+router.post("/api/main/investigation/addarrest/:id", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     const ID = req.params.id;
