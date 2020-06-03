@@ -35,20 +35,21 @@ router.post("/api/main/evidence/add", upload.single("file"), (req, res) => {
         let file = fs.readFileSync(newname);
         let fileBuffer = new Buffer(file);
 
-        ipfs.files.add(fileBuffer, async (err, file) => {
+        ipfs.files.add(fileBuffer, (err, file) => {
             if (err) {
                 console.log(err);
             }
             evidenceData = JSON.parse(req.body.payload);
-            evidenceData.ID = file.data.file[0].path;
+            evidenceData.ID = file[0].path;
             evidenceData.MimeType = req.file.mimetype;
             evidenceData.Extention = req.file.originalname.split(".").pop();
             evidenceData.DateTime = Math.floor(new Date() / 1000).toString();
-            await Evidence.AddEvidence(req.user, evidenceData);
-            fs.unlinkSync(newname);
-            res.status(200).send({
-                message: "Evidence has been successfully added!",
-                hash: evidenceData,
+            Evidence.AddEvidence(req.user, evidenceData).then(() => {
+                fs.unlinkSync(newname);
+                res.status(200).send({
+                    message: "Evidence has been successfully added!",
+                    hash: evidenceData,
+                });
             });
         });
     } catch (error) {
