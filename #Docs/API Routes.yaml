@@ -1,5 +1,5 @@
 api:
-    auth:
+    auth: #
         login: Login route to obtain JsonWebToken.
         signup: To signup and register new users on the Platform
 
@@ -15,22 +15,22 @@ api:
             addofficer/id:
             addinvestigation/:id:
 
-        citizen:
+        citizen: #
             get/:id:
             query:
             add:
             update/:id:
 
-        evidence:
+        evidence: #
             read/:id:
             add:
 
-        fir:
+        fir: #
             read/:id:
             query:
             add:
 
-        investigation:
+        investigation: #
             add:
             read/:id:
             update/:id:

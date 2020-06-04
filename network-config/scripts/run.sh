@@ -1,4 +1,6 @@
-#docker-compose -f docker-compose-couchdb.yaml up -d
+cd ..
+export IMAGE_TAG=1.4
+
 docker-compose -f docker-compose-cli.yaml up -d
 
 docker exec -it cli bash ./scripts/channel/create-channel.sh
