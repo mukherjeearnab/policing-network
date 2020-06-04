@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const config = require("./jwtConfig");
 
 middleware = (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     let token = req.headers["x-access-token"];
     if (token) {
         jwt.verify(

@@ -7,6 +7,8 @@ const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
 const router = new express.Router();
 
 router.post("/api/auth/login", (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     const username = req.body.username;
     const passhash = sha256(req.body.password);
     const group = req.body.group;
@@ -42,6 +44,8 @@ router.post("/api/auth/login", (req, res) => {
 });
 
 router.post("/api/auth/signup", async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     const username = req.body.username;
     const passhash = sha256(req.body.password);
     const group = req.body.group;
