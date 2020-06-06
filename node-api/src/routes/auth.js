@@ -75,4 +75,31 @@ router.post("/api/auth/signup", async (req, res) => {
     }
 });
 
+router.get("/api/auth/verify", (req, res) => {
+    let token = req.headers["x-access-token"];
+    if (token) {
+        jwt.verify(
+            token,
+            JWTConfig.secretKey,
+            {
+                algorithm: JWTConfig.algorithm,
+            },
+            function (err, decoded) {
+                if (err) {
+                    res.status(401).send({
+                        status: 0,
+                    });
+                }
+                res.status(200).send({
+                    status: 1,
+                });
+            }
+        );
+    } else {
+        res.status(401).send({
+            status: 0,
+        });
+    }
+});
+
 module.exports = router;
