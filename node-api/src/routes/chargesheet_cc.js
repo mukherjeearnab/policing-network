@@ -24,7 +24,7 @@ router.post("/api/main/chargesheet/add", JWTmiddleware, async (req, res) => {
     try {
         ChargeSheetData = JSON.parse(req.body.payload);
         ChargeSheetData.DateTime = Math.floor(new Date() / 1000).toString();
-        ChargeSheetData.ID = md5(ChargeSheetData);
+        ChargeSheetData.ID = md5(JSON.stringify(ChargeSheetData) + new Date().toString());
         await ChargeSheet.AddChargeSheet(req.user, ChargeSheetData);
         res.status(200).send({
             message: "ChargeSheet has been successfully added!",

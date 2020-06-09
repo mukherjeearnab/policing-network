@@ -37,7 +37,7 @@ router.post("/api/main/fir/add", JWTmiddleware, async (req, res) => {
     try {
         FIRData = JSON.parse(req.body.payload);
         FIRData.CitizenID = req.user.username;
-        FIRData.ID = md5(FIRData);
+        FIRData.ID = md5(JSON.stringify(FIRData) + new Date().toString());
         await FIR.AddFIR(req.user, FIRData);
         res.status(200).send({
             message: "FIR has been successfully added!",

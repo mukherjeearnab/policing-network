@@ -23,7 +23,7 @@ router.post("/api/main/investigation/add", JWTmiddleware, async (req, res) => {
 
     try {
         InvestigationData = JSON.parse(req.body.payload);
-        InvestigationData.ID = md5(InvestigationData + new Date());
+        InvestigationData.ID = md5(JSON.stringify(InvestigationData) + new Date().toString());
         await Investigation.AddInvestigation(req.user, InvestigationData);
         res.status(200).send({
             message: "Investigation has been successfully added!",

@@ -23,7 +23,7 @@ router.post("/api/main/judgement/add", JWTmiddleware, async (req, res) => {
 
     try {
         judgementData = JSON.parse(req.body.payload);
-        judgementData.ID = md5(judgementData);
+        judgementData.ID = md5(JSON.stringify(judgementData) + new Date().toString());
         await Judgement.AddJudgement(req.user, judgementData);
         res.status(200).send({
             message: "Judgement has been successfully added!",
