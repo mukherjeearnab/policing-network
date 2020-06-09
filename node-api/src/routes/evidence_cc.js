@@ -24,7 +24,7 @@ router.get("/api/main/evidence/read/:id", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.post("/api/main/evidence/add", upload.single("file"), (req, res) => {
+router.post("/api/main/evidence/add", upload.single("file"), JWTmiddleware, (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
