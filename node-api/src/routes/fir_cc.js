@@ -18,7 +18,7 @@ router.get("/api/main/fir/read/:id", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.get("/api/main/fir/query", JWTmiddleware, async (req, res) => {
+router.post("/api/main/fir/query", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {

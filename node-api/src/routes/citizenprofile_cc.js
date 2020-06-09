@@ -24,7 +24,7 @@ router.get("/api/main/citizen/get/:id", JWTmiddleware, async (req, res) => {
     }
 });
 
-router.get("/api/main/citizen/query", JWTmiddleware, async (req, res) => {
+router.post("/api/main/citizen/query", JWTmiddleware, async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
 
     try {
