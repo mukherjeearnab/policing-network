@@ -92,6 +92,8 @@ router.get("/api/auth/verify", (req, res) => {
                 }
                 res.status(200).send({
                     status: 1,
+                    username: decoded.username,
+                    group: decoded.group,
                 });
             }
         );
