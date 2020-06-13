@@ -54,6 +54,7 @@ Investigation:
         - _index:
               DateTime: Date & Time of the Report
               Content: Content of the Report
+    AccusedIDs: Array of accused persons
     Arrests: # Array of Arrest Objects
         - _index:
               CitizenID: ID if the Citizen Arrested
@@ -88,22 +89,26 @@ ChargeSheet:
 JudgementReport:
     Type: "judgementReport"
     ID: Judgement Report ID
-    Introduction:
-        PreliminaryIssues: String describing the Preliminary Issues
-        SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case
-        SummaryOfDefendantsCase: String describing the Summary of Defendant's Case
-        IssuesToBeDetermined: String describing the Issues to be Determined
-    Evidence: # Array of Evidence & Factual Findings
-        - _index:
-              ID: ID / Hash of the Evidence
-    ApplicableLaw:
-        StatutoryLaws: Array of Statutory Laws as Strings
-        CaseLaws: Array of Case Laws as Strings
-    Deliberations:
-        Guilt: String Describing the Guilt
-        AggravatingMitigatingCircumstances: String Describing the Aggravating or Mitigating Circumstances.
-        Sentence: # Array of Sentences to Citizens' Accused / Guilty
+    ChargeSheetID:
+    Hearings: # Array of Struct Hearing
+    FinalJudgement:
+        Date:
+        Introduction:
+            PreliminaryIssues: String describing the Preliminary Issues
+            SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case
+            SummaryOfDefendantsCase: String describing the Summary of Defendant's Case
+            IssuesToBeDetermined: String describing the Issues to be Determined
+        Evidence: # Array of Evidence & Factual Findings
             - _index:
-                  CitizenID: Citizen.ID if the Guilty Citizen
-                  Statement: Statement of the Sentence
+                  ID: ID / Hash of the Evidence
+        ApplicableLaw:
+            StatutoryLaws: Array of Statutory Laws as Strings
+            CaseLaws: Array of Case Laws as Strings
+        Deliberations:
+            Guilt: String Describing the Guilt
+            AggravatingMitigatingCircumstances: String Describing the Aggravating or Mitigating Circumstances.
+            Sentence: # Array of Sentences to Citizens' Accused / Guilty
+                - _index:
+                      CitizenID: Citizen.ID if the Guilty Citizen
+                      Statement: Statement of the Sentence
     Complete: Boolean, if complete or not.

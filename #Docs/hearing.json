@@ -1,0 +1,11 @@
+{
+    "Hearing" :{
+    "Date": String,
+    "Conclusion": {
+        "Evidence": String[],
+        "COntent": String
+    }
+
+}
+}
+
