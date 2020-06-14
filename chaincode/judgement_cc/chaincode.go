@@ -9,6 +9,7 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 	sc "github.com/hyperledger/fabric/protos/peer"
+	"strconv"
 )
 
 // Chaincode is the definition of the chaincode structure.
@@ -62,7 +63,7 @@ type judgementReport struct {
 	Type           string         `json:"Type"`
 	ID             string         `json:"ID"`
 	ChargeSheetID  string         `json:"ChargeSheetID"`
-	Hearings       hearing        `json:"Hearings"`
+	Hearings       []hearing      `json:"Hearings"`
 	FinalJudgement finalJudgement `json:"FinalJudgement"`
 	Complete       bool           `json:"Complete"`
 }
@@ -102,34 +103,31 @@ func (cc *Chaincode) createNewJudgementReport(stub shim.ChaincodeStubInterface, 
 	}
 
 	// Check if sufficient Params passed
-	if len(params) != 9 {
+	if len(params) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 9")
 	}
 
 	// Check if Params are non-empty
-	for a := 0; a < 9; a++ {
+	for a := 0; a < 3; a++ {
 		if len(params[a]) <= 0 {
 			return shim.Error("Argument must be a non-empty string")
 		}
 	}
 
 	ID := params[0]
-	PreliminaryIssues := params[1]
-	SummaryOfProsecutionsCase := params[2]
-	SummaryOfDefendantsCase := params[3]
-	IssuesToBeDetermined := params[4]
-	var Evidence []string
-	StatutoryLaws := params[5]
-	CaseLaws := params[6]
-	Guilt := params[7]
-	AggravatingMitigatingCircumstances := params[8]
-	var Sentence []sentence
+	ChargeSheetID := params[1]
+	HearingDate := params[2]
+	var Hearings []hearing
+	var FinalJudgement finalJudgement
 	Complete := false
+	HearingDateI, err := strconv.Atoi(HearingDate)
+	if err != nil {
+		return shim.Error("Error: Invalid HearingDate!")
+	}
+	var Conclusion conclusion
 
-	Introduction := introduction{PreliminaryIssues, SummaryOfProsecutionsCase,
-		SummaryOfDefendantsCase, IssuesToBeDetermined}
-	ApplicableLaw := applicableLaw{StatutoryLaws, CaseLaws}
-	Deliberations := deliberations{Guilt, AggravatingMitigatingCircumstances, Sentence}
+	FirstHearing := hearing{HearingDateI, Conclusion}
+	Hearings = append(Hearings, FirstHearing)
 
 	// Check if Asset exists with Key => ID
 	judgementReportAsBytes, err := stub.GetState(ID)
@@ -141,8 +139,7 @@ func (cc *Chaincode) createNewJudgementReport(stub shim.ChaincodeStubInterface, 
 
 	// Generate Asset from params provided
 	judgementReport := &judgementReport{"judgementReport",
-		ID, Introduction, Evidence, ApplicableLaw,
-		Deliberations, Complete}
+		ID, ChargeSheetID, Hearings, FinalJudgement, Complete}
 
 	// Convert to JSON bytes
 	judgementReportJSONasBytes, err := json.Marshal(judgementReport)
