@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/hyperledger/fabric/common/util"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	"github.com/hyperledger/fabric/core/chaincode/shim/ext/cid"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -230,6 +231,13 @@ func (cc *Chaincode) addFIRIDs(stub shim.ChaincodeStubInterface, params []string
 	err = stub.PutState(ID, chargeSheetJSONasBytes)
 	if err != nil {
 		return shim.Error(err.Error())
+	}
+
+	// Add ChargeSheet ID to The FIR with FIRID
+	args := util.ToChaincodeArgs("addChargeSheetToFIR", NewFIR, ID)
+	response := stub.InvokeChaincode("fir_cc", args, "mainchannel")
+	if response.Status != shim.OK {
+		return shim.Error(response.Message)
 	}
 
 	// Returned on successful execution of the function
