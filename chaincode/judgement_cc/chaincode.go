@@ -39,15 +39,32 @@ type deliberations struct {
 	Sentence                           []sentence `json:"Sentence"`
 }
 
-// Definition of the Asset structure
-type judgementReport struct {
-	Type          string        `json:"Type"`
-	ID            string        `json:"ID"`
+type finalJudgement struct {
+	Date          int           `json:"Date"`
 	Introduction  introduction  `json:"Introduction"`
 	Evidence      []string      `json:"Evidence"`
 	ApplicableLaw applicableLaw `json:"ApplicableLaw"`
 	Deliberations deliberations `json:"Deliberations"`
-	Complete      bool          `json:"Complete"`
+}
+
+type conclusion struct {
+	Evidence []string `json:"Evidence"`
+	Content  string   `json:"Content"`
+}
+
+type hearing struct {
+	Date       int        `json:"Date"`
+	Conclusion conclusion `json:"Conclusion"`
+}
+
+// Definition of the Asset structure
+type judgementReport struct {
+	Type           string         `json:"Type"`
+	ID             string         `json:"ID"`
+	ChargeSheetID  string         `json:"ChargeSheetID"`
+	Hearings       hearing        `json:"Hearings"`
+	FinalJudgement finalJudgement `json:"FinalJudgement"`
+	Complete       bool           `json:"Complete"`
 }
 
 // Init is called when the chaincode is instantiated by the blockchain network.
