@@ -1,3 +1,10 @@
 FIR -> Investigation & Evidence -> Arrest -> ChargeSheet -> Case sent to Court
 
 FIR -> Investigation & (NOT Enough Evidence) -> ChargeSheet -> Case Closed
+
+
+
+[judgement_cc]           [chargesheet_cc]       [fir_cc]
+Create Judgement     --> Add Judgement ID   --> Add Judgement ID
+(Get ChargeSheet ID)     (Set Judgement ID)     (Set Judgement ID)
+                         (Get FIR IDs)

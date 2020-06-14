@@ -34,7 +34,9 @@ FIR:
     DescriptionOfAccused: Description of Accused
     DetailsOfWitnesses: If Witnesses exist
     Complaint: Brief facts regarding the incident reported in an accurate way
-    InvestigationID: Investigation ID/ / Hash if Investigation has been started.
+    InvestigationID: Investigation ID/ / Hash if Investigation has been started
+    ChargeSheetID: ChargeSheets ID / Hash if Chargesheet has been started
+    JudgementID: Judgement ID / Hash if Judgement has been started
 
 Evidence:
     Type: "evidence"
@@ -62,6 +64,7 @@ Investigation:
               Date: Date of Arrest
               Mugshot: Array of Hash of Mugshots' stored in IPFS
     Evidence: Array of Evidence.ID stored in IPFS
+    Complete: Boolean, if Complete or NOT.
 
 ChargeSheet:
     Type: "chargesheet"
@@ -85,14 +88,21 @@ ChargeSheet:
               CitizenID: Citizen.ID of the Charged Person
               SectionOfLaws: Array of Section of Laws as String
     DespatchDate: Date of Despatch
+    JudgementID: Judgement ID, if Judgement is started.
+    Complete: Boolean, if Complete or NOT.
 
 JudgementReport:
     Type: "judgementReport"
     ID: Judgement Report ID
-    ChargeSheetID:
+    ChargeSheetID: ID of ChargeSheet from which Judgement started
     Hearings: # Array of Struct Hearing
+        - _index:
+              Date: Date of Hearing
+              Conclusion:
+                  Evidence: Array of Evidence IDs
+                  Content: Content of Hearing Conclusion; Text/String
     FinalJudgement:
-        Date:
+        Date: Date of Final Judgement
         Introduction:
             PreliminaryIssues: String describing the Preliminary Issues
             SummaryOfProsecutionsCase: String describing the Summary of Prosecution's Case

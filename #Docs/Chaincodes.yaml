@@ -2,7 +2,9 @@ FIR-CC:
     CreateNewFir: Create a new FIR.
     ReadFIR: Returns the JSON of an FIR's details.
     QueryFIR: Query FIR's based on FIR Details like => Creator, Police Station.
-    AddInvestigationToFIR: Add Investigation ID, if Investiation is Started for the given FIR.
+    AddInvestigationToFIR: Add Investigation ID, if Investiation is started for the given FIR.
+    AddChargeSheetToFIR: Add ChargeSheet ID, if ChargeSheet is started for the given FIR.
+    AddJudgementToFIR: Add Judgement ID, if Judgement is started for the given FIR.
 
 Evidence-CC:
     AddEvidence: Add Evidence to Investigation.
@@ -33,6 +35,7 @@ ChargeSheet-CC:
     AddAccusedPerson: Add Accused Persons to ChargeSheet.
     AddBriefReport: Add New Section to Brief Report.
     AddChargedPerson: Add new Charged Person to ChargeSheet.
+    AddJudgementID: Add Judgement ID, if Judgement has been started.
 
 Judgement-CC:
     CreateNewJudgementReport: Create a new Judgement report given it's ChargeSheet ID.
