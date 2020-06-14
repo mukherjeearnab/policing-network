@@ -315,7 +315,7 @@ func (cc *Chaincode) addChargeSheetToFIR(stub shim.ChaincodeStubInterface, param
 func (cc *Chaincode) addJudgementToFIR(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check Access
 	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
-	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+	if !authenticateCourt(creatorOrg, creatorCertIssuer) {
 		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
 	}
 
@@ -403,6 +403,11 @@ func authenticateCitizen(mspID string, certCN string) bool {
 
 func authenticatePolice(mspID string, certCN string) bool {
 	return (mspID == "PoliceMSP") && (certCN == "ca.police.example.com")
+}
+
+// Authenticate => Court
+func authenticateCourt(mspID string, certCN string) bool {
+	return (mspID == "CourtMSP") && (certCN == "ca.court.example.com")
 }
 
 // Query Helpers
