@@ -35,6 +35,8 @@ type fir struct {
 	DetailsOfWitness     string  `json:"DetailsOfWitness"`
 	Complaint            string  `json:"Complaint"`
 	InvestigationID      string  `json:"InvestigationID"`
+	ChargeSheetID        string  `json:"ChargeSheetID"`
+	JudgementID          string  `json:"JudgementID"`
 }
 
 // Init is called when the chaincode is instantiated by the blockchain network.
@@ -55,6 +57,10 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 		return cc.queryFIR(stub, params)
 	} else if fcn == "addInvestigationToFIR" {
 		return cc.addInvestigationToFIR(stub, params)
+	} else if fcn == "addChargeSheetToFIR" {
+		return cc.addChargeSheetToFIR(stub, params)
+	} else if fcn == "addJudgementToFIR" {
+		return cc.addJudgementToFIR(stub, params)
 	} else {
 		fmt.Println("Invoke() did not find func: " + fcn)
 		return shim.Error("Received unknown function invocation!")
@@ -93,6 +99,8 @@ func (cc *Chaincode) createNewFIR(stub shim.ChaincodeStubInterface, params []str
 	DetailsOfWitness := params[9]
 	Complaint := params[10]
 	InvestigationID := ""
+	ChargeSheetID := ""
+	JudgementID := ""
 	DateHourI, err := strconv.Atoi(DateHour)
 	if err != nil {
 		return shim.Error("Error: Invalid DateHour!")
@@ -114,7 +122,7 @@ func (cc *Chaincode) createNewFIR(stub shim.ChaincodeStubInterface, params []str
 		ID, CitizenID, PoliceStation, District,
 		PlaceOfOccurence, DateHourI, offence,
 		DescriptionOfAccused, DetailsOfWitness,
-		Complaint, InvestigationID}
+		Complaint, InvestigationID, ChargeSheetID, JudgementID}
 
 	FIRJSONasBytes, err := json.Marshal(FIR)
 	if err != nil {
@@ -229,6 +237,120 @@ func (cc *Chaincode) addInvestigationToFIR(stub shim.ChaincodeStubInterface, par
 
 	// Update FIR
 	FIRToUpdate.InvestigationID = InvestigationID
+
+	// Convert to JSON bytes
+	FIRJSONasBytes, err := json.Marshal(FIRToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated FIR with Key => ID
+	err = stub.PutState(ID, FIRJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(nil)
+}
+
+// Function to Add an ChargeSheetID to FIR
+func (cc *Chaincode) addChargeSheetToFIR(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
+	// Check if sufficient Params passed
+	if len(params) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	ID := params[0]
+	ChargeSheetID := params[1]
+
+	// Check if FIR exists with Key => ID
+	FIRAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get FIR Details!")
+	} else if FIRAsBytes == nil {
+		return shim.Error("Error: FIR Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	FIRToUpdate := fir{}
+	err = json.Unmarshal(FIRAsBytes, &FIRToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update FIR
+	FIRToUpdate.ChargeSheetID = ChargeSheetID
+
+	// Convert to JSON bytes
+	FIRJSONasBytes, err := json.Marshal(FIRToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put State of newly generated FIR with Key => ID
+	err = stub.PutState(ID, FIRJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(nil)
+}
+
+// Function to Add an JudgementID to FIR
+func (cc *Chaincode) addJudgementToFIR(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticatePolice(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
+	// Check if sufficient Params passed
+	if len(params) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	ID := params[0]
+	JudgementID := params[1]
+
+	// Check if FIR exists with Key => ID
+	FIRAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		return shim.Error("Failed to get FIR Details!")
+	} else if FIRAsBytes == nil {
+		return shim.Error("Error: FIR Does NOT Exist!")
+	}
+
+	// Create Update struct var
+	FIRToUpdate := fir{}
+	err = json.Unmarshal(FIRAsBytes, &FIRToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Update FIR
+	FIRToUpdate.JudgementID = JudgementID
 
 	// Convert to JSON bytes
 	FIRJSONasBytes, err := json.Marshal(FIRToUpdate)
