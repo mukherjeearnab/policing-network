@@ -16,7 +16,6 @@ import (
 type Chaincode struct {
 }
 
-// Definition of the Asset structure
 type introduction struct {
 	PreliminaryIssues         string `json:"PreliminaryIssues"`
 	SummaryOfProsecutionsCase string `json:"SummaryOfProsecutionsCase"`
@@ -49,8 +48,8 @@ type finalJudgement struct {
 }
 
 type conclusion struct {
-	Evidence []string `json:"Evidence"`
-	Content  string   `json:"Content"`
+	Evidence string `json:"Evidence"`
+	Content  string `json:"Content"`
 }
 
 type hearing struct {
@@ -82,10 +81,14 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 		return cc.createNewJudgementReport(stub, params)
 	} else if fcn == "readJudgementReport" {
 		return cc.readJudgementReport(stub, params)
-	} else if fcn == "addEvidence" {
-		return cc.addEvidence(stub, params)
-	} else if fcn == "addSentence" {
-		return cc.addSentence(stub, params)
+	} else if fcn == "createHearing" {
+		return cc.createHearing(stub, params)
+	} else if fcn == "concludeHearing" {
+		return cc.concludeHearing(stub, params)
+	} else if fcn == "initFinalJudgement" {
+		return cc.initFinalJudgement(stub, params)
+	} else if fcn == "addEvidenceToFinalJudgement" {
+		return cc.addEvidenceToFinalJudgement(stub, params)
 	} else if fcn == "setComplete" {
 		return cc.setComplete(stub, params)
 	} else {
@@ -183,8 +186,235 @@ func (cc *Chaincode) readJudgementReport(stub shim.ChaincodeStubInterface, param
 	return shim.Success(judgementReportAsBytes)
 }
 
-// Function to update an judgementReport's owner (U of CRUD)
-func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+// Function to Add new Hearing Session
+func (cc *Chaincode) createHearing(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticateCourt(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
+	// Check if sufficient Params passed
+	if len(params) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 2; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	ID := params[0]
+	HearingDate := params[1]
+	HearingDateI, err := strconv.Atoi(HearingDate)
+	if err != nil {
+		return shim.Error("Error: Invalid HearingDate!")
+	}
+	var Conclusion conclusion
+	NewHearing := hearing{HearingDateI, Conclusion}
+
+	// Get State of Asset with Key => ID
+	judgementReportAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get state for " + ID + "\"}"
+		return shim.Error(jsonResp)
+	} else if judgementReportAsBytes == nil {
+		jsonResp := "{\"Error\":\"Asset does not exist!\"}"
+		return shim.Error(jsonResp)
+	}
+
+	// Create new Asset Variable
+	judgementReportToUpdate := judgementReport{}
+	err = json.Unmarshal(judgementReportAsBytes, &judgementReportToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Check if Judgement is Complete or NOT
+	if judgementReportToUpdate.Complete {
+		return shim.Error("Error: Judgement is Complete & Locked!")
+	}
+
+	if judgementReportToUpdate.Hearings[len(judgementReportToUpdate.Hearings)-1].Conclusion.Content == "" {
+		return shim.Error("Error: Previous Hearing NOT Concluded!")
+	}
+
+	// Append judgementReport.Hearings => NewHearing
+	judgementReportToUpdate.Hearings = append(judgementReportToUpdate.Hearings, NewHearing)
+
+	// Convert to Byte[]
+	judgementReportJSONasBytes, err := json.Marshal(judgementReportToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put updated State of the Asset with Key => ID
+	err = stub.PutState(ID, judgementReportJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(nil)
+}
+
+// Function to Add new Hearing Session
+func (cc *Chaincode) concludeHearing(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticateCourt(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
+	// Check if sufficient Params passed
+	if len(params) != 3 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 3; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	ID := params[0]
+	Evidence := params[1]
+	Content := params[2]
+
+	// Get State of Asset with Key => ID
+	judgementReportAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get state for " + ID + "\"}"
+		return shim.Error(jsonResp)
+	} else if judgementReportAsBytes == nil {
+		jsonResp := "{\"Error\":\"Asset does not exist!\"}"
+		return shim.Error(jsonResp)
+	}
+
+	// Create new Asset Variable
+	judgementReportToUpdate := judgementReport{}
+	err = json.Unmarshal(judgementReportAsBytes, &judgementReportToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Check if Judgement is Complete or NOT
+	if judgementReportToUpdate.Complete {
+		return shim.Error("Error: Judgement is Complete & Locked!")
+	}
+
+	//Update Latest Hearing (Conclude)
+	judgementReportToUpdate.Hearings[len(judgementReportToUpdate.Hearings)-1].Conclusion.Evidence = Evidence
+	judgementReportToUpdate.Hearings[len(judgementReportToUpdate.Hearings)-1].Conclusion.Content = Content
+
+	// Convert to Byte[]
+	judgementReportJSONasBytes, err := json.Marshal(judgementReportToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put updated State of the Asset with Key => ID
+	err = stub.PutState(ID, judgementReportJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(nil)
+}
+
+// Function to Init. Final Judgement
+func (cc *Chaincode) initFinalJudgement(stub shim.ChaincodeStubInterface, params []string) sc.Response {
+	// Check Access
+	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
+	if !authenticateCourt(creatorOrg, creatorCertIssuer) {
+		return shim.Error("{\"Error\":\"Access Denied!\",\"Payload\":{\"MSP\":\"" + creatorOrg + "\",\"CA\":\"" + creatorCertIssuer + "\"}}")
+	}
+
+	// Check if sufficient Params passed
+	if len(params) != 10 {
+		return shim.Error("Incorrect number of arguments. Expecting 3")
+	}
+
+	// Check if Params are non-empty
+	for a := 0; a < 10; a++ {
+		if len(params[a]) <= 0 {
+			return shim.Error("Argument must be a non-empty string")
+		}
+	}
+
+	ID := params[0]
+	Date := params[1]
+	PreliminaryIssues := params[2]
+	SummaryOfProsecutionsCase := params[3]
+	SummaryOfDefendantsCase := params[4]
+	IssuesToBeDetermined := params[5]
+	var Evidence []string
+	StatutoryLaws := params[6]
+	CaseLaws := params[7]
+	Guilt := params[8]
+	AggravatingMitigatingCircumstances := params[9]
+	var Sentence []sentence
+	DateI, err := strconv.Atoi(Date)
+	if err != nil {
+		return shim.Error("Error: Invalid FinalJudgement Date!")
+	}
+
+	Introduction := introduction{PreliminaryIssues, SummaryOfProsecutionsCase,
+		SummaryOfDefendantsCase, IssuesToBeDetermined}
+	ApplicableLaw := applicableLaw{StatutoryLaws, CaseLaws}
+	Deliberations := deliberations{Guilt, AggravatingMitigatingCircumstances, Sentence}
+
+	FinalJudgement := finalJudgement{DateI,
+		Introduction, Evidence,
+		ApplicableLaw, Deliberations}
+
+	// Get State of Asset with Key => ID
+	judgementReportAsBytes, err := stub.GetState(ID)
+	if err != nil {
+		jsonResp := "{\"Error\":\"Failed to get state for " + ID + "\"}"
+		return shim.Error(jsonResp)
+	} else if judgementReportAsBytes == nil {
+		jsonResp := "{\"Error\":\"Asset does not exist!\"}"
+		return shim.Error(jsonResp)
+	}
+
+	// Create new Asset Variable
+	judgementReportToUpdate := judgementReport{}
+	err = json.Unmarshal(judgementReportAsBytes, &judgementReportToUpdate) //unmarshal it aka JSON.parse()
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Check if Judgement is Complete or NOT
+	if judgementReportToUpdate.Complete {
+		return shim.Error("Error: Judgement is Complete & Locked!")
+	}
+
+	// Update judgementReport.Deliberations.Sentence => NewSentence
+	judgementReportToUpdate.FinalJudgement = FinalJudgement
+
+	// Convert to Byte[]
+	judgementReportJSONasBytes, err := json.Marshal(judgementReportToUpdate)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Put updated State of the Asset with Key => ID
+	err = stub.PutState(ID, judgementReportJSONasBytes)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+
+	// Returned on successful execution of the function
+	return shim.Success(nil)
+}
+
+// Add Evidence to Final Judgement
+func (cc *Chaincode) addEvidenceToFinalJudgement(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check Access
 	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
 	if !authenticateCourt(creatorOrg, creatorCertIssuer) {
@@ -228,8 +458,13 @@ func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []stri
 		return shim.Error("Error: Judgement is Complete & Locked!")
 	}
 
+	// Check if FinalJudgement is Initialized
+	if judgementReportToUpdate.FinalJudgement.Date == 0 {
+		return shim.Error("Error: Final Judgement NOT Initialized!")
+	}
+
 	// Update judgementReport.Evidence => NewEvidence
-	judgementReportToUpdate.Evidence = append(judgementReportToUpdate.Evidence, NewEvidence)
+	judgementReportToUpdate.FinalJudgement.Evidence = append(judgementReportToUpdate.FinalJudgement.Evidence, NewEvidence)
 
 	// Convert to Byte[]
 	judgementReportJSONasBytes, err := json.Marshal(judgementReportToUpdate)
@@ -247,7 +482,7 @@ func (cc *Chaincode) addEvidence(stub shim.ChaincodeStubInterface, params []stri
 	return shim.Success(nil)
 }
 
-// Function to Delete an judgementReport (D of CRUD)
+// Function to Add Sentence to Citizen
 func (cc *Chaincode) addSentence(stub shim.ChaincodeStubInterface, params []string) sc.Response {
 	// Check Access
 	creatorOrg, creatorCertIssuer, err := getTxCreatorInfo(stub)
@@ -294,8 +529,13 @@ func (cc *Chaincode) addSentence(stub shim.ChaincodeStubInterface, params []stri
 		return shim.Error("Error: Judgement is Complete & Locked!")
 	}
 
+	// Check if FinalJudgement is Initialized
+	if judgementReportToUpdate.FinalJudgement.Date == 0 {
+		return shim.Error("Error: Final Judgement NOT Initialized!")
+	}
+
 	// Update judgementReport.Deliberations.Sentence => NewSentence
-	judgementReportToUpdate.Deliberations.Sentence = append(judgementReportToUpdate.Deliberations.Sentence, NewSentence)
+	judgementReportToUpdate.FinalJudgement.Deliberations.Sentence = append(judgementReportToUpdate.FinalJudgement.Deliberations.Sentence, NewSentence)
 
 	// Convert to Byte[]
 	judgementReportJSONasBytes, err := json.Marshal(judgementReportToUpdate)
