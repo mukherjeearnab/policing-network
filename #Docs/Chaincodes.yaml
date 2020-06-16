@@ -16,7 +16,9 @@ Investigation-CC:
     UpdateInvestigation: Update the Status of Investigation, or Add Events to Investigation.
     AddEvidence: Add Evidence to Investigation.
     AddReport: Add Report to Investigation.
+    AddAccusedID: Add Citizen ID of accused individuals.
     AddArrest: Add Arrest to Investigation.
+    SetComplete: Set the Investigation Complete & Lock all Write Functions.
 
 CitizenProfile-CC:
     CreateNewCitizenProfile: Create a new Profile for some Citizen.
@@ -36,6 +38,7 @@ ChargeSheet-CC:
     AddBriefReport: Add New Section to Brief Report.
     AddChargedPerson: Add new Charged Person to ChargeSheet.
     AddJudgementID: Add Judgement ID, if Judgement has been started.
+    SetComplete: Set the ChargeSheet Complete & Lock All Write Functions.
 
 Judgement-CC:
     CreateNewJudgementReport: Create a new Judgement report given it's ChargeSheet ID.
