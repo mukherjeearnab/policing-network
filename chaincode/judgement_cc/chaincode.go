@@ -89,6 +89,8 @@ func (cc *Chaincode) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 		return cc.initFinalJudgement(stub, params)
 	} else if fcn == "addEvidenceToFinalJudgement" {
 		return cc.addEvidenceToFinalJudgement(stub, params)
+	} else if fcn == "addSentence" {
+		return cc.addSentence(stub, params)
 	} else if fcn == "setComplete" {
 		return cc.setComplete(stub, params)
 	} else {

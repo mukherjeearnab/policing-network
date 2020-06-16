@@ -40,6 +40,9 @@ ChargeSheet-CC:
 Judgement-CC:
     CreateNewJudgementReport: Create a new Judgement report given it's ChargeSheet ID.
     ReadJudgementReport: Read, check current status of Judgement Report, returns JSON.
-    AddEvidence: Add Evidence IDs to the Judegement Report.
+    CreateHearing: Create new Hearing Date.
+    ConcludeHearing: Conclude Latest Hearing with Evidence & Content.
+    InitFinalJudgement: Initialize Final Judgement.
+    AddEvidenceToFinalJudgement: Add Evidence IDs to the Final Judegement Report.
     AddSentence: Add Sentences to Citizens.
     SetComplete: Set Complete and Lock all write Access to the Judgement Report.
