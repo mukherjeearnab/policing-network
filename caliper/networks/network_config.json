@@ -63,12 +63,8 @@
     "organizations": {
         "citizen": {
             "mspid": "CitizenMSP",
-            "peers": [
-                "peer0.citizen.example.com"
-            ],
-            "certificateAuthorities": [
-                "ca.citizen.example.com"
-            ]
+            "peers": ["peer0.citizen.example.com"],
+            "certificateAuthorities": ["ca.citizen.example.com"]
         }
     },
     "peers": {
