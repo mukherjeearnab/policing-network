@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports.info = "Template callback";
+module.exports.info = "Create and Read Evidences";
 
-const contractID = "fabcar";
-const version = "0.0.1";
+const contractID = "evidence_cc";
+const version = "1.0";
 
 let bc, ctx, clientArgs, clientIdx;
 
@@ -15,11 +15,11 @@ module.exports.init = async function (blockchain, context, args) {
     for (let i = 0; i < clientArgs.assets; i++) {
         try {
             const assetID = `${clientIdx}_${i}`;
-            console.log(`Client ${clientIdx}: Creating asset ${assetID}`);
+            console.log(`Client ${clientIdx}: Creating evidence ${assetID}`);
             const myArgs = {
-                chaincodeFunction: "createCar",
+                chaincodeFunction: "addEvidence",
                 invokerIdentity: "Admin@org1.example.com",
-                chaincodeArguments: [assetID, "blue", "ford", "fiesta", "Jamie"],
+                chaincodeArguments: [assetID, "jpeg", ".jpg", "An image.", "10000", "af34bce1"],
             };
             await bc.bcObj.invokeSmartContract(ctx, contractID, version, myArgs);
         } catch (error) {
@@ -31,7 +31,7 @@ module.exports.init = async function (blockchain, context, args) {
 module.exports.run = function () {
     const randomId = Math.floor(Math.random() * clientArgs.assets);
     const myArgs = {
-        chaincodeFunction: "queryCar",
+        chaincodeFunction: "readEvidence",
         invokerIdentity: "Admin@org1.example.com",
         chaincodeArguments: [`${clientIdx}_${randomId}`],
     };
