@@ -1,0 +1,15 @@
+chaincode/chargesheet_cc/vendor/
+chaincode/citizenprofile_cc/vendor/
+chaincode/evidence_cc/vendor/
+chaincode/fir_cc/vendor/
+chaincode/github.com/
+chaincode/investigation_cc/vendor/
+chaincode/judgement_cc/vendor/
+connections/connection-citizen.json
+connections/connection-court.json
+connections/connection-forensics.json
+connections/connection-identityprovider.json
+connections/connection-police.json
+network-config/base/docker-compose-base.yaml
+network-config/channel-artifacts/
+network-config/crypto-config/
