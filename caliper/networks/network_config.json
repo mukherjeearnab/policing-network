@@ -64,7 +64,13 @@
         "citizen": {
             "mspid": "CitizenMSP",
             "peers": ["peer0.citizen.example.com"],
-            "certificateAuthorities": ["ca.citizen.example.com"]
+            "certificateAuthorities": ["ca.citizen.example.com"],
+            "adminPrivateKey": {
+                "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/f3568c11470899889a7524d3e191e17b6e4f52a564a1b98dda83a1c897361782_sk"
+            },
+            "signedCert": {
+                "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/signcerts/Admin@citizen.example.com-cert.pem"
+            }
         }
     },
     "peers": {
