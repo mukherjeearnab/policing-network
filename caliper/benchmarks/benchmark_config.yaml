@@ -7,19 +7,39 @@ test:
     rounds:
         - label: readAsset
           description: Read Asset benchmark
-          chaincodeId: evidence_cc
+          chaincodeId: fir_cc
           txDuration: 30
           rateControl:
               type: fixed-backlog
               opts:
                   unfinished_per_client: 2
-          callback: benchmarks/callbacks/readAssetBenchmarks.js
+          callback: benchmarks/callbacks/readAssetBenchmark.js
           arguments:
               assets: 10
 
 monitor:
     type:
-        - none
+        - docker
+        - process
+    docker:
+        containers:
+            - all
+        charting:
+            polar:
+                metrics:
+                    - all
+            bar:
+                metrics:
+                    - Memory(max)
+    process:
+        processes:
+            - command: node
+              arguments: fabricClientWorker.js
+              multiOutput: avg
+        charting:
+            bar:
+                metrics:
+                    - all
 
 observer:
     type: local
