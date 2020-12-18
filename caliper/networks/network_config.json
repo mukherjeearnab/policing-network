@@ -275,6 +275,46 @@
             "httpOptions": {
                 "verify": false
             }
+        },
+        "ca.police.example.com": {
+            "url": "https://localhost:8054",
+            "caName": "ca-police",
+            "tlsCACerts": {
+                "pem": "CAPEM2"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.forensics.example.com": {
+            "url": "https://localhost:9054",
+            "caName": "ca-forensics",
+            "tlsCACerts": {
+                "pem": "CAPEM3"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.court.example.com": {
+            "url": "https://localhost:10054",
+            "caName": "ca-court",
+            "tlsCACerts": {
+                "pem": "CAPEM4"
+            },
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.identityprovider.example.com": {
+            "url": "https://localhost:11054",
+            "caName": "ca-identityprovider",
+            "tlsCACerts": {
+                "pem": "CAPEM5"
+            },
+            "httpOptions": {
+                "verify": false
+            }
         }
     },
     "version": "1.0"
