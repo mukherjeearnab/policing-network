@@ -8,12 +8,25 @@ test:
         - label: readAsset
           description: Read Asset benchmark
           chaincodeId: fir_cc
-          txDuration: 30
+          txDuration: 60
           rateControl:
               type: fixed-backlog
               opts:
                   unfinished_per_client: 2
           callback: benchmarks/callbacks/readAssetBenchmark.js
+          arguments:
+              assets: 10
+              seed: 1
+        - label: createAsset
+          description: Create Asset benchmark
+          chaincodeId: fir_cc
+          txDuration: 60
+          rateControl:
+              type: fixed-backlog
+              opts:
+                  #   tps: 2
+                  unfinished_per_client: 2
+          callback: benchmarks/callbacks/createAssetBenchmark.js
           arguments:
               assets: 10
 

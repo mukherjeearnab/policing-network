@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports.info = "Create and Read FIR";
+module.exports.info = "Create FIRs";
 
 const contractID = "fir_cc";
 const version = "1.0";
@@ -12,9 +12,12 @@ module.exports.init = async function (blockchain, context, args) {
     ctx = context;
     clientArgs = args;
     clientIdx = context.clientIdx.toString();
+};
+
+module.exports.run = async function () {
     for (let i = 0; i < clientArgs.assets; i++) {
         try {
-            const assetID = `FIR_${clientIdx}_${i}_${clientArgs.seed}`;
+            const assetID = `FIR_${clientIdx}_${i}_${Date.now()}`;
             console.log(`Client ${clientIdx}: Creating FIR ${assetID}`);
             const myArgs = {
                 chaincodeFunction: "createNewFIR",
@@ -33,21 +36,11 @@ module.exports.init = async function (blockchain, context, args) {
                     "XCV",
                 ],
             };
-            await bc.bcObj.invokeSmartContract(ctx, contractID, version, myArgs);
+            return await bc.bcObj.invokeSmartContract(ctx, contractID, version, myArgs);
         } catch (error) {
             console.log(`Client ${clientIdx}: Smart Contract threw with error: ${error}`);
         }
     }
-};
-
-module.exports.run = function () {
-    const randomId = Math.floor(Math.random() * clientArgs.assets);
-    const myArgs = {
-        chaincodeFunction: "readFIR",
-        invokerIdentity: "Admin@citizen.example.com",
-        chaincodeArguments: [`FIR_${clientIdx}_${randomId}_${clientArgs.seed}`],
-    };
-    return bc.bcObj.querySmartContract(ctx, contractID, version, myArgs);
 };
 
 module.exports.end = async function () {};
