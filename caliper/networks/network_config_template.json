@@ -217,7 +217,7 @@
         "peer0.citizen.example.com": {
             "url": "grpcs://localhost:7051",
             "tlsCACerts": {
-                "pem": "PEM1"
+                "pem": "PEERPEM1"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.citizen.example.com",
@@ -227,7 +227,7 @@
         "peer0.police.example.com": {
             "url": "grpcs://localhost:8051",
             "tlsCACerts": {
-                "pem": "PEM2"
+                "pem": "PEERPEM2"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.police.example.com",
@@ -237,7 +237,7 @@
         "peer0.forensics.example.com": {
             "url": "grpcs://localhost:9051",
             "tlsCACerts": {
-                "pem": "PEM3"
+                "pem": "PEERPEM3"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.forensics.example.com",
@@ -247,7 +247,7 @@
         "peer0.court.example.com": {
             "url": "grpcs://localhost:10051",
             "tlsCACerts": {
-                "pem": "PEM4"
+                "pem": "PEERPEM4"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.court.example.com",
