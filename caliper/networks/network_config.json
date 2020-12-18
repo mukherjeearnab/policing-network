@@ -13,7 +13,7 @@
                 },
                 "organization": "citizen",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/61ec15583beb3279ef914b87e722f27162a2516f2de4a0344bf399dbb902859d_sk"
+                    "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/C1_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
                     "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/signcerts/Admin@citizen.example.com-cert.pem"
@@ -37,7 +37,7 @@
                 },
                 "organization": "police",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/keystore/61ec15583beb3279ef914b87e722f27162a2516f2de4a0344bf399dbb902859d_sk"
+                    "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/keystore/C2_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
                     "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/signcerts/Admin@police.example.com-cert.pem"
@@ -61,7 +61,7 @@
                 },
                 "organization": "forensics",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/keystore/61ec15583beb3279ef914b87e722f27162a2516f2de4a0344bf399dbb902859d_sk"
+                    "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/keystore/C3_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
                     "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/signcerts/Admin@forensics.example.com-cert.pem"
@@ -85,7 +85,7 @@
                 },
                 "organization": "court",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/keystore/61ec15583beb3279ef914b87e722f27162a2516f2de4a0344bf399dbb902859d_sk"
+                    "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/keystore/C4_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
                     "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/signcerts/Admin@court.example.com-cert.pem"
@@ -109,7 +109,7 @@
                 },
                 "organization": "identityprovider",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/keystore/61ec15583beb3279ef914b87e722f27162a2516f2de4a0344bf399dbb902859d_sk"
+                    "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/keystore/C5_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
                     "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/signcerts/Admin@identityprovider.example.com-cert.pem"
@@ -162,7 +162,7 @@
             "peers": ["peer0.citizen.example.com"],
             "certificateAuthorities": ["ca.citizen.example.com"],
             "adminPrivateKey": {
-                "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/61ec15583beb3279ef914b87e722f27162a2516f2de4a0344bf399dbb902859d_sk"
+                "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/C1_PRIVATE_KEY"
             },
             "signedCert": {
                 "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/signcerts/Admin@citizen.example.com-cert.pem"
@@ -173,7 +173,7 @@
         "peer0.citizen.example.com": {
             "url": "grpcs://localhost:7051",
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRALUaMtjJ7xyqBTELQ+BgoFYwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE2NpdGl6ZW4uZXhhbXBsZS5jb20xIjAgBgNVBAMT\nGXRsc2NhLmNpdGl6ZW4uZXhhbXBsZS5jb20wHhcNMjAxMjE2MTYwNDAwWhcNMzAx\nMjE0MTYwNDAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTY2l0aXplbi5leGFtcGxl\nLmNvbTEiMCAGA1UEAxMZdGxzY2EuY2l0aXplbi5leGFtcGxlLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABOXsC0+Om0m2WdkbIxSdmCIT9va4aJWjqJO5EQ1b\nyvKNWWm4K+agLW8VaD+TpUWV+LMJes0j5ZG40FHMRqvMRcWjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQgriFFtivoZxKqsiYkMKotRQBm29VhvlhwaqWNbX3/\n0XcwCgYIKoZIzj0EAwIDSAAwRQIhAISMctceZUen7aWSMhdXwgHGGx9INw35hzDW\nCsip2tOzAiBjDqrWhtN8Tg8hnd6EQO9bW4X7VosEbcxVEZj7qc73Ew==\n-----END CERTIFICATE-----\n"
+                "pem": "PEM1"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.citizen.example.com",
@@ -186,7 +186,7 @@
             "url": "https://localhost:7054",
             "caName": "ca-citizen",
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICXDCCAgOgAwIBAgIQMBtb8kQWbziHtGFk8j8lzzAKBggqhkjOPQQDAjB5MQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEcMBoGA1UEChMTY2l0aXplbi5leGFtcGxlLmNvbTEfMB0GA1UEAxMW\nY2EuY2l0aXplbi5leGFtcGxlLmNvbTAeFw0yMDEyMTYxNjA0MDBaFw0zMDEyMTQx\nNjA0MDBaMHkxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYD\nVQQHEw1TYW4gRnJhbmNpc2NvMRwwGgYDVQQKExNjaXRpemVuLmV4YW1wbGUuY29t\nMR8wHQYDVQQDExZjYS5jaXRpemVuLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYI\nKoZIzj0DAQcDQgAEYtUk6LU6vFQTm7roCppYEkADKtuBZ4f4NKYThB1z46wzF+x0\nAOfP75vx72Ql/1R+rUT62fQ+TkoFPot8SnO6vqNtMGswDgYDVR0PAQH/BAQDAgGm\nMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/\nMCkGA1UdDgQiBCCHvVFHQOO1vZiwO4FTf9VkvqZI4BLGL7qW2Bx9ZHMt+jAKBggq\nhkjOPQQDAgNHADBEAiAMyFwY0x79Rg79YRii0YGip6hGusC3Cu9J6t09SNoNegIg\nV30eWvFEHULhop5bSZ9mZgc5ixuOXNaZCWKSi0biaD4=\n-----END CERTIFICATE-----\n"
+                "pem": "CAPEM1"
             },
             "httpOptions": {
                 "verify": false
