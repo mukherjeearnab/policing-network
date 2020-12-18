@@ -223,6 +223,46 @@
                 "ssl-target-name-override": "peer0.citizen.example.com",
                 "hostnameOverride": "peer0.citizen.example.com"
             }
+        },
+        "peer0.police.example.com": {
+            "url": "grpcs://localhost:8051",
+            "tlsCACerts": {
+                "pem": "PEM2"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.police.example.com",
+                "hostnameOverride": "peer0.police.example.com"
+            }
+        },
+        "peer0.forensics.example.com": {
+            "url": "grpcs://localhost:9051",
+            "tlsCACerts": {
+                "pem": "PEM3"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.forensics.example.com",
+                "hostnameOverride": "peer0.forensics.example.com"
+            }
+        },
+        "peer0.court.example.com": {
+            "url": "grpcs://localhost:10051",
+            "tlsCACerts": {
+                "pem": "PEM4"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.court.example.com",
+                "hostnameOverride": "peer0.court.example.com"
+            }
+        },
+        "peer0.identityprovider.example.com": {
+            "url": "grpcs://localhost:11051",
+            "tlsCACerts": {
+                "pem": "PEM5"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.identityprovider.example.com",
+                "hostnameOverride": "peer0.identityprovider.example.com"
+            }
         }
     },
     "certificateAuthorities": {
