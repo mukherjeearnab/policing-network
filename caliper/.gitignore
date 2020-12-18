@@ -1,2 +1,4 @@
 tmp/
 networks/network_config.json
+caliper*.log
+report*.html
