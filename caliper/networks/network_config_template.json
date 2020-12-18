@@ -257,7 +257,7 @@
         "peer0.identityprovider.example.com": {
             "url": "grpcs://localhost:11051",
             "tlsCACerts": {
-                "pem": "PEM5"
+                "pem": "PEERPEM5"
             },
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.identityprovider.example.com",
