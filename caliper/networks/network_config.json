@@ -167,6 +167,50 @@
             "signedCert": {
                 "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/signcerts/Admin@citizen.example.com-cert.pem"
             }
+        },
+        "police": {
+            "mspid": "PoliceMSP",
+            "peers": ["peer0.police.example.com"],
+            "certificateAuthorities": ["ca.police.example.com"],
+            "adminPrivateKey": {
+                "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/keystore/C2_PRIVATE_KEY"
+            },
+            "signedCert": {
+                "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/signcerts/Admin@police.example.com-cert.pem"
+            }
+        },
+        "forensics": {
+            "mspid": "ForensicsMSP",
+            "peers": ["peer0.forensics.example.com"],
+            "certificateAuthorities": ["ca.forensics.example.com"],
+            "adminPrivateKey": {
+                "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/keystore/C3_PRIVATE_KEY"
+            },
+            "signedCert": {
+                "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/signcerts/Admin@forensics.example.com-cert.pem"
+            }
+        },
+        "court": {
+            "mspid": "CourtMSP",
+            "peers": ["peer0.court.example.com"],
+            "certificateAuthorities": ["ca.court.example.com"],
+            "adminPrivateKey": {
+                "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/keystore/C4_PRIVATE_KEY"
+            },
+            "signedCert": {
+                "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/signcerts/Admin@court.example.com-cert.pem"
+            }
+        },
+        "identityprovider": {
+            "mspid": "IdentityProviderMSP",
+            "peers": ["peer0.identityprovider.example.com"],
+            "certificateAuthorities": ["ca.identityprovider.example.com"],
+            "adminPrivateKey": {
+                "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/keystore/C5_PRIVATE_KEY"
+            },
+            "signedCert": {
+                "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/signcerts/Admin@identityprovider.example.com-cert.pem"
+            }
         }
     },
     "peers": {
