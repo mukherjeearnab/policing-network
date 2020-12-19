@@ -29,6 +29,18 @@ test:
           callback: benchmarks/callbacks/createAssetBenchmark.js
           arguments:
               assets: 10
+        - label: queryAsset
+          description: Query Asset benchmark
+          chaincodeId: fir_cc
+          txDuration: 60
+          rateControl:
+              type: fixed-backlog
+              opts:
+                  unfinished_per_client: 2
+          callback: benchmarks/callbacks/queryAssetBenchmark.js
+          arguments:
+              assets: 10
+              seed: 1
 
 monitor:
     type:
