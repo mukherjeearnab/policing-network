@@ -3,7 +3,7 @@
         "blockchain": "fabric"
     },
     "clients": {
-        "Admin@citizen.example.com": {
+        "Admin@citizen.lean.com": {
             "client": {
                 "credentialStore": {
                     "path": "tmp/hfc-kvs/citizen",
@@ -13,10 +13,10 @@
                 },
                 "organization": "citizen",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/C1_PRIVATE_KEY"
+                    "path": "../backend/crypto-config/peerOrganizations/citizen.lean.com/users/Admin@citizen.lean.com/msp/keystore/C1_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
-                    "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/signcerts/Admin@citizen.example.com-cert.pem"
+                    "path": "../backend/crypto-config/peerOrganizations/citizen.lean.com/users/Admin@citizen.lean.com/msp/signcerts/Admin@citizen.lean.com-cert.pem"
                 },
                 "connection": {
                     "timeout": {
@@ -27,7 +27,7 @@
                 }
             }
         },
-        "Admin@police.example.com": {
+        "Admin@police.lean.com": {
             "client": {
                 "credentialStore": {
                     "path": "tmp/hfc-kvs/police",
@@ -37,10 +37,10 @@
                 },
                 "organization": "police",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/keystore/C2_PRIVATE_KEY"
+                    "path": "../backend/crypto-config/peerOrganizations/police.lean.com/users/Admin@police.lean.com/msp/keystore/C2_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
-                    "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/signcerts/Admin@police.example.com-cert.pem"
+                    "path": "../backend/crypto-config/peerOrganizations/police.lean.com/users/Admin@police.lean.com/msp/signcerts/Admin@police.lean.com-cert.pem"
                 },
                 "connection": {
                     "timeout": {
@@ -51,7 +51,7 @@
                 }
             }
         },
-        "Admin@forensics.example.com": {
+        "Admin@forensics.lean.com": {
             "client": {
                 "credentialStore": {
                     "path": "tmp/hfc-kvs/forensics",
@@ -61,10 +61,10 @@
                 },
                 "organization": "forensics",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/keystore/C3_PRIVATE_KEY"
+                    "path": "../backend/crypto-config/peerOrganizations/forensics.lean.com/users/Admin@forensics.lean.com/msp/keystore/C3_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
-                    "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/signcerts/Admin@forensics.example.com-cert.pem"
+                    "path": "../backend/crypto-config/peerOrganizations/forensics.lean.com/users/Admin@forensics.lean.com/msp/signcerts/Admin@forensics.lean.com-cert.pem"
                 },
                 "connection": {
                     "timeout": {
@@ -75,7 +75,7 @@
                 }
             }
         },
-        "Admin@court.example.com": {
+        "Admin@court.lean.com": {
             "client": {
                 "credentialStore": {
                     "path": "tmp/hfc-kvs/court",
@@ -85,10 +85,10 @@
                 },
                 "organization": "court",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/keystore/C4_PRIVATE_KEY"
+                    "path": "../backend/crypto-config/peerOrganizations/court.lean.com/users/Admin@court.lean.com/msp/keystore/C4_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
-                    "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/signcerts/Admin@court.example.com-cert.pem"
+                    "path": "../backend/crypto-config/peerOrganizations/court.lean.com/users/Admin@court.lean.com/msp/signcerts/Admin@court.lean.com-cert.pem"
                 },
                 "connection": {
                     "timeout": {
@@ -99,7 +99,7 @@
                 }
             }
         },
-        "Admin@identityprovider.example.com": {
+        "Admin@identityprovider.lean.com": {
             "client": {
                 "credentialStore": {
                     "path": "tmp/hfc-kvs/identityprovider",
@@ -109,10 +109,10 @@
                 },
                 "organization": "identityprovider",
                 "clientPrivateKey": {
-                    "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/keystore/C5_PRIVATE_KEY"
+                    "path": "../backend/crypto-config/peerOrganizations/identityprovider.lean.com/users/Admin@identityprovider.lean.com/msp/keystore/C5_PRIVATE_KEY"
                 },
                 "clientSignedCert": {
-                    "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/signcerts/Admin@identityprovider.example.com-cert.pem"
+                    "path": "../backend/crypto-config/peerOrganizations/identityprovider.lean.com/users/Admin@identityprovider.lean.com/msp/signcerts/Admin@identityprovider.lean.com-cert.pem"
                 },
                 "connection": {
                     "timeout": {
@@ -159,114 +159,114 @@
     "organizations": {
         "citizen": {
             "mspid": "CitizenMSP",
-            "peers": ["peer0.citizen.example.com"],
-            "certificateAuthorities": ["ca.citizen.example.com"],
+            "peers": ["peer0.citizen.lean.com"],
+            "certificateAuthorities": ["ca.citizen.lean.com"],
             "adminPrivateKey": {
-                "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/keystore/C1_PRIVATE_KEY"
+                "path": "../backend/crypto-config/peerOrganizations/citizen.lean.com/users/Admin@citizen.lean.com/msp/keystore/C1_PRIVATE_KEY"
             },
             "signedCert": {
-                "path": "../network-config/crypto-config/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp/signcerts/Admin@citizen.example.com-cert.pem"
+                "path": "../backend/crypto-config/peerOrganizations/citizen.lean.com/users/Admin@citizen.lean.com/msp/signcerts/Admin@citizen.lean.com-cert.pem"
             }
         },
         "police": {
             "mspid": "PoliceMSP",
-            "peers": ["peer0.police.example.com"],
-            "certificateAuthorities": ["ca.police.example.com"],
+            "peers": ["peer0.police.lean.com"],
+            "certificateAuthorities": ["ca.police.lean.com"],
             "adminPrivateKey": {
-                "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/keystore/C2_PRIVATE_KEY"
+                "path": "../backend/crypto-config/peerOrganizations/police.lean.com/users/Admin@police.lean.com/msp/keystore/C2_PRIVATE_KEY"
             },
             "signedCert": {
-                "path": "../network-config/crypto-config/peerOrganizations/police.example.com/users/Admin@police.example.com/msp/signcerts/Admin@police.example.com-cert.pem"
+                "path": "../backend/crypto-config/peerOrganizations/police.lean.com/users/Admin@police.lean.com/msp/signcerts/Admin@police.lean.com-cert.pem"
             }
         },
         "forensics": {
             "mspid": "ForensicsMSP",
-            "peers": ["peer0.forensics.example.com"],
-            "certificateAuthorities": ["ca.forensics.example.com"],
+            "peers": ["peer0.forensics.lean.com"],
+            "certificateAuthorities": ["ca.forensics.lean.com"],
             "adminPrivateKey": {
-                "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/keystore/C3_PRIVATE_KEY"
+                "path": "../backend/crypto-config/peerOrganizations/forensics.lean.com/users/Admin@forensics.lean.com/msp/keystore/C3_PRIVATE_KEY"
             },
             "signedCert": {
-                "path": "../network-config/crypto-config/peerOrganizations/forensics.example.com/users/Admin@forensics.example.com/msp/signcerts/Admin@forensics.example.com-cert.pem"
+                "path": "../backend/crypto-config/peerOrganizations/forensics.lean.com/users/Admin@forensics.lean.com/msp/signcerts/Admin@forensics.lean.com-cert.pem"
             }
         },
         "court": {
             "mspid": "CourtMSP",
-            "peers": ["peer0.court.example.com"],
-            "certificateAuthorities": ["ca.court.example.com"],
+            "peers": ["peer0.court.lean.com"],
+            "certificateAuthorities": ["ca.court.lean.com"],
             "adminPrivateKey": {
-                "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/keystore/C4_PRIVATE_KEY"
+                "path": "../backend/crypto-config/peerOrganizations/court.lean.com/users/Admin@court.lean.com/msp/keystore/C4_PRIVATE_KEY"
             },
             "signedCert": {
-                "path": "../network-config/crypto-config/peerOrganizations/court.example.com/users/Admin@court.example.com/msp/signcerts/Admin@court.example.com-cert.pem"
+                "path": "../backend/crypto-config/peerOrganizations/court.lean.com/users/Admin@court.lean.com/msp/signcerts/Admin@court.lean.com-cert.pem"
             }
         },
         "identityprovider": {
             "mspid": "IdentityProviderMSP",
-            "peers": ["peer0.identityprovider.example.com"],
-            "certificateAuthorities": ["ca.identityprovider.example.com"],
+            "peers": ["peer0.identityprovider.lean.com"],
+            "certificateAuthorities": ["ca.identityprovider.lean.com"],
             "adminPrivateKey": {
-                "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/keystore/C5_PRIVATE_KEY"
+                "path": "../backend/crypto-config/peerOrganizations/identityprovider.lean.com/users/Admin@identityprovider.lean.com/msp/keystore/C5_PRIVATE_KEY"
             },
             "signedCert": {
-                "path": "../network-config/crypto-config/peerOrganizations/identityprovider.example.com/users/Admin@identityprovider.example.com/msp/signcerts/Admin@identityprovider.example.com-cert.pem"
+                "path": "../backend/crypto-config/peerOrganizations/identityprovider.lean.com/users/Admin@identityprovider.lean.com/msp/signcerts/Admin@identityprovider.lean.com-cert.pem"
             }
         }
     },
     "peers": {
-        "peer0.citizen.example.com": {
+        "peer0.citizen.lean.com": {
             "url": "grpcs://localhost:7051",
             "tlsCACerts": {
                 "pem": "PEERPEM1"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.citizen.example.com",
-                "hostnameOverride": "peer0.citizen.example.com"
+                "ssl-target-name-override": "peer0.citizen.lean.com",
+                "hostnameOverride": "peer0.citizen.lean.com"
             }
         },
-        "peer0.police.example.com": {
+        "peer0.police.lean.com": {
             "url": "grpcs://localhost:8051",
             "tlsCACerts": {
                 "pem": "PEERPEM2"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.police.example.com",
-                "hostnameOverride": "peer0.police.example.com"
+                "ssl-target-name-override": "peer0.police.lean.com",
+                "hostnameOverride": "peer0.police.lean.com"
             }
         },
-        "peer0.forensics.example.com": {
+        "peer0.forensics.lean.com": {
             "url": "grpcs://localhost:9051",
             "tlsCACerts": {
                 "pem": "PEERPEM3"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.forensics.example.com",
-                "hostnameOverride": "peer0.forensics.example.com"
+                "ssl-target-name-override": "peer0.forensics.lean.com",
+                "hostnameOverride": "peer0.forensics.lean.com"
             }
         },
-        "peer0.court.example.com": {
+        "peer0.court.lean.com": {
             "url": "grpcs://localhost:10051",
             "tlsCACerts": {
                 "pem": "PEERPEM4"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.court.example.com",
-                "hostnameOverride": "peer0.court.example.com"
+                "ssl-target-name-override": "peer0.court.lean.com",
+                "hostnameOverride": "peer0.court.lean.com"
             }
         },
-        "peer0.identityprovider.example.com": {
+        "peer0.identityprovider.lean.com": {
             "url": "grpcs://localhost:11051",
             "tlsCACerts": {
                 "pem": "PEERPEM5"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.identityprovider.example.com",
-                "hostnameOverride": "peer0.identityprovider.example.com"
+                "ssl-target-name-override": "peer0.identityprovider.lean.com",
+                "hostnameOverride": "peer0.identityprovider.lean.com"
             }
         }
     },
     "certificateAuthorities": {
-        "ca.citizen.example.com": {
+        "ca.citizen.lean.com": {
             "url": "https://localhost:7054",
             "caName": "ca-citizen",
             "tlsCACerts": {
@@ -276,7 +276,7 @@
                 "verify": false
             }
         },
-        "ca.police.example.com": {
+        "ca.police.lean.com": {
             "url": "https://localhost:8054",
             "caName": "ca-police",
             "tlsCACerts": {
@@ -286,7 +286,7 @@
                 "verify": false
             }
         },
-        "ca.forensics.example.com": {
+        "ca.forensics.lean.com": {
             "url": "https://localhost:9054",
             "caName": "ca-forensics",
             "tlsCACerts": {
@@ -296,7 +296,7 @@
                 "verify": false
             }
         },
-        "ca.court.example.com": {
+        "ca.court.lean.com": {
             "url": "https://localhost:10054",
             "caName": "ca-court",
             "tlsCACerts": {
@@ -306,7 +306,7 @@
                 "verify": false
             }
         },
-        "ca.identityprovider.example.com": {
+        "ca.identityprovider.lean.com": {
             "url": "https://localhost:11054",
             "caName": "ca-identityprovider",
             "tlsCACerts": {

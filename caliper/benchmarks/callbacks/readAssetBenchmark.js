@@ -18,7 +18,7 @@ module.exports.init = async function (blockchain, context, args) {
             console.log(`Client ${clientIdx}: Creating FIR ${assetID}`);
             const myArgs = {
                 chaincodeFunction: "createNewFIR",
-                invokerIdentity: "Admin@citizen.example.com",
+                invokerIdentity: "Admin@citizen.lean.com",
                 chaincodeArguments: [
                     assetID,
                     "citizen1",
@@ -44,7 +44,7 @@ module.exports.run = function () {
     const randomId = Math.floor(Math.random() * clientArgs.assets);
     const myArgs = {
         chaincodeFunction: "readFIR",
-        invokerIdentity: "Admin@citizen.example.com",
+        invokerIdentity: "Admin@citizen.lean.com",
         chaincodeArguments: [`FIR_${clientIdx}_${randomId}_${clientArgs.seed}`],
     };
     return bc.bcObj.querySmartContract(ctx, contractID, version, myArgs);

@@ -3,7 +3,7 @@ Organizations:
     - &OrdererOrg
       Name: OrdererOrg
       ID: OrdererMSP
-      MSPDir: crypto-config/ordererOrganizations/example.com/msp
+      MSPDir: crypto-config/ordererOrganizations/lean.com/msp
       Policies:
           Readers:
               Type: Signature
@@ -18,7 +18,7 @@ Organizations:
     - &Citizen
       Name: CitizenMSP
       ID: CitizenMSP
-      MSPDir: crypto-config/peerOrganizations/citizen.example.com/msp
+      MSPDir: crypto-config/peerOrganizations/citizen.lean.com/msp
       Policies:
           Readers:
               Type: Signature
@@ -33,7 +33,7 @@ Organizations:
     - &Police
       Name: PoliceMSP
       ID: PoliceMSP
-      MSPDir: crypto-config/peerOrganizations/police.example.com/msp
+      MSPDir: crypto-config/peerOrganizations/police.lean.com/msp
       Policies:
           Readers:
               Type: Signature
@@ -48,7 +48,7 @@ Organizations:
     - &Forensics
       Name: ForensicsMSP
       ID: ForensicsMSP
-      MSPDir: crypto-config/peerOrganizations/forensics.example.com/msp
+      MSPDir: crypto-config/peerOrganizations/forensics.lean.com/msp
       Policies:
           Readers:
               Type: Signature
@@ -63,7 +63,7 @@ Organizations:
     - &Court
       Name: CourtMSP
       ID: CourtMSP
-      MSPDir: crypto-config/peerOrganizations/court.example.com/msp
+      MSPDir: crypto-config/peerOrganizations/court.lean.com/msp
       Policies:
           Readers:
               Type: Signature
@@ -78,7 +78,7 @@ Organizations:
     - &IdentityProvider
       Name: IdentityProviderMSP
       ID: IdentityProviderMSP
-      MSPDir: crypto-config/peerOrganizations/identityprovider.example.com/msp
+      MSPDir: crypto-config/peerOrganizations/identityprovider.lean.com/msp
       Policies:
           Readers:
               Type: Signature
@@ -123,7 +123,7 @@ Application: &ApplicationDefaults
 Orderer: &OrdererDefaults
     OrdererType: solo
     Addresses:
-        - orderer.example.com:7050
+        - orderer.lean.com:7050
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10
@@ -165,7 +165,7 @@ Channel: &ChannelDefaults
         <<: *ChannelCapabilities
 
 Profiles:
-    LawNetOrdererGenesis:
+    LEANOrdererGenesis:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -181,7 +181,7 @@ Profiles:
                     - *Forensics
                     - *Court
                     - *IdentityProvider
-    LawNetChannel:
+    LEANChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:

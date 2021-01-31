@@ -7,7 +7,7 @@
 3. Update "tlsCACerts", "signedCert", "adminPrivateKey" in ./networks/network_config.json
 
     NOTE: "tlsCACerts" can be fetched from the connection profiles JSON created in ../connections/
-    NOTE: "signedCert", "adminPrivateKey" are located in ../network-config/crypto_config/ once generate.sh is run to init. the network.
+    NOTE: "signedCert", "adminPrivateKey" are located in ../backend/crypto_config/ once generate.sh is run to init. the network.
 
 4. Run the command.sh to run the benchmark.
 

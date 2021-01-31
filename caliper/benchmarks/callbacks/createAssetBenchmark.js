@@ -21,7 +21,7 @@ module.exports.run = async function () {
             console.log(`Client ${clientIdx}: Creating FIR ${assetID}`);
             const myArgs = {
                 chaincodeFunction: "createNewFIR",
-                invokerIdentity: "Admin@citizen.example.com",
+                invokerIdentity: "Admin@citizen.lean.com",
                 chaincodeArguments: [
                     assetID,
                     "citizen1",

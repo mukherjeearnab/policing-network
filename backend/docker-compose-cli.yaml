@@ -1,12 +1,12 @@
 version: "2"
 
 volumes:
-    orderer.example.com:
-    peer0.citizen.example.com:
-    peer0.police.example.com:
-    peer0.forensics.example.com:
-    peer0.court.example.com:
-    peer0.identityprovider.example.com:
+    orderer.lean.com:
+    peer0.citizen.lean.com:
+    peer0.police.lean.com:
+    peer0.forensics.lean.com:
+    peer0.court.lean.com:
+    peer0.identityprovider.lean.com:
     caCitizen:
     caPolice:
     caForensics:
@@ -14,66 +14,66 @@ volumes:
     caIdentityProvider:
 
 networks:
-    testnet:
+    leannet:
 
 services:
-    orderer.example.com:
+    orderer.lean.com:
         extends:
             file: base/docker-compose-base.yaml
-            service: orderer.example.com
-        container_name: orderer.example.com
+            service: orderer.lean.com
+        container_name: orderer.lean.com
         networks:
-            - testnet
+            - leannet
 
-    peer0.citizen.example.com:
-        container_name: peer0.citizen.example.com
+    peer0.citizen.lean.com:
+        container_name: peer0.citizen.lean.com
         extends:
             file: base/docker-compose-base.yaml
-            service: peer0.citizen.example.com
+            service: peer0.citizen.lean.com
         networks:
-            - testnet
+            - leannet
         depends_on:
-            - couchdb.peer0.citizen.example.com
+            - couchdb.peer0.citizen.lean.com
 
-    peer0.police.example.com:
-        container_name: peer0.police.example.com
+    peer0.police.lean.com:
+        container_name: peer0.police.lean.com
         extends:
             file: base/docker-compose-base.yaml
-            service: peer0.police.example.com
+            service: peer0.police.lean.com
         networks:
-            - testnet
+            - leannet
         depends_on:
-            - couchdb.peer0.police.example.com
+            - couchdb.peer0.police.lean.com
 
-    peer0.forensics.example.com:
-        container_name: peer0.forensics.example.com
+    peer0.forensics.lean.com:
+        container_name: peer0.forensics.lean.com
         extends:
             file: base/docker-compose-base.yaml
-            service: peer0.forensics.example.com
+            service: peer0.forensics.lean.com
         networks:
-            - testnet
+            - leannet
         depends_on:
-            - couchdb.peer0.forensics.example.com
+            - couchdb.peer0.forensics.lean.com
 
-    peer0.court.example.com:
-        container_name: peer0.court.example.com
+    peer0.court.lean.com:
+        container_name: peer0.court.lean.com
         extends:
             file: base/docker-compose-base.yaml
-            service: peer0.court.example.com
+            service: peer0.court.lean.com
         networks:
-            - testnet
+            - leannet
         depends_on:
-            - couchdb.peer0.court.example.com
+            - couchdb.peer0.court.lean.com
 
-    peer0.identityprovider.example.com:
-        container_name: peer0.identityprovider.example.com
+    peer0.identityprovider.lean.com:
+        container_name: peer0.identityprovider.lean.com
         extends:
             file: base/docker-compose-base.yaml
-            service: peer0.identityprovider.example.com
+            service: peer0.identityprovider.lean.com
         networks:
-            - testnet
+            - leannet
         depends_on:
-            - couchdb.peer0.identityprovider.example.com
+            - couchdb.peer0.identityprovider.lean.com
 
     caCitizen:
         container_name: caCitizen
@@ -81,7 +81,7 @@ services:
             file: base/docker-compose-base.yaml
             service: caCitizen
         networks:
-            - testnet
+            - leannet
 
     caPolice:
         container_name: caPolice
@@ -89,7 +89,7 @@ services:
             file: base/docker-compose-base.yaml
             service: caPolice
         networks:
-            - testnet
+            - leannet
 
     caForensics:
         container_name: caForensics
@@ -97,7 +97,7 @@ services:
             file: base/docker-compose-base.yaml
             service: caForensics
         networks:
-            - testnet
+            - leannet
 
     caCourt:
         container_name: caCourt
@@ -105,7 +105,7 @@ services:
             file: base/docker-compose-base.yaml
             service: caCourt
         networks:
-            - testnet
+            - leannet
 
     caIdentityProvider:
         container_name: caIdentityProvider
@@ -113,10 +113,10 @@ services:
             file: base/docker-compose-base.yaml
             service: caIdentityProvider
         networks:
-            - testnet
+            - leannet
 
-    couchdb.peer0.citizen.example.com:
-        container_name: couchdb.peer0.citizen.example.com
+    couchdb.peer0.citizen.lean.com:
+        container_name: couchdb.peer0.citizen.lean.com
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -124,10 +124,10 @@ services:
         ports:
             - "5984:5984"
         networks:
-            - testnet
+            - leannet
 
-    couchdb.peer0.police.example.com:
-        container_name: couchdb.peer0.police.example.com
+    couchdb.peer0.police.lean.com:
+        container_name: couchdb.peer0.police.lean.com
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -135,10 +135,10 @@ services:
         ports:
             - "6984:5984"
         networks:
-            - testnet
+            - leannet
 
-    couchdb.peer0.forensics.example.com:
-        container_name: couchdb.peer0.forensics.example.com
+    couchdb.peer0.forensics.lean.com:
+        container_name: couchdb.peer0.forensics.lean.com
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -146,10 +146,10 @@ services:
         ports:
             - "7984:5984"
         networks:
-            - testnet
+            - leannet
 
-    couchdb.peer0.court.example.com:
-        container_name: couchdb.peer0.court.example.com
+    couchdb.peer0.court.lean.com:
+        container_name: couchdb.peer0.court.lean.com
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -157,10 +157,10 @@ services:
         ports:
             - "8984:5984"
         networks:
-            - testnet
+            - leannet
 
-    couchdb.peer0.identityprovider.example.com:
-        container_name: couchdb.peer0.identityprovider.example.com
+    couchdb.peer0.identityprovider.lean.com:
+        container_name: couchdb.peer0.identityprovider.lean.com
         image: hyperledger/fabric-couchdb
         environment:
             - COUCHDB_USER=admin
@@ -168,7 +168,7 @@ services:
         ports:
             - "9984:5984"
         networks:
-            - testnet
+            - leannet
 
     cli:
         container_name: cli
@@ -181,13 +181,13 @@ services:
             #- FABRIC_LOGGING_SPEC=DEBUG
             - FABRIC_LOGGING_SPEC=INFO
             - CORE_PEER_ID=cli
-            - CORE_PEER_ADDRESS=peer0.citizen.example.com:7051
+            - CORE_PEER_ADDRESS=peer0.citizen.lean.com:7051
             - CORE_PEER_LOCALMSPID=CitizenMSP
             - CORE_PEER_TLS_ENABLED=true
-            - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/peers/peer0.citizen.example.com/tls/server.crt
-            - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/peers/peer0.citizen.example.com/tls/server.key
-            - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/peers/peer0.citizen.example.com/tls/ca.crt
-            - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.example.com/users/Admin@citizen.example.com/msp
+            - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.lean.com/peers/peer0.citizen.lean.com/tls/server.crt
+            - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.lean.com/peers/peer0.citizen.lean.com/tls/server.key
+            - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.lean.com/peers/peer0.citizen.lean.com/tls/ca.crt
+            - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/citizen.lean.com/users/Admin@citizen.lean.com/msp
         working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
         command: /bin/bash
         volumes:
@@ -197,16 +197,16 @@ services:
             - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
             - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
         depends_on:
-            - orderer.example.com
-            - peer0.citizen.example.com
-            - peer0.police.example.com
-            - peer0.forensics.example.com
-            - peer0.court.example.com
-            - peer0.identityprovider.example.com
+            - orderer.lean.com
+            - peer0.citizen.lean.com
+            - peer0.police.lean.com
+            - peer0.forensics.lean.com
+            - peer0.court.lean.com
+            - peer0.identityprovider.lean.com
             - caCitizen
             - caPolice
             - caForensics
             - caCourt
             - caIdentityProvider
         networks:
-            - testnet
+            - leannet

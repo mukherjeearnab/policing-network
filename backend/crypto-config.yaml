@@ -1,13 +1,13 @@
 OrdererOrgs:
     - Name: Orderer
-      Domain: example.com
+      Domain: lean.com
       EnableNodeOUs: true
       Specs:
           - Hostname: orderer
 
 PeerOrgs:
     - Name: Citizen
-      Domain: citizen.example.com
+      Domain: citizen.lean.com
       EnableNodeOUs: true
       Template:
           Count: 1
@@ -15,7 +15,7 @@ PeerOrgs:
           Count: 1
 
     - Name: Police
-      Domain: police.example.com
+      Domain: police.lean.com
       EnableNodeOUs: true
       Template:
           Count: 1
@@ -23,7 +23,7 @@ PeerOrgs:
           Count: 1
 
     - Name: Forensics
-      Domain: forensics.example.com
+      Domain: forensics.lean.com
       EnableNodeOUs: true
       Template:
           Count: 1
@@ -31,7 +31,7 @@ PeerOrgs:
           Count: 1
 
     - Name: Court
-      Domain: court.example.com
+      Domain: court.lean.com
       EnableNodeOUs: true
       Template:
           Count: 1
@@ -39,7 +39,7 @@ PeerOrgs:
           Count: 1
 
     - Name: IdentityProvider
-      Domain: identityprovider.example.com
+      Domain: identityprovider.lean.com
       EnableNodeOUs: true
       Template:
           Count: 1

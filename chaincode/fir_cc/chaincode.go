@@ -398,16 +398,16 @@ func getTxCreatorInfo(stub shim.ChaincodeStubInterface) (string, string, error) 
 
 // Authenticate => Citizen
 func authenticateCitizen(mspID string, certCN string) bool {
-	return (mspID == "CitizenMSP") && (certCN == "ca.citizen.example.com")
+	return (mspID == "CitizenMSP") && (certCN == "ca.citizen.lean.com")
 }
 
 func authenticatePolice(mspID string, certCN string) bool {
-	return (mspID == "PoliceMSP") && (certCN == "ca.police.example.com")
+	return (mspID == "PoliceMSP") && (certCN == "ca.police.lean.com")
 }
 
 // Authenticate => Court
 func authenticateCourt(mspID string, certCN string) bool {
-	return (mspID == "CourtMSP") && (certCN == "ca.court.example.com")
+	return (mspID == "CourtMSP") && (certCN == "ca.court.lean.com")
 }
 
 // Query Helpers

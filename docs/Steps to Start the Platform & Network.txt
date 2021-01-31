@@ -1,15 +1,15 @@
 Starting the Netowrk & Platform
 -------------------------------
 
-1. Generate cryptographic materials & network artifacts ==> network-config/scripts/generate.sh
-2. Generate Connection Profiles ==> network-config/scripts/ccp-generate.sh
+1. Generate cryptographic materials & network artifacts ==> backend/scripts/generate.sh
+2. Generate Connection Profiles ==> backend/scripts/ccp-generate.sh
 3. Install dependencies in the chaincodes ==> run 'go mod vendor' in the respective chaincode folders (6 folders)
-4. Start the Network for the 1st Time ==> network-config/scripts/run.sh
+4. Start the Network for the 1st Time ==> backend/scripts/run.sh
 4-A. If any errors are encountered after channel creation, related to tcp connections ==> run 'sudo bash prune.sh' and retry STEP-4.
-5. Install dependencies in the Node.JS API ==> run 'npm install' in node-api/
-6. Copy the Connection Profiles from connections/ -> node-api/fabric/ccp/
+5. Install dependencies in the Node.JS API ==> run 'npm install' in middleware/
+6. Copy the Connection Profiles from connections/ -> middleware/fabric/ccp/
 7. Enroll the ADMIN's of the SDK ==> run 'node fabric/enroll_admin'
-6. Start the API server ==> run 'npm start' in node-api/
+6. Start the API server ==> run 'npm start' in middleware/
 7. All set, now the Hyperledger Fabric network and the API server are up and running.
 
 
@@ -18,5 +18,5 @@ Stopping the Netowrk & API Server
 -------------------
 
 1. Stop the Node.JS API server
-2. Stop the Blockchain Network ==> network-config/scripts/stop.sh
-2-A. To resume the server Later, run network-config/scripts/resume.sh
+2. Stop the Blockchain Network ==> backend/scripts/stop.sh
+2-A. To resume the server Later, run backend/scripts/resume.sh

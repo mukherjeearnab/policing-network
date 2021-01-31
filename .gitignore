@@ -10,6 +10,6 @@ connections/connection-court.json
 connections/connection-forensics.json
 connections/connection-identityprovider.json
 connections/connection-police.json
-network-config/base/docker-compose-base.yaml
-network-config/channel-artifacts/
-network-config/crypto-config/
+backend/base/docker-compose-base.yaml
+backend/channel-artifacts/
+backend/crypto-config/

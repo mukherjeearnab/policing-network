@@ -168,5 +168,5 @@ func getTxCreatorInfo(stub shim.ChaincodeStubInterface) (string, string, error) 
 
 // Authenticate => Police / Forensics / Citizen
 func authenticatePoFoCi(mspID string, certCN string) bool {
-	return (mspID == "PoliceMSP") && (certCN == "ca.police.example.com") || (mspID == "ForensicsMSP") && (certCN == "ca.forensics.example.com") || (mspID == "CitizenMSP") && (certCN == "ca.citizen.example.com")
+	return (mspID == "PoliceMSP") && (certCN == "ca.police.lean.com") || (mspID == "ForensicsMSP") && (certCN == "ca.forensics.lean.com") || (mspID == "CitizenMSP") && (certCN == "ca.citizen.lean.com")
 }
