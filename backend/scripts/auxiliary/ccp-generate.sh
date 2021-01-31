@@ -1,19 +1,19 @@
 #!/bin/bash
 
-function one_line_pem() {
-    echo "$(awk 'NF {sub(/\\n/, ""); printf "%s\\\\\\\n",$0;}' $1)"
+function one_line_pem {
+    echo "`awk 'NF {sub(/\\n/, ""); printf "%s\\\\\\\n",$0;}' $1`"
 }
 
-function json_ccp() {
+function json_ccp {
     local PP=$(one_line_pem $5)
     local CP=$(one_line_pem $6)
     sed -e "s/\${ORG}/$1/" \
-    -e "s/\${ORGMSP}/$2/" \
-    -e "s/\${P0PORT}/$3/" \
-    -e "s/\${CAPORT}/$4/" \
-    -e "s#\${PEERPEM}#$PP#" \
-    -e "s#\${CAPEM}#$CP#" \
-    ../../connections/ccp-template.json
+        -e "s/\${ORGMSP}/$2/" \
+        -e "s/\${P0PORT}/$3/" \
+        -e "s/\${CAPORT}/$4/" \
+        -e "s#\${PEERPEM}#$PP#" \
+        -e "s#\${CAPEM}#$CP#" \
+        ../../connections/ccp-template.json 
 }
 
 ORG=citizen
