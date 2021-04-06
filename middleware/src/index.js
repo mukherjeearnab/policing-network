@@ -12,6 +12,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(require("./routes/auth"));
+app.use(require("./routes/icn"));
 app.use(require("./routes/chargesheet_cc"));
 app.use(require("./routes/citizenprofile_cc"));
 app.use(require("./routes/evidence_cc"));
