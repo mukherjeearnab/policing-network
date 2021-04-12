@@ -12,5 +12,5 @@ console.log("PubKey", publicPem);
 console.log("PrivKey", privatePem);
 
 // Save Key Pair as pem files
-fs.writeFileSync(`./icn/private.pem`, privatePem);
-fs.writeFileSync(`./icn/public.pem`, publicPem);
+fs.writeFileSync(`./keys/private.pem`, privatePem);
+fs.writeFileSync(`./keys/public.pem`, publicPem);

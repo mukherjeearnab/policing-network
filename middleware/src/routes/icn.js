@@ -10,7 +10,7 @@ const rsaDecryptMiddleware = require("../helpers/rsaDecryptMiddleware");
 router.get("/api/icn/pubkey", (req, res) => {
     // Import Public Key
     // Import Private Key of Client SDK
-    const keyDataR = fs.readFileSync("./icn/public.pem");
+    const keyDataR = fs.readFileSync("./keys/public.pem");
 
     res.status(200).send({
         pubKey: keyDataR.toString(),

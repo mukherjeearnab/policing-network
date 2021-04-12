@@ -8,7 +8,7 @@ middleware = (req, res, next) => {
     keyS.importKey(keyDataS, "pkcs8-public-pem");
 
     // Import Private Key of Client SDK
-    const keyDataR = fs.readFileSync("./icn/private.pem");
+    const keyDataR = fs.readFileSync("./keys/private.pem");
     const keyR = new NodeRSA();
     keyR.importKey(keyDataR, "pkcs8-pem");
 

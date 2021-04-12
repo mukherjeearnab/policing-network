@@ -3,7 +3,7 @@ const fs = require("fs");
 const NodeRSA = require("node-rsa");
 
 // Import Private Key of Client SDK
-const keyDataS = fs.readFileSync("./icn/private.pem");
+const keyDataS = fs.readFileSync("./keys/private.pem");
 const keyS = new NodeRSA();
 keyS.importKey(keyDataS, "pkcs8-pem");
 
