@@ -1,9 +1,9 @@
 const fs = require("fs");
 const NodeRSA = require("node-rsa");
 
-middleware = (req, res, next) => {
+decrypt = (response) => {
     // Import Sender's PubKey
-    const keyDataS = req.body.payload.pubkey;
+    const keyDataS = response.pubkey;
     const keyS = new NodeRSA();
     keyS.importKey(keyDataS, "pkcs8-public-pem");
 
@@ -12,20 +12,20 @@ middleware = (req, res, next) => {
     const keyR = new NodeRSA();
     keyR.importKey(keyDataR, "pkcs8-pem");
 
-    req.body.message = {};
+    let res = { message: "", verified: false };
 
     // Decrypt Payload
-    const decrypted = keyR.decrypt(req.body.payload.body, "base64");
+    const decrypted = keyR.decrypt(response.body, "base64");
 
     // Convert payload from Base64 to UTF-8 to JS Object
     const message = Buffer.from(decrypted, "base64").toString("utf8");
-    req.body.message.message = JSON.parse(message);
+    res.message = JSON.parse(message);
 
     // Verify Payload Signature
-    const signatureResult = keyS.verify(decrypted, req.body.payload.signature, "base64", "base64");
-    req.body.message.verified = signatureResult;
+    const signatureResult = keyS.verify(decrypted, response.signature, "base64", "base64");
+    res.verified = signatureResult;
 
-    next();
+    return res;
 };
 
-module.exports = middleware;
+module.exports = decrypt;
