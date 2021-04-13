@@ -14,7 +14,7 @@ const router = new express.Router();
  **********************************/
 
 router.post("/api/icn/vtan/get/license", rsaDecryptMiddleware, async (req, res) => {
-    if (!req.bod.message.verified) {
+    if (!req.body.message.verified) {
         res.status(400).send({ response: "ERROR! ICL Error!" });
     }
 
@@ -51,7 +51,7 @@ router.post("/api/icn/vtan/get/license", rsaDecryptMiddleware, async (req, res) 
 });
 
 router.post("/api/icn/vtan/get/vehicle", rsaDecryptMiddleware, async (req, res) => {
-    if (!req.bod.message.verified) {
+    if (!req.body.message.verified) {
         res.status(400).send({ response: "ERROR! ICL Error!" });
     }
 

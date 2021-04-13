@@ -14,7 +14,7 @@ const router = new express.Router();
  **********************************/
 
 router.post("/api/icn/ian/get/citizen/", rsaDecryptMiddleware, async (req, res) => {
-    if (!req.bod.message.verified) {
+    if (!req.body.message.verified) {
         res.status(400).send({ response: "ERROR! ICL Error!" });
     }
 
