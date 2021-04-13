@@ -3,14 +3,14 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 
 const rsaEncrypt = require("../helpers/rsaEncrypt");
-const rsaDecryptMiddleware = require("../helpers/rsaDecryptMiddleware");
+const rsaDecrypt = require("../helpers/rsaDecrypt");
 const JWTmiddleware = require("../helpers/jwtVerifyMiddleware");
 
 require("dotenv").config();
 const router = new express.Router();
 
 /**********************************
- *  IAN ROUTES
+ * IAN ROUTES
  **********************************/
 
 router.get("/api/icn/ian/get/citizen/:id", JWTmiddleware, async (req, res) => {
@@ -23,6 +23,8 @@ router.get("/api/icn/ian/get/citizen/:id", JWTmiddleware, async (req, res) => {
     });
 
     let resp = await response.json();
+
+    resp = rsaDecrypt(resp);
 
     // Debugging Response
     console.log("API/ICN/TEST-S", resp);
@@ -47,6 +49,8 @@ router.get("/api/icn/vtan/get/license/:id", JWTmiddleware, async (req, res) => {
 
     let resp = await response.json();
 
+    resp = rsaDecrypt(resp);
+
     // Debugging Response
     console.log("API/ICN/TEST-S", resp);
 
@@ -65,6 +69,8 @@ router.get("/api/icn/vtan/get/vehicle/:id", JWTmiddleware, async (req, res) => {
     });
 
     let resp = await response.json();
+
+    resp = rsaDecrypt(resp);
 
     // Debugging Response
     console.log("API/ICN/TEST-S", resp);
@@ -88,6 +94,8 @@ router.get("/api/icn/lran/get/land/:id", JWTmiddleware, async (req, res) => {
     });
 
     let resp = await response.json();
+
+    resp = rsaDecrypt(resp);
 
     // Debugging Response
     console.log("API/ICN/TEST-S", resp);
