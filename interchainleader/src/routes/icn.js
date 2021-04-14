@@ -4,8 +4,8 @@ const fs = require("fs");
 
 const fetch = require("node-fetch");
 
-const rsaEncrypt = require("../helpers/rsaEncrypt");
-const rsaDecryptMiddleware = require("../helpers/rsaDecryptMiddleware");
+// const rsaEncrypt = require("../helpers/rsaEncrypt");
+// const rsaDecryptMiddleware = require("../helpers/rsaDecryptMiddleware");
 
 router.get("/api/icn/pubkey", (req, res) => {
     // Import Public Key
