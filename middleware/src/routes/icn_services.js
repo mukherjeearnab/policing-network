@@ -13,26 +13,35 @@ const router = new express.Router();
  * IAN ROUTES
  **********************************/
 
-router.get("/api/icn/ian/get/citizen/:id", JWTmiddleware, async (req, res) => {
-    let payload = await rsaEncrypt(process.env.ICL_ADDRESS, { user: req.user, body: { citizen_id: req.params.id } });
+router.get(
+    "/api/icn/ian/get/citizen/:id",
+    /*JWTmiddleware,*/ async (req, res) => {
+        req.user = { name: "Alo" };
+        let payload = await rsaEncrypt(process.env.ICL_ADDRESS, {
+            user: req.user,
+            body: { citizen_id: req.params.id },
+        });
 
-    const response = await fetch(`http://${process.env.ICL_ADDRESS}/icn/ian/get/citizen`, {
-        method: "POST",
-        body: JSON.stringify({ payload }),
-        headers: { "Content-Type": "application/json" },
-    });
+        console.log("ICN-PAYLOAD", payload);
 
-    let resp = await response.json();
+        const response = await fetch(`http://${process.env.ICL_ADDRESS}/icn/ian/get/citizen`, {
+            method: "POST",
+            body: JSON.stringify({ payload }),
+            headers: { "Content-Type": "application/json" },
+        });
 
-    resp = rsaDecrypt(resp);
+        let resp = await response.json();
 
-    // Debugging Response
-    console.log("API/ICN/TEST-S", resp);
+        resp = rsaDecrypt(resp.response);
 
-    res.status(200).send({
-        response: resp,
-    });
-});
+        // Debugging Response
+        console.log("ICN-RESPONSE", resp);
+
+        res.status(200).send({
+            response: resp.message.body,
+        });
+    }
+);
 
 /**********************************
  *  VTAN ROUTES
