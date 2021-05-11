@@ -4,8 +4,8 @@ CURRENT_DIR=$PWD
 
 cp networks/network_config_template.json networks/network_config.json
 
-function one_line_pem() {
-    echo "$(awk 'NF {sub(/\\n/, ""); printf "%s\\\\\\\n",$0;}' $1)"
+function one_line_pem {
+    echo "`awk 'NF {sub(/\\n/, ""); printf "%s\\\\\\\n",$0;}' $1`"
 }
 
 INDEX=1
