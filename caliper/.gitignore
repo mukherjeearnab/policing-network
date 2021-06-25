@@ -1,3 +1,4 @@
+node_modules/
 tmp/
 networks/network_config.json
 caliper*.log
