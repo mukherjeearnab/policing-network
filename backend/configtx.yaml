@@ -121,18 +121,23 @@ Application: &ApplicationDefaults
         <<: *ApplicationCapabilities
 
 Orderer: &OrdererDefaults
-    OrdererType: solo
+    OrdererType: etcdraft
     Addresses:
         - orderer0.lean.com:7050
-    BatchTimeout: 2s
-    BatchSize:
-        MaxMessageCount: 10
-        AbsoluteMaxBytes: 99 MB
-        PreferredMaxBytes: 512 KB
 
-    Kafka:
-        Brokers:
-            - 127.0.0.1:9092
+    BatchTimeout: 250ms
+    BatchSize:
+        MaxMessageCount: 50
+        AbsoluteMaxBytes: 100 MB
+        PreferredMaxBytes: 1 MB
+
+    MaxChannels: 0
+    EtcdRaft:
+        Consenters:
+            - Host: orderer0.lean.com
+              Port: 7050
+              ClientTLSCert: crypto-config/ordererOrganizations/lean.com/orderers/orderer0.lean.com/tls/server.crt
+              ServerTLSCert: crypto-config/ordererOrganizations/lean.com/orderers/orderer0.lean.com/tls/server.crt
 
     Organizations:
 
