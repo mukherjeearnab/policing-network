@@ -9,6 +9,7 @@ CHANNEL_NAME=mainchannel
 CORE_PEER_TLS_ENABLED=true
 ORDERER_SYSCHAN_ID=syschain
 
+sleep 20
 peer channel create -o orderer0.lean.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 
 cat log.txt
