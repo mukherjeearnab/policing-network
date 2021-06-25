@@ -24,6 +24,12 @@ services:
         container_name: orderer0.lean.com
         networks:
             - leannet
+        depends_on:
+            - caCitizen
+            - caPolice
+            - caForensics
+            - caCourt
+            - caIdentityProvider
 
     peer0.citizen.lean.com:
         container_name: peer0.citizen.lean.com
@@ -33,6 +39,7 @@ services:
         networks:
             - leannet
         depends_on:
+            - orderer0.lean.com
             - couchdb.peer0.citizen.lean.com
 
     peer0.police.lean.com:
@@ -43,6 +50,7 @@ services:
         networks:
             - leannet
         depends_on:
+            - orderer0.lean.com
             - couchdb.peer0.police.lean.com
 
     peer0.forensics.lean.com:
@@ -53,6 +61,7 @@ services:
         networks:
             - leannet
         depends_on:
+            - orderer0.lean.com
             - couchdb.peer0.forensics.lean.com
 
     peer0.court.lean.com:
@@ -63,6 +72,7 @@ services:
         networks:
             - leannet
         depends_on:
+            - orderer0.lean.com
             - couchdb.peer0.court.lean.com
 
     peer0.identityprovider.lean.com:
@@ -73,6 +83,7 @@ services:
         networks:
             - leannet
         depends_on:
+            - orderer0.lean.com
             - couchdb.peer0.identityprovider.lean.com
 
     caCitizen:
