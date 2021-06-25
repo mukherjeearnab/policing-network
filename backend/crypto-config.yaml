@@ -2,8 +2,8 @@ OrdererOrgs:
     - Name: Orderer
       Domain: lean.com
       EnableNodeOUs: true
-      Specs:
-          - Hostname: orderer
+      Template:
+          Count: 1
 
 PeerOrgs:
     - Name: Citizen

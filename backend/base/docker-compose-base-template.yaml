@@ -1,16 +1,16 @@
 version: "2"
 
 services:
-    orderer.lean.com:
-        container_name: orderer.lean.com
+    orderer0.lean.com:
+        container_name: orderer0.lean.com
         extends:
             file: peer-base.yaml
             service: orderer-base
         volumes:
-            - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-            - ../crypto-config/ordererOrganizations/lean.com/orderers/orderer.lean.com/msp:/var/hyperledger/orderer/msp
-            - ../crypto-config/ordererOrganizations/lean.com/orderers/orderer.lean.com/tls/:/var/hyperledger/orderer/tls
-            - orderer.lean.com:/var/hyperledger/production/orderer
+            - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer0.genesis.block
+            - ../crypto-config/ordererOrganizations/lean.com/orderers/orderer0.lean.com/msp:/var/hyperledger/orderer/msp
+            - ../crypto-config/ordererOrganizations/lean.com/orderers/orderer0.lean.com/tls/:/var/hyperledger/orderer/tls
+            - orderer0.lean.com:/var/hyperledger/production/orderer
         ports:
             - 7050:7050
 

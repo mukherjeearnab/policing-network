@@ -1,7 +1,7 @@
 version: "2"
 
 volumes:
-    orderer.lean.com:
+    orderer0.lean.com:
     peer0.citizen.lean.com:
     peer0.police.lean.com:
     peer0.forensics.lean.com:
@@ -17,11 +17,11 @@ networks:
     leannet:
 
 services:
-    orderer.lean.com:
+    orderer0.lean.com:
         extends:
             file: base/docker-compose-base.yaml
-            service: orderer.lean.com
-        container_name: orderer.lean.com
+            service: orderer0.lean.com
+        container_name: orderer0.lean.com
         networks:
             - leannet
 
@@ -197,7 +197,7 @@ services:
             - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
             - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
         depends_on:
-            - orderer.lean.com
+            - orderer0.lean.com
             - peer0.citizen.lean.com
             - peer0.police.lean.com
             - peer0.forensics.lean.com

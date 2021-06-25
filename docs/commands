@@ -30,6 +30,6 @@ docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 for
 docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 court CourtMSP 10051 1.0
 docker exec -it cli bash ./scripts/install-cc/install-onpeer-cc.sh fcc peer0 identityprovider IdentityProviderMSP 11051 1.0
 
-docker exec -it cli peer chaincode instantiate -o orderer.lean.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/lean.com/orderers/orderer.lean.com/msp/tlscacerts/tlsca.lean.com-cert.pem -n fcc -v 1.0 -c '{"Args":[]}' -C mainchannel -P "OR ('CitizenMSP.peer', 'PoliceMSP.peer')"
+docker exec -it cli peer chaincode instantiate -o orderer0.lean.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/lean.com/orderers/orderer0.lean.com/msp/tlscacerts/tlsca.lean.com-cert.pem -n fcc -v 1.0 -c '{"Args":[]}' -C mainchannel -P "OR ('CitizenMSP.peer', 'PoliceMSP.peer')"
 
 docker ps -as
